@@ -1,8 +1,8 @@
 #version 460 core
 
-in vec4 vertexColor;
-
 out vec4 FragColor;
+
+uniform vec4 vertexColor;
 
 
 void main()

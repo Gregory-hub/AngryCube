@@ -7,7 +7,6 @@
 #include <GLFW/glfw3.h>
 #include "Cube.h"
 #include "Shader.h"
-#include "Vector.h"
 
 
 int main()
@@ -61,11 +60,9 @@ int main()
 		float green = (cos(1.6 * timeValue) / 2.0f) + 0.5f;
 		float blue = (sin(0.3 * timeValue) / 2.0f) + 0.5f;
         
-        shader.Bind();
-        shader.SetUniform<Vector4<float>>("vertexColor", { red, green, blue, 1.0f });
+        shader.SetUniform<Vector4>("vertexColor", { red, green, blue, 1.0f });
 
-        cube.Bind();
-
+        glBindVertexArray(vao);
         glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
 
         glfwSwapBuffers(window);

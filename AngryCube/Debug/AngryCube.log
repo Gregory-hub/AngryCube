@@ -1,4 +1,9 @@
-﻿  Main.cpp
+﻿  Shader.cpp
+  Main.cpp
+D:\Programming\cpp\AngryCube\AngryCube\src\Main.cpp(59,19): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\cpp\AngryCube\AngryCube\src\Main.cpp(61,15): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+D:\Programming\cpp\AngryCube\AngryCube\src\Main.cpp(62,14): warning C4244: 'initializing': conversion from 'double' to 'float', possible loss of data
+  Generating Code...
 LINK : warning LNK4098: defaultlib 'LIBCMT' conflicts with use of other libs; use /NODEFAULTLIB:library
 LINK : warning LNK4098: defaultlib 'MSVCRT' conflicts with use of other libs; use /NODEFAULTLIB:library
 glew32s.lib(glew.obj) : warning LNK4099: PDB '' was not found with 'glew32s.lib(glew.obj)' or at ''; linking object as if no debug info
