@@ -12,8 +12,9 @@ public:
 	~Shader();
 
 	template<typename T>
-	void SetUniform(std::string name, T value);
+	void SetUniform(const std::string& name, const T& value);
 
 	void Bind();
 	void Unbind();
 };
+

@@ -37,3 +37,8 @@ void Cube::Unbind()
     glBindVertexArray(0);
 }
 
+unsigned int Cube::GetIndexCount() const
+{
+    return sizeof(indices) / sizeof(unsigned int);
+}
+

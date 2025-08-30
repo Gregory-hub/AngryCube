@@ -6,8 +6,7 @@
 #include <iostream>
 
 #include <GL/glew.h>
-
-#include "Vector.h"
+#include <glm/vec4.hpp>
 
 
 std::string readFile(const char* filename)
@@ -67,16 +66,20 @@ void Shader::Unbind()
 }
 
 template<typename T>
-void Shader::SetUniform(std::string name, T value)
+void Shader::SetUniform(const std::string& name, const T& value)
 {
     
 }
 
 template<>
-void Shader::SetUniform(std::string name, Vector4<float> value)
+void Shader::SetUniform(const std::string& name, const glm::vec4& value)
 {
 	int location = glGetUniformLocation(id, name.c_str());
-	glUseProgram(id);
-	glUniform4f(location, value.X, value.Y, value.Z, value.W);
+    if (location == -1)
+    {
+        std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
+        return;
+	}
+	glUniform4f(location, value.x, value.y, value.z, value.w);
 }
 

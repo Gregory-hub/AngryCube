@@ -5,9 +5,10 @@
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
+#include <glm/glm.hpp>
+
 #include "Cube.h"
 #include "Shader.h"
-#include "Vector.h"
 
 
 int main()
@@ -50,6 +51,9 @@ int main()
     Cube cube;
     Shader shader;
 
+	cube.Bind();
+	shader.Bind();
+
     glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
 
     while (!glfwWindowShouldClose(window))
@@ -61,12 +65,9 @@ int main()
 		float green = (cos(1.6 * timeValue) / 2.0f) + 0.5f;
 		float blue = (sin(0.3 * timeValue) / 2.0f) + 0.5f;
         
-        shader.Bind();
-        shader.SetUniform<Vector4<float>>("vertexColor", { red, green, blue, 1.0f });
+        shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
 
-        cube.Bind();
-
-        glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+        glDrawElements(GL_TRIANGLES, cube.GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 
         glfwSwapBuffers(window);
         glfwPollEvents();

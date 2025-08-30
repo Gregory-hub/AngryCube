@@ -1,19 +1,20 @@
 #pragma once
 
-#include "Vector.h"
+#include <glm/vec2.hpp>
+#include <glm/vec3.hpp>
 
 
 class Cube
 {
 private:
-    Vector2<float> vertices[4] = {
+    glm::vec2 vertices[4] = {
         { -0.5f, -0.5f },
         { 0.5f, -0.5f },
         { 0.5f, 0.5f },
         { -0.5f, 0.5f }
     };
 
-    Vector3<unsigned int> indices[2] = {
+    glm::uvec3 indices[2] = {
         { 0, 1, 3 },
         { 1, 2, 3 }
     };
@@ -28,5 +29,7 @@ public:
 
     void Bind();
     void Unbind();
+
+    unsigned int GetIndexCount() const;
 };
 
