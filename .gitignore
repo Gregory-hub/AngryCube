@@ -42,6 +42,6 @@
 
 # visual studio
 .vs
-# **/x64
-# **/Debug
+**/x64
+**/Debug
 '
