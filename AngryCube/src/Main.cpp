@@ -14,12 +14,19 @@
 #include "Shader.h"
 
 
-int main()
-{
-    GLFWwindow* window;
+// TODO:
+// logger
+// error handling
+// render multiple objects (scene)
+// textures
 
+glm::vec2 WINDOW_RESOLUTION = { 1280, 720 };
+
+
+GLFWwindow* runSetup()
+{
     if (!glfwInit())
-        return -1;
+        throw std::runtime_error("GLFW setup failed");
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -34,14 +41,12 @@ int main()
     //glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
     //window = glfwCreateWindow(mode->width, mode->height, "My Title", monitor, NULL);
 
-    glm::vec2 resolution = { 1280, 720 };
-
-    window = glfwCreateWindow(resolution.x, resolution.y, "Angry Cube", NULL, NULL);
+    GLFWwindow* window = glfwCreateWindow(WINDOW_RESOLUTION.x, WINDOW_RESOLUTION.y, "Angry Cube", NULL, NULL);
 
     if (!window)
     {
         glfwTerminate();
-        return -1;
+        throw std::runtime_error("Window setup failed");
     }
 
     glfwMakeContextCurrent(window);
@@ -49,7 +54,7 @@ int main()
     if (glewInit() != GLEW_OK)
     {
         glfwTerminate();
-        return -1;
+        throw std::runtime_error("GLEW setup failed");
     }
 
     std::cout << glGetString(GL_VERSION) << std::endl;
@@ -57,16 +62,22 @@ int main()
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
     ImGuiIO& io = ImGui::GetIO();
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
-    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;
 
-    // Setup Platform/Renderer backends
-    ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+    ImGui_ImplGlfw_InitForOpenGL(window, true);
     ImGui_ImplOpenGL3_Init();
 
+    return window;
+}
 
-    glm::mat4 projMatrix = glm::ortho(0.0f, resolution.x, 0.0f, resolution.y, 0.1f, 100.0f);
-    //glm::mat4 projMatrix = glm::perspective(glm::radians(45.0f), resolution.x / resolution.y, 0.1f, 10000.0f);
+
+int main()
+{
+    GLFWwindow* window = runSetup();
+
+    glm::mat4 projMatrix = glm::ortho(0.0f, WINDOW_RESOLUTION.x, 0.0f, WINDOW_RESOLUTION.y, 0.1f, 100.0f);
+    //glm::mat4 projMatrix = glm::perspective(glm::radians(45.0f), WINDOW_RESOLUTION.x / WINDOW_RESOLUTION.y, 0.1f, 10000.0f);
 
     Cube cube;
     Shader shader("cube");
@@ -100,6 +111,7 @@ int main()
         shader.SetUniform<glm::mat4>("MVP", projMatrix * cube.GetTransformMatrix());
 
         cube.ShowDebugControls();
+
 
         glDrawElements(GL_TRIANGLES, cube.GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 
