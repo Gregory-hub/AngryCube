@@ -76,7 +76,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -93,7 +93,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -108,7 +108,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -125,7 +125,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)include;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Console</SubSystem>
@@ -135,19 +135,41 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_glfw.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\imconfig.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\imgui.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\imgui_internal.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\imstb_textedit.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\imstb_truetype.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="src\Cube.h" />
     <ClInclude Include="src\Shader.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Dependencies\compiled\imgui\misc\debuggers\imgui.natstepfilter" />
     <None Include="shaders\basicColor.frag" />
     <None Include="shaders\basicColor.vert" />
     <None Include="shaders\cube.frag" />
     <None Include="shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Dependencies\compiled\imgui\backends\imgui_impl_glfw.cpp" />
+    <ClCompile Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3.cpp" />
+    <ClCompile Include="Dependencies\compiled\imgui\imgui.cpp" />
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_demo.cpp" />
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_draw.cpp" />
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_tables.cpp" />
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_widgets.cpp" />
+    <ClCompile Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="src\Cube.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Shader.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <Natvis Include="Dependencies\compiled\imgui\misc\debuggers\imgui.natvis" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

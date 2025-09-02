@@ -1,6 +1,9 @@
 #include "Cube.h"
 
 #include <GL/glew.h>
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 
 
 Cube::Cube()
@@ -64,5 +67,15 @@ glm::mat4 Cube::GetTransformMatrix() const
 	transform = glm::rotate(transform, glm::radians(rotation), { 0.0f, 0.0f, 1.0f });
 	transform = glm::scale(transform, scale);
     return transform;
+}
+
+void Cube::ShowDebugControls()
+{
+    ImGui::SetNextWindowPos(ImVec2(20, 20));
+    ImGui::Begin("Cube controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+    ImGui::DragFloat3("Translation", &translation.x);
+    ImGui::DragFloat("Rotation", &rotation);
+    ImGui::DragFloat3("Scale", &scale.x);
+    ImGui::End();
 }
 

@@ -41,5 +41,7 @@ public:
     unsigned int GetIndexCount() const;
 
     glm::mat4 GetTransformMatrix() const;
+
+    void ShowDebugControls();
 };
 

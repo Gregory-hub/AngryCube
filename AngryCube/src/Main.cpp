@@ -6,6 +6,9 @@
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
+#include <imgui.h>
+#include <backends/imgui_impl_glfw.h>
+#include <backends/imgui_impl_opengl3.h>
 
 #include "Cube.h"
 #include "Shader.h"
@@ -51,6 +54,17 @@ int main()
 
     std::cout << glGetString(GL_VERSION) << std::endl;
 
+    IMGUI_CHECKVERSION();
+    ImGui::CreateContext();
+    ImGuiIO& io = ImGui::GetIO();
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableKeyboard;     // Enable Keyboard Controls
+    io.ConfigFlags |= ImGuiConfigFlags_NavEnableGamepad;      // Enable Gamepad Controls
+
+    // Setup Platform/Renderer backends
+    ImGui_ImplGlfw_InitForOpenGL(window, true);          // Second param install_callback=true will install GLFW callbacks and chain to existing ones.
+    ImGui_ImplOpenGL3_Init();
+
+
     glm::mat4 projMatrix = glm::ortho(0.0f, resolution.x, 0.0f, resolution.y, 0.1f, 100.0f);
     //glm::mat4 projMatrix = glm::perspective(glm::radians(45.0f), resolution.x / resolution.y, 0.1f, 10000.0f);
 
@@ -68,22 +82,38 @@ int main()
     {
         glClear(GL_COLOR_BUFFER_BIT);
 
+        ImGui_ImplOpenGL3_NewFrame();
+        ImGui_ImplGlfw_NewFrame();
+        ImGui::NewFrame();
+
+
 		float timeValue = glfwGetTime();
 		float red = (sin(timeValue) / 2.0f) + 0.5f;
 		float green = (cos(1.6 * timeValue) / 2.0f) + 0.5f;
 		float blue = (sin(0.3 * timeValue) / 2.0f) + 0.5f;
-        
-		cube.Move({ 0.0f, 0.005f, 0.0f });
+
+		cube.Move(glm::vec3({ 0.0f, 0.02f, 0.0f }) * sin(timeValue));
 		cube.Rotate(0.005f);
+        cube.Scale(glm::vec3(0.00015f, -0.0002f, 0.0f) * sin(timeValue) + 1.0f);
 
         shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
         shader.SetUniform<glm::mat4>("MVP", projMatrix * cube.GetTransformMatrix());
 
+        cube.ShowDebugControls();
+
         glDrawElements(GL_TRIANGLES, cube.GetIndexCount(), GL_UNSIGNED_INT, nullptr);
+
+        ImGui::Render();
+        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
 
         glfwSwapBuffers(window);
         glfwPollEvents();
     }
+
+    ImGui_ImplOpenGL3_Shutdown();
+    ImGui_ImplGlfw_Shutdown();
+    ImGui::DestroyContext();
 
     glfwTerminate();
     return 0;
