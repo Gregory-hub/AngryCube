@@ -27,18 +27,42 @@ Cube::~Cube()
     glDeleteVertexArrays(1, &vao);
 }
 
-void Cube::Bind()
+void Cube::Bind() const
 {
     glBindVertexArray(vao);
 }
 
-void Cube::Unbind()
+void Cube::Unbind() const
 {
     glBindVertexArray(0);
+}
+
+void Cube::Move(const glm::vec3& value)
+{
+	translation += value;
+}
+
+void Cube::Rotate(const float value)
+{
+    rotation += value;
+}
+
+void Cube::Scale(const glm::vec3& value)
+{
+    scale *= value;
 }
 
 unsigned int Cube::GetIndexCount() const
 {
     return sizeof(indices) / sizeof(unsigned int);
+}
+
+glm::mat4 Cube::GetTransformMatrix() const
+{
+	glm::mat4 transform(1.0f);
+	transform = glm::translate(transform, translation);
+	transform = glm::rotate(transform, glm::radians(rotation), { 0.0f, 0.0f, 1.0f });
+	transform = glm::scale(transform, scale);
+    return transform;
 }
 

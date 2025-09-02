@@ -25,6 +25,8 @@
   <ItemGroup>
     <None Include="shaders\basicColor.frag" />
     <None Include="shaders\basicColor.vert" />
+    <None Include="shaders\cube.frag" />
+    <None Include="shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Cube.cpp">

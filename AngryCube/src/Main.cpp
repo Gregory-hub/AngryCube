@@ -31,7 +31,10 @@ int main()
     //glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
     //window = glfwCreateWindow(mode->width, mode->height, "My Title", monitor, NULL);
 
-    window = glfwCreateWindow(1280, 720, "Angry Cube", NULL, NULL);
+    glm::vec2 resolution = { 1280, 720 };
+
+    window = glfwCreateWindow(resolution.x, resolution.y, "Angry Cube", NULL, NULL);
+
     if (!window)
     {
         glfwTerminate();
@@ -48,13 +51,18 @@ int main()
 
     std::cout << glGetString(GL_VERSION) << std::endl;
 
+    glm::mat4 projMatrix = glm::ortho(0.0f, resolution.x, 0.0f, resolution.y, 0.1f, 100.0f);
+    //glm::mat4 projMatrix = glm::perspective(glm::radians(45.0f), resolution.x / resolution.y, 0.1f, 10000.0f);
+
     Cube cube;
-    Shader shader;
+    Shader shader("cube");
 
 	cube.Bind();
 	shader.Bind();
 
-    glClearColor(0.2f, 0.3f, 0.4f, 1.0f);
+	cube.Move({ 640.0f, 360.0f, 0.0f });
+
+    glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
 
     while (!glfwWindowShouldClose(window))
     {
@@ -65,7 +73,11 @@ int main()
 		float green = (cos(1.6 * timeValue) / 2.0f) + 0.5f;
 		float blue = (sin(0.3 * timeValue) / 2.0f) + 0.5f;
         
+		cube.Move({ 0.0f, 0.005f, 0.0f });
+		cube.Rotate(0.005f);
+
         shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
+        shader.SetUniform<glm::mat4>("MVP", projMatrix * cube.GetTransformMatrix());
 
         glDrawElements(GL_TRIANGLES, cube.GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 

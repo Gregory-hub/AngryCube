@@ -9,7 +9,7 @@
 #include <glm/vec4.hpp>
 
 
-std::string readFile(const char* filename)
+std::string readFile(const std::string& filename)
 {
     std::ifstream file(filename);
     if (!file.is_open())
@@ -23,11 +23,10 @@ std::string readFile(const char* filename)
     return ss.str();
 }
 
-
-Shader::Shader()
+Shader::Shader(const std::string& name)
 {
-    std::string vertShaderStr = readFile("shaders/basicColor.vert");
-    std::string fragShaderStr = readFile("shaders/basicColor.frag");
+    std::string vertShaderStr = readFile(std::string("shaders/") + name + ".vert");
+    std::string fragShaderStr = readFile(std::string("shaders/") + name + ".frag");
 
     id = glCreateProgram();
 
@@ -55,31 +54,21 @@ Shader::~Shader()
     glDeleteProgram(id);
 }
 
-void Shader::Bind()
+void Shader::Bind() const
 {
     glUseProgram(id);
 }
 
-void Shader::Unbind()
+void Shader::Unbind() const
 {
     glUseProgram(0);
 }
 
-template<typename T>
-void Shader::SetUniform(const std::string& name, const T& value)
-{
-    
-}
-
-template<>
-void Shader::SetUniform(const std::string& name, const glm::vec4& value)
+int Shader::GetUniformLocation(const std::string& name) const
 {
 	int location = glGetUniformLocation(id, name.c_str());
-    if (location == -1)
-    {
-        std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
-        return;
-	}
-	glUniform4f(location, value.x, value.y, value.z, value.w);
+	if (location == -1)
+		std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
+	return location;
 }
 

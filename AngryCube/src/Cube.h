@@ -1,17 +1,17 @@
 #pragma once
 
-#include <glm/vec2.hpp>
-#include <glm/vec3.hpp>
+#include <glm/glm.hpp>
+#include <glm/gtc/matrix_transform.hpp>
 
 
 class Cube
 {
 private:
     glm::vec2 vertices[4] = {
-        { -0.5f, -0.5f },
-        { 0.5f, -0.5f },
-        { 0.5f, 0.5f },
-        { -0.5f, 0.5f }
+        { -50.0f, -50.0f },
+        { 50.0f, -50.0f },
+        { 50.0f, 50.0f },
+        { -50.0, 50.0f }
     };
 
     glm::uvec3 indices[2] = {
@@ -23,13 +23,23 @@ private:
     unsigned int vbo;
     unsigned int ebo;
 
+    glm::vec3 translation { 0.0f, 0.0f, -1.0f };
+    float rotation = 0.0f;  // degrees
+    glm::vec3 scale { 1.0f, 1.0f, 1.0f };
+
 public:
     Cube();
     ~Cube();
 
-    void Bind();
-    void Unbind();
+    void Bind() const;
+    void Unbind() const;
+
+    void Move(const glm::vec3& value);
+    void Rotate(const float value);
+    void Scale(const glm::vec3& value);
 
     unsigned int GetIndexCount() const;
+
+    glm::mat4 GetTransformMatrix() const;
 };
 
