@@ -10,12 +10,13 @@
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
+#include "Logger.h"
 #include "Cube.h"
 #include "Shader.h"
 
 
 // TODO:
-// logger
+// (done) logger
 // error handling
 // render multiple objects (scene)
 // textures
@@ -26,7 +27,11 @@ glm::vec2 WINDOW_RESOLUTION = { 1280, 720 };
 GLFWwindow* runSetup()
 {
     if (!glfwInit())
-        throw std::runtime_error("GLFW setup failed");
+    {
+        std::string message = "GLFW setup failed";
+        Logger::Log(LogLevel::Error, message);
+        throw std::runtime_error(message);
+    }
 
     glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
@@ -46,7 +51,9 @@ GLFWwindow* runSetup()
     if (!window)
     {
         glfwTerminate();
-        throw std::runtime_error("Window setup failed");
+        std::string message = "Window setup failed";
+        Logger::Log(LogLevel::Error, message);
+        throw std::runtime_error(message);
     }
 
     glfwMakeContextCurrent(window);
@@ -54,10 +61,12 @@ GLFWwindow* runSetup()
     if (glewInit() != GLEW_OK)
     {
         glfwTerminate();
-        throw std::runtime_error("GLEW setup failed");
+        std::string message = "GLEW setup failed";
+        Logger::Log(LogLevel::Error, message);
+        throw std::runtime_error(message);
     }
 
-    std::cout << glGetString(GL_VERSION) << std::endl;
+    Logger::Log(Info, reinterpret_cast<const char*>(glGetString(GL_VERSION)));
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();

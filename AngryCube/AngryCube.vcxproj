@@ -145,6 +145,7 @@
     <ClInclude Include="Dependencies\compiled\imgui\imstb_textedit.h" />
     <ClInclude Include="Dependencies\compiled\imgui\imstb_truetype.h" />
     <ClInclude Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.h" />
+    <ClInclude Include="src\Logger.h" />
     <ClInclude Include="src\Cube.h" />
     <ClInclude Include="src\Shader.h" />
   </ItemGroup>
@@ -164,6 +165,7 @@
     <ClCompile Include="Dependencies\compiled\imgui\imgui_tables.cpp" />
     <ClCompile Include="Dependencies\compiled\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.cpp" />
+    <ClCompile Include="src\Logger.cpp" />
     <ClCompile Include="src\Cube.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\Shader.cpp" />

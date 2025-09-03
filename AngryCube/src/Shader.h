@@ -6,6 +6,8 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
+#include "Logger.h"
+
 
 class Shader
 {
@@ -25,7 +27,7 @@ public:
 	void SetUniform(const std::string& name, const T& value)
 	{
 		std::string message = std::string("Type '") + typeid(T).name() + "' is not supported";
-		std::cout << message << std::endl;
+		Logger::Log(Error, message);
 		throw std::invalid_argument(message);
 	}
 

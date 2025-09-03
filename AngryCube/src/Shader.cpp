@@ -8,13 +8,15 @@
 #include <GL/glew.h>
 #include <glm/vec4.hpp>
 
+#include "Logger.h"
+
 
 std::string readFile(const std::string& filename)
 {
     std::ifstream file(filename);
     if (!file.is_open())
     {
-        std::cout << "Warning: file not open (" << filename << ")" << std::endl;
+        Logger::Log(Warning, std::string("file not open (") + filename + ")");
         return "";
     }
     std::stringstream ss;
@@ -68,7 +70,7 @@ int Shader::GetUniformLocation(const std::string& name) const
 {
 	int location = glGetUniformLocation(id, name.c_str());
 	if (location == -1)
-		std::cout << "Warning: uniform '" << name << "' doesn't exist!" << std::endl;
+        Logger::Log(Warning, std::string("uniform '") + name + "' doesn't exist!");
 	return location;
 }
 
