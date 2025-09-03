@@ -11,13 +11,14 @@
 #include <backends/imgui_impl_opengl3.h>
 
 #include "Logger.h"
+#include "debugCallback.h"
 #include "Cube.h"
 #include "Shader.h"
 
 
 // TODO:
 // (done) logger
-// error handling
+// (done) error handling
 // render multiple objects (scene)
 // textures
 
@@ -37,6 +38,9 @@ GLFWwindow* runSetup()
     glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
     glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
     //glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_COMPAT_PROFILE);
+
+    // disable when releasing
+    glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 
     //GLFWmonitor* monitor = glfwGetPrimaryMonitor();
     //const GLFWvidmode* mode = glfwGetVideoMode(monitor);
@@ -67,6 +71,16 @@ GLFWwindow* runSetup()
     }
 
     Logger::Log(Info, reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+
+    int flags;
+    glGetIntegerv(GL_CONTEXT_FLAGS, &flags);
+    if (flags & GL_CONTEXT_FLAG_DEBUG_BIT)
+    {
+        glEnable(GL_DEBUG_OUTPUT);
+        glEnable(GL_DEBUG_OUTPUT_SYNCHRONOUS);
+        glDebugMessageCallback(glDebugOutput, nullptr);
+        glDebugMessageControl(GL_DONT_CARE, GL_DONT_CARE, GL_DONT_CARE, 0, nullptr, GL_TRUE);
+    }
 
     IMGUI_CHECKVERSION();
     ImGui::CreateContext();
