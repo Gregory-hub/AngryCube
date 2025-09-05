@@ -6,8 +6,12 @@
 #include <backends/imgui_impl_opengl3.h>
 
 
+int Cube::id = 0;
+
 Cube::Cube()
 {
+    name = "Cube " + std::to_string(id++);
+
     glGenVertexArrays(1, &vao);
     glBindVertexArray(vao);
     
@@ -30,52 +34,18 @@ Cube::~Cube()
     glDeleteVertexArrays(1, &vao);
 }
 
-void Cube::Bind() const
-{
-    glBindVertexArray(vao);
-}
-
-void Cube::Unbind() const
-{
-    glBindVertexArray(0);
-}
-
-void Cube::Move(const glm::vec3& value)
-{
-	translation += value;
-}
-
-void Cube::Rotate(const float value)
-{
-    rotation += value;
-}
-
-void Cube::Scale(const glm::vec3& value)
-{
-    scale *= value;
-}
-
 unsigned int Cube::GetIndexCount() const
 {
     return sizeof(indices) / sizeof(unsigned int);
 }
 
-glm::mat4 Cube::GetTransformMatrix() const
+void Cube::ShowDebugControls(glm::vec2 pos)
 {
-	glm::mat4 transform(1.0f);
-	transform = glm::translate(transform, translation);
-	transform = glm::rotate(transform, glm::radians(rotation), { 0.0f, 0.0f, 1.0f });
-	transform = glm::scale(transform, scale);
-    return transform;
-}
-
-void Cube::ShowDebugControls()
-{
-    ImGui::SetNextWindowPos(ImVec2(20, 20));
-    ImGui::Begin("Cube controls", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+    ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
+    ImGui::Begin(name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize);
     ImGui::DragFloat3("Translation", &translation.x);
     ImGui::DragFloat("Rotation", &rotation);
-    ImGui::DragFloat3("Scale", &scale.x);
+    ImGui::DragFloat3("Scale", &scale.x, 0.01f);
     ImGui::End();
 }
 

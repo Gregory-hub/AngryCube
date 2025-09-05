@@ -2,6 +2,7 @@
 #include <fstream>
 #include <string>
 #include <sstream>
+#include <memory>
 
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
@@ -12,14 +13,18 @@
 
 #include "Logger.h"
 #include "debugCallback.h"
+#include "Scene.h"
 #include "Cube.h"
 #include "Shader.h"
+#include "Renderer.h"
 
 
 // TODO:
 // (done) logger
 // (done) error handling
 // render multiple objects (scene)
+// physics
+// game logic
 // textures
 
 glm::vec2 WINDOW_RESOLUTION = { 1280, 720 };
@@ -99,51 +104,49 @@ int main()
 {
     GLFWwindow* window = runSetup();
 
-    glm::mat4 projMatrix = glm::ortho(0.0f, WINDOW_RESOLUTION.x, 0.0f, WINDOW_RESOLUTION.y, 0.1f, 100.0f);
-    //glm::mat4 projMatrix = glm::perspective(glm::radians(45.0f), WINDOW_RESOLUTION.x / WINDOW_RESOLUTION.y, 0.1f, 10000.0f);
-
-    Cube cube;
     Shader shader("cube");
-
-	cube.Bind();
 	shader.Bind();
 
-	cube.Move({ 640.0f, 360.0f, 0.0f });
+    Scene scene;
+
+    std::shared_ptr<Cube> cube = std::make_shared<Cube>();
+    cube->SetTranslation({ 990.0f, 360.0f, -1.0f });
+    cube->SetScale(glm::vec3(1.5f, 1.5f, 0.0f));
+    scene.AddModel(cube);
+
+    std::shared_ptr<Cube> cube1 = std::make_shared<Cube>();
+    cube1->SetTranslation({ 440.0f, 460.0f, -1.0f });
+    scene.AddModel(cube1);
+
+    std::shared_ptr<Cube> cube2 = std::make_shared<Cube>();
+    cube2->SetTranslation({ 640.0f, 260.0f, -1.0f });
+    cube2->SetScale(glm::vec3(0.5f, 1.5f, 0.0f));
+    scene.AddModel(cube2);
+
+    Renderer renderer(window, WINDOW_RESOLUTION);
 
     glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
-
     while (!glfwWindowShouldClose(window))
     {
-        glClear(GL_COLOR_BUFFER_BIT);
-
-        ImGui_ImplOpenGL3_NewFrame();
-        ImGui_ImplGlfw_NewFrame();
-        ImGui::NewFrame();
-
-
 		float timeValue = glfwGetTime();
 		float red = (sin(timeValue) / 2.0f) + 0.5f;
 		float green = (cos(1.6 * timeValue) / 2.0f) + 0.5f;
 		float blue = (sin(0.3 * timeValue) / 2.0f) + 0.5f;
 
-		cube.Move(glm::vec3({ 0.0f, 0.02f, 0.0f }) * sin(timeValue));
-		cube.Rotate(0.005f);
-        cube.Scale(glm::vec3(0.00015f, -0.0002f, 0.0f) * sin(timeValue) + 1.0f);
+		cube->Move(glm::vec3({ 0.0f, 0.02f, 0.0f }) * sin(timeValue));
+		cube->Rotate(0.005f);
+        cube->Scale(glm::vec3(0.0004f, -0.0001f, 0.0f) * sin(2.0f * timeValue));
 
-        shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
-        shader.SetUniform<glm::mat4>("MVP", projMatrix * cube.GetTransformMatrix());
+		cube1->Move(glm::vec3({ 0.01f, 0.0f, 0.0f }) * sin(timeValue));
+		cube1->Rotate(-0.008f);
+        cube1->Scale(glm::vec3(0.0004f, -0.0001f, 0.0f) * sin(3.0f * timeValue));
 
-        cube.ShowDebugControls();
+		cube2->Move(glm::vec3({ -0.001f, 0.01f, 0.0f }) * cos(timeValue));
+		cube2->Rotate(0.002f);
+        cube2->Scale(glm::vec3(0.0003f, -0.00015f, 0.0f) * sin(1.0f * timeValue));
 
-
-        glDrawElements(GL_TRIANGLES, cube.GetIndexCount(), GL_UNSIGNED_INT, nullptr);
-
-        ImGui::Render();
-        ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
-
-        glfwSwapBuffers(window);
-        glfwPollEvents();
+		shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
+        renderer.Render(scene, shader);
     }
 
     ImGui_ImplOpenGL3_Shutdown();
