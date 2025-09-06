@@ -23,6 +23,7 @@
 // (done) logger
 // (done) error handling
 // render multiple objects (scene)
+// file structure (src folder)
 // physics
 // game logic
 // textures

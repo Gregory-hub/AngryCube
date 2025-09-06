@@ -12,31 +12,37 @@ Cube::Cube()
 {
     name = "Cube " + std::to_string(id++);
 
-    glGenVertexArrays(1, &vao);
-    glBindVertexArray(vao);
-    
-    glGenBuffers(1, &vbo);
-    glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
+    vertices = {
+        { -50.0f, -50.0f },
+        { 50.0f, -50.0f },
+        { 50.0f, 50.0f },
+        { -50.0, 50.0f }
+    };
 
-    glGenBuffers(1, &ebo);
-    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, sizeof(indices), indices, GL_STATIC_DRAW);
-
-    glEnableVertexAttribArray(0);
-    glVertexAttribPointer(0, 2, GL_FLOAT, GL_FALSE, sizeof(float) * 2, (void*)0);
+    indices = {
+        { 0, 1, 3 },
+        { 1, 2, 3 }
+    };
 }
 
-Cube::~Cube()
+std::vector<glm::vec4> Cube::GetVertices() const
 {
-    glDeleteBuffers(1, &vbo);
-    glDeleteBuffers(1, &ebo);
-    glDeleteVertexArrays(1, &vao);
+    std::vector<glm::vec4> result;
+    result.reserve(vertices.size());
+
+	glm::mat4 transform(1.0f);
+	transform = glm::translate(transform, translation);
+	transform = glm::rotate(transform, glm::radians(rotation), { 0.0f, 0.0f, 1.0f });
+	transform = glm::scale(transform, scale);
+
+    for (glm::vec2 vertex : vertices)
+        result.push_back(transform * glm::vec4(vertex, 0.0f, 1.0f));
+	return result;
 }
 
-unsigned int Cube::GetIndexCount() const
+std::vector<glm::uvec3> Cube::GetTriangles() const
 {
-    return sizeof(indices) / sizeof(unsigned int);
+	return indices;
 }
 
 void Cube::ShowDebugControls(glm::vec2 pos)

@@ -1,6 +1,7 @@
 #pragma once
 
 #include <string>
+#include <vector>
 
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
@@ -11,9 +12,8 @@ class Model
 protected:
     std::string name;
 
-    unsigned int vao;
-    unsigned int vbo;
-    unsigned int ebo;
+    std::vector<glm::vec2> vertices;
+    std::vector<glm::uvec3> indices;
 
     glm::vec3 translation { 0.0f, 0.0f, -1.0f };
     float rotation = 0.0f;      // degrees
@@ -22,8 +22,8 @@ protected:
 public:
     virtual ~Model() = default;
 
-    virtual void Bind() const;
-    virtual void Unbind() const;
+    virtual unsigned int GetVertexCount() const;
+    virtual unsigned int GetIndexCount() const;
 
     virtual glm::vec3 GetTranslation() const;
     virtual float GetRotation() const;
@@ -39,8 +39,8 @@ public:
 
     virtual void Update(float deltaTime) {};
 
-    virtual glm::mat4 GetTransformMatrix() const;
-    virtual unsigned int GetIndexCount() const = 0;
+    virtual std::vector<glm::vec4> GetVertices() const = 0;
+    virtual std::vector<glm::uvec3> GetTriangles() const = 0;
 
     virtual void ShowDebugControls(glm::vec2 pos) {};
 };

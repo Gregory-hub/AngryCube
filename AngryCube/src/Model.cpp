@@ -1,16 +1,14 @@
 #include "Model.h"
 
-#include <GL/glew.h>
 
-
-void Model::Bind() const
+unsigned int Model::GetVertexCount() const
 {
-    glBindVertexArray(vao);
+    return vertices.size();
 }
 
-void Model::Unbind() const
+unsigned int Model::GetIndexCount() const
 {
-    glBindVertexArray(0);
+    return indices.size() * 3;
 }
 
 glm::vec3 Model::GetTranslation() const
@@ -56,14 +54,5 @@ void Model::Rotate(const float value)
 void Model::Scale(const glm::vec3& value)
 {
     scale += value;
-}
-
-glm::mat4 Model::GetTransformMatrix() const
-{
-	glm::mat4 transform(1.0f);
-	transform = glm::translate(transform, translation);
-	transform = glm::rotate(transform, glm::radians(rotation), { 0.0f, 0.0f, 1.0f });
-	transform = glm::scale(transform, scale);
-    return transform;
 }
 
