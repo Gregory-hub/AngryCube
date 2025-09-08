@@ -9,6 +9,7 @@
 int Cube::id = 0;
 
 Cube::Cube()
+    : startingTranslation(glm::vec3()), startingScale(glm::vec3())
 {
     name = "Cube " + std::to_string(id++);
 
@@ -19,30 +20,25 @@ Cube::Cube()
         { -50.0, 50.0f }
     };
 
-    indices = {
+    triangles = {
         { 0, 1, 3 },
         { 1, 2, 3 }
     };
 }
 
-std::vector<glm::vec4> Cube::GetVertices() const
+void Cube::Update(float deltaTime)
 {
-    std::vector<glm::vec4> result;
-    result.reserve(vertices.size());
+    if (!startedMovement)
+    {
+        startingTranslation = translation;
+        startingScale = scale;
+        startedMovement = true;
+    }
+	SetTranslation(startingTranslation + glm::vec3({ 0.0f, 75.0f, 0.0f }) * sin(2.0f * x));
+	Rotate(50.0f * speed * deltaTime);
+	SetScale(startingScale + startingScale * glm::vec3(0.8f, -0.5f, 0.0f) * sin(1.0f * x));
 
-	glm::mat4 transform(1.0f);
-	transform = glm::translate(transform, translation);
-	transform = glm::rotate(transform, glm::radians(rotation), { 0.0f, 0.0f, 1.0f });
-	transform = glm::scale(transform, scale);
-
-    for (glm::vec2 vertex : vertices)
-        result.push_back(transform * glm::vec4(vertex, 0.0f, 1.0f));
-	return result;
-}
-
-std::vector<glm::uvec3> Cube::GetTriangles() const
-{
-	return indices;
+    x += speed * deltaTime;
 }
 
 void Cube::ShowDebugControls(glm::vec2 pos)
@@ -52,6 +48,7 @@ void Cube::ShowDebugControls(glm::vec2 pos)
     ImGui::DragFloat3("Translation", &translation.x);
     ImGui::DragFloat("Rotation", &rotation);
     ImGui::DragFloat3("Scale", &scale.x, 0.01f);
+    ImGui::DragFloat("Speed", &speed, 0.01f);
     ImGui::End();
 }
 

@@ -31,34 +31,44 @@ Renderer::~Renderer()
     glDeleteVertexArrays(1, &vao);
 }
 
-void Renderer::Render(const Scene& scene, Shader& shader) const
+void Renderer::SetScene(const Scene& newScene)
 {
-	std::vector<glm::vec4> vertices;
-	vertices.reserve(scene.GetVertexCount());
+	scene = Scene(newScene);
+
+	std::vector<glm::vec4> vertices(scene.GetVertexCount());
 	std::vector<unsigned int> indices;
 	indices.reserve(scene.GetIndexCount());
 
-	unsigned int triangleOffset = 0;
+	unsigned int offset = 0;
 	for (std::shared_ptr<Model> model : scene.GetModels())
 	{
-		for (glm::vec4 vertex : model->GetVertices())
-			vertices.push_back(projMatrix * vertex);
+		std::vector<glm::vec4> modelVertices = model->GetVertices();
+		std::copy(modelVertices.begin(), modelVertices.end(), vertices.begin() + offset);
+
 		for (glm::uvec3 triangle : model->GetTriangles())
 		{
-			indices.push_back(triangle.x + triangleOffset);
-			indices.push_back(triangle.y + triangleOffset);
-			indices.push_back(triangle.z + triangleOffset);
+			indices.push_back(triangle.x + offset);
+			indices.push_back(triangle.y + offset);
+			indices.push_back(triangle.z + offset);
 		}
-		triangleOffset += model->GetVertexCount();
+
+		offset += model->GetVertexCount();
 	}
 
     glBindVertexArray(vao);
 
     glBindBuffer(GL_ARRAY_BUFFER, vbo);
-    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec4), vertices.data(), GL_DYNAMIC_DRAW);
+    glBufferData(GL_ARRAY_BUFFER, vertices.size() * sizeof(glm::vec4), vertices.data(), GL_STATIC_DRAW);
 
     glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
-    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_DYNAMIC_DRAW);
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices.size() * sizeof(unsigned int), indices.data(), GL_STATIC_DRAW);
+}
+
+void Renderer::Render(Shader& shader) const
+{
+	glBindVertexArray(vao);
+	shader.Bind();
+	shader.SetUniform("projMatrix", projMatrix);
 
 	glClear(GL_COLOR_BUFFER_BIT);
 

@@ -3,6 +3,23 @@
 #include <GL/glew.h>
 
 
+Scene::Scene(const Scene& other)
+{
+    vertexCount = other.vertexCount;
+    indexCount = other.indexCount;
+    for (std::shared_ptr<Model> model : other.models)
+        models.insert(model);
+}
+
+Scene& Scene::operator=(const Scene& other)
+{
+    vertexCount = other.vertexCount;
+    indexCount = other.indexCount;
+    for (std::shared_ptr<Model> model : other.models)
+        models.insert(model);
+    return *this;
+}
+
 const std::unordered_set<std::shared_ptr<Model>>& Scene::GetModels() const
 {
     return models;
@@ -41,5 +58,11 @@ unsigned int Scene::GetVertexCount() const
 unsigned int Scene::GetIndexCount() const
 {
     return indexCount;
+}
+
+void Scene::Update(float deltaTime)
+{
+    for (std::shared_ptr<Model> model : models)
+        model->Update(deltaTime);
 }
 

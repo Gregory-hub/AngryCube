@@ -13,11 +13,17 @@ class Cube : public Model
 private:
     static int id;
 
+    float x = 0.0f;
+    float speed = 1.0f;
+
+    glm::vec3 startingTranslation;
+    glm::vec3 startingScale;
+    bool startedMovement = false;
+
 public:
     Cube();
 
-    std::vector<glm::vec4> GetVertices() const override;
-    std::vector<glm::uvec3> GetTriangles() const override;
+    void Update(float deltaTime) override;
 
     void ShowDebugControls(glm::vec2 pos) override;
 };

@@ -17,12 +17,14 @@
 #include "Cube.h"
 #include "Shader.h"
 #include "Renderer.h"
+#include "Clock.h"
 
 
 // TODO:
 // (done) logger
 // (done) error handling
-// render multiple objects (scene)
+// (done) render multiple objects (scene)
+// optimize multiple object rendering (glBufferSubData)
 // file structure (src folder)
 // physics
 // game logic
@@ -109,6 +111,7 @@ int main()
 	shader.Bind();
 
     Scene scene;
+    Clock clock;
 
     std::shared_ptr<Cube> cube = std::make_shared<Cube>();
     cube->SetTranslation({ 990.0f, 360.0f, -1.0f });
@@ -129,25 +132,18 @@ int main()
     glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
     while (!glfwWindowShouldClose(window))
     {
+        float deltaTime = clock.Tick();
+
 		float timeValue = glfwGetTime();
 		float red = (sin(timeValue) / 2.0f) + 0.5f;
 		float green = (cos(1.6 * timeValue) / 2.0f) + 0.5f;
 		float blue = (sin(0.3 * timeValue) / 2.0f) + 0.5f;
 
-		cube->Move(glm::vec3({ 0.0f, 0.02f, 0.0f }) * sin(timeValue));
-		cube->Rotate(0.005f);
-        cube->Scale(glm::vec3(0.0004f, -0.0001f, 0.0f) * sin(2.0f * timeValue));
+        scene.Update(deltaTime);
 
-		cube1->Move(glm::vec3({ 0.01f, 0.0f, 0.0f }) * sin(timeValue));
-		cube1->Rotate(-0.008f);
-        cube1->Scale(glm::vec3(0.0004f, -0.0001f, 0.0f) * sin(3.0f * timeValue));
-
-		cube2->Move(glm::vec3({ -0.001f, 0.01f, 0.0f }) * cos(timeValue));
-		cube2->Rotate(0.002f);
-        cube2->Scale(glm::vec3(0.0003f, -0.00015f, 0.0f) * sin(1.0f * timeValue));
-
+		renderer.SetScene(scene);
 		shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
-        renderer.Render(scene, shader);
+        renderer.Render(shader);
     }
 
     ImGui_ImplOpenGL3_Shutdown();

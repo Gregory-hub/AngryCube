@@ -18,10 +18,13 @@ private:
 	GLFWwindow* window;
 	glm::mat4 projMatrix;
 
+	Scene scene;
+
 public:
 	Renderer(GLFWwindow* w, glm::vec2 resolution);
 	~Renderer();
 
-	void Render(const Scene& scene, Shader& shader) const;
+	void SetScene(const Scene& scene);
+	void Render(Shader& shader) const;
 };
 

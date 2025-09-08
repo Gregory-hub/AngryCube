@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Clock.h" />
     <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_glfw.h" />
     <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3.h" />
     <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3_loader.h" />
@@ -164,6 +165,7 @@
     <None Include="shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Clock.cpp" />
     <ClCompile Include="Dependencies\compiled\imgui\backends\imgui_impl_glfw.cpp" />
     <ClCompile Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3.cpp" />
     <ClCompile Include="Dependencies\compiled\imgui\imgui.cpp" />

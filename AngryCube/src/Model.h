@@ -13,15 +13,13 @@ protected:
     std::string name;
 
     std::vector<glm::vec2> vertices;
-    std::vector<glm::uvec3> indices;
+    std::vector<glm::uvec3> triangles;
 
     glm::vec3 translation { 0.0f, 0.0f, -1.0f };
     float rotation = 0.0f;      // degrees
     glm::vec3 scale { 1.0f, 1.0f, 1.0f };
 
 public:
-    virtual ~Model() = default;
-
     virtual unsigned int GetVertexCount() const;
     virtual unsigned int GetIndexCount() const;
 
@@ -39,8 +37,10 @@ public:
 
     virtual void Update(float deltaTime) {};
 
-    virtual std::vector<glm::vec4> GetVertices() const = 0;
-    virtual std::vector<glm::uvec3> GetTriangles() const = 0;
+    virtual std::vector<glm::vec4> GetVertices() const;
+    virtual std::vector<glm::uvec3> GetTriangles() const;
+
+    virtual glm::mat4 GetTransformMatrix() const;
 
     virtual void ShowDebugControls(glm::vec2 pos) {};
 };
