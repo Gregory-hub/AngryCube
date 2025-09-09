@@ -8,8 +8,6 @@
 #include <GL/glew.h>
 #include <glm/vec4.hpp>
 
-#include "Logger.h"
-
 
 std::string readFile(const std::string& filename)
 {

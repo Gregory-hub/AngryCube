@@ -6,7 +6,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/type_ptr.hpp>
 
-#include "Logger.h"
+#include "utility/Logger.h"
 
 
 class Shader

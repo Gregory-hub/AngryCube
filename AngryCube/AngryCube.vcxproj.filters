@@ -18,7 +18,7 @@
     <ClInclude Include="src\Cube.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Shader.h">
+    <ClInclude Include="src\engine\Shader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_glfw.h">
@@ -51,19 +51,19 @@
     <ClInclude Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Logger.h">
+    <ClInclude Include="src\engine\utility\Logger.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Scene.h">
+    <ClInclude Include="src\engine\Scene.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Model.h">
+    <ClInclude Include="src\engine\Model.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Renderer.h">
+    <ClInclude Include="src\engine\Renderer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\Clock.h">
+    <ClInclude Include="src\engine\utility\Clock.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -81,7 +81,7 @@
     <ClCompile Include="src\Main.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Shader.cpp">
+    <ClCompile Include="src\engine\Shader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Dependencies\compiled\imgui\backends\imgui_impl_glfw.cpp">
@@ -108,22 +108,22 @@
     <ClCompile Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Logger.cpp">
+    <ClCompile Include="src\engine\utility\Logger.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\debugCallback.h">
+    <ClCompile Include="src\engine\utility\debugCallback.h">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Scene.cpp">
+    <ClCompile Include="src\engine\Scene.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Model.cpp">
+    <ClCompile Include="src\engine\Model.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Renderer.cpp">
+    <ClCompile Include="src\engine\Renderer.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\Clock.cpp">
+    <ClCompile Include="src\engine\utility\Clock.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

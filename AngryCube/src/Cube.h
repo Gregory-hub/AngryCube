@@ -5,7 +5,7 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "Model.h"
+#include "engine/Model.h"
 
 
 class Cube : public Model

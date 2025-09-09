@@ -11,13 +11,14 @@
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
-#include "Logger.h"
-#include "debugCallback.h"
-#include "Scene.h"
+#include "engine/utility/Logger.h"
+#include "engine/utility/debugCallback.h"
+#include "engine/utility/Clock.h"
+#include "engine/Scene.h"
+#include "engine/Shader.h"
+#include "engine/Renderer.h"
+
 #include "Cube.h"
-#include "Shader.h"
-#include "Renderer.h"
-#include "Clock.h"
 
 
 // TODO:
@@ -25,7 +26,7 @@
 // (done) error handling
 // (done) render multiple objects (scene)
 // optimize multiple object rendering (glBufferSubData)
-// file structure (src folder)
+// (done) file structure (src folder)
 // physics
 // game logic
 // textures
