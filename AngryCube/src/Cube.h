@@ -5,10 +5,11 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-#include "engine/Model.h"
+#include "engine/Mesh.h"
+#include "engine/Transform.h"
 
 
-class Cube : public Model
+class Cube : public Mesh
 {
 private:
     static int id;

@@ -3,66 +3,59 @@
 #include <GL/glew.h>
 
 
-Scene::Scene(const Scene& other)
+std::vector<std::shared_ptr<Mesh>> Scene::GetMeshes() const
 {
-    vertexCount = other.vertexCount;
-    indexCount = other.indexCount;
-    for (std::shared_ptr<Model> model : other.models)
-        models.insert(model);
+    return meshBuffer.GetMeshes();
 }
 
-Scene& Scene::operator=(const Scene& other)
+void Scene::BindBuffer() const
 {
-    vertexCount = other.vertexCount;
-    indexCount = other.indexCount;
-    for (std::shared_ptr<Model> model : other.models)
-        models.insert(model);
-    return *this;
+    meshBuffer.Bind();
 }
 
-const std::unordered_set<std::shared_ptr<Model>>& Scene::GetModels() const
+void Scene::UnbindBuffer() const
 {
-    return models;
+    meshBuffer.Unbind();
 }
 
-void Scene::AddModel(std::shared_ptr<Model> model)
+void Scene::AddMesh(std::shared_ptr<Mesh>& mesh)
 {
-    if (!models.contains(model))
-    {
-        models.insert(model);
-        vertexCount += model->GetVertexCount();
-        indexCount += model->GetIndexCount();
-    }
+    meshBuffer.AddMesh(mesh);
 }
 
-void Scene::RemoveModel(std::shared_ptr<Model> model)
+void Scene::RemoveMesh(const std::shared_ptr<Mesh>& mesh)
 {
-    if (models.contains(model))
-    {
-        models.erase(model);
-        vertexCount -= model->GetVertexCount();
-        indexCount -= model->GetIndexCount();
-    }
+    meshBuffer.RemoveMesh(mesh);
 }
 
-bool Scene::Contains(std::shared_ptr<Model> model) const
+bool Scene::Contains(const std::shared_ptr<Mesh>& mesh) const
 {
-    return models.contains(model);
+    return meshBuffer.Contains(mesh);
+}
+
+void Scene::SendMeshesToGPU()
+{
+    meshBuffer.SetBufferOnGPU();
 }
 
 unsigned int Scene::GetVertexCount() const
 {
-    return vertexCount;
+    return meshBuffer.GetVertexCount();
 }
 
 unsigned int Scene::GetIndexCount() const
 {
-    return indexCount;
+    return meshBuffer.GetIndexCount();
 }
 
 void Scene::Update(float deltaTime)
 {
-    for (std::shared_ptr<Model> model : models)
-        model->Update(deltaTime);
+    for (std::shared_ptr<Mesh> mesh : meshBuffer.GetMeshes())
+    {
+        mesh->Update(deltaTime);
+        if (mesh->TransformHasChanged())
+			meshBuffer.UpdateMeshOnGPU(mesh);
+        mesh->PostUpdate();
+    }
 }
 

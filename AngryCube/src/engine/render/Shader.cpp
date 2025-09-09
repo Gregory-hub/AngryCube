@@ -7,6 +7,7 @@
 
 #include <GL/glew.h>
 #include <glm/vec4.hpp>
+#include "GLBufferManager.h"
 
 
 std::string readFile(const std::string& filename)

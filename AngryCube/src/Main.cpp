@@ -14,9 +14,9 @@
 #include "engine/utility/Logger.h"
 #include "engine/utility/debugCallback.h"
 #include "engine/utility/Clock.h"
+#include "engine/render/Renderer.h"
+#include "engine/render/Shader.h"
 #include "engine/Scene.h"
-#include "engine/Shader.h"
-#include "engine/Renderer.h"
 
 #include "Cube.h"
 
@@ -25,8 +25,9 @@
 // (done) logger
 // (done) error handling
 // (done) render multiple objects (scene)
-// optimize multiple object rendering (glBufferSubData)
+// (done) optimize multiple object rendering (glBufferSubData)
 // (done) file structure (src folder)
+// copy and move constructors and operators to all
 // physics
 // game logic
 // textures
@@ -108,25 +109,28 @@ int main()
 {
     GLFWwindow* window = runSetup();
 
+    Clock clock;
+
     Shader shader("cube");
 	shader.Bind();
 
     Scene scene;
-    Clock clock;
 
-    std::shared_ptr<Cube> cube = std::make_shared<Cube>();
-    cube->SetTranslation({ 990.0f, 360.0f, -1.0f });
-    cube->SetScale(glm::vec3(1.5f, 1.5f, 0.0f));
-    scene.AddModel(cube);
+    std::shared_ptr<Mesh> cube = std::make_shared<Cube>();
+    cube->transform.SetTranslation({ 990.0f, 360.0f, -1.0f });
+    cube->transform.SetScale(glm::vec3(1.5f, 1.5f, 0.0f));
 
-    std::shared_ptr<Cube> cube1 = std::make_shared<Cube>();
-    cube1->SetTranslation({ 440.0f, 460.0f, -1.0f });
-    scene.AddModel(cube1);
+    std::shared_ptr<Mesh> cube1 = std::make_shared<Cube>();
+    cube1->transform.SetTranslation({ 440.0f, 460.0f, -1.0f });
 
-    std::shared_ptr<Cube> cube2 = std::make_shared<Cube>();
-    cube2->SetTranslation({ 640.0f, 260.0f, -1.0f });
-    cube2->SetScale(glm::vec3(0.5f, 1.5f, 0.0f));
-    scene.AddModel(cube2);
+    std::shared_ptr<Mesh> cube2 = std::make_shared<Cube>();
+    cube2->transform.SetTranslation({ 640.0f, 260.0f, -1.0f });
+    cube2->transform.SetScale(glm::vec3(0.5f, 1.5f, 0.0f));
+
+    scene.AddMesh(cube);
+    scene.AddMesh(cube1);
+    scene.AddMesh(cube2);
+    scene.SendMeshesToGPU();
 
     Renderer renderer(window, WINDOW_RESOLUTION);
 
@@ -142,9 +146,8 @@ int main()
 
         scene.Update(deltaTime);
 
-		renderer.SetScene(scene);
 		shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
-        renderer.Render(shader);
+        renderer.Render(scene, shader);
     }
 
     ImGui_ImplOpenGL3_Shutdown();
