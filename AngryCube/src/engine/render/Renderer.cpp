@@ -11,6 +11,26 @@
 Renderer::Renderer(GLFWwindow* window, glm::vec2 resolution)
 	: window(window), projMatrix(glm::ortho(0.0f, resolution.x, 0.0f, resolution.y, 0.1f, 100.0f)) { }
 
+Renderer::~Renderer()
+{
+}
+
+Renderer::Renderer(Renderer&& other) noexcept
+{
+		window = std::exchange(other.window, nullptr);
+	projMatrix = std::exchange(other.projMatrix, glm::mat4());
+}
+
+Renderer& Renderer::operator=(Renderer&& other) noexcept
+{
+	if (this != &other)
+	{
+		window = std::exchange(other.window, nullptr);
+		projMatrix = std::exchange(other.projMatrix, glm::mat4());
+	}
+	return *this;
+}
+
 void Renderer::Render(const Scene& scene, Shader& shader) const
 {
 	scene.BindBuffer();

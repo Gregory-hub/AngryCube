@@ -8,6 +8,30 @@ Mesh::Mesh()
 	prevTransform = transform;
 }
 
+Mesh::~Mesh()
+{
+}
+
+Mesh::Mesh(Mesh&& other) noexcept
+{
+	name = std::move(other.name);
+	vertices = std::exchange(other.vertices, std::vector<glm::vec2>());
+	triangles = std::exchange(other.triangles, std::vector<glm::uvec3>());
+	prevTransform = std::move(other.prevTransform);
+}
+
+Mesh& Mesh::operator=(Mesh&& other) noexcept
+{
+	if (this != &other)
+	{
+		name = std::move(other.name);
+		vertices = std::exchange(other.vertices, std::vector<glm::vec2>());
+		triangles = std::exchange(other.triangles, std::vector<glm::uvec3>());
+		prevTransform = std::move(other.prevTransform);
+	}
+	return *this;
+}
+
 std::string Mesh::GetName() const
 {
 	return name;

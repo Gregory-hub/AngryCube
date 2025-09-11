@@ -2,8 +2,6 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
-class Mesh;
-
 
 class Transform
 {
@@ -13,6 +11,15 @@ private:
     glm::vec3 scale { 1.0f, 1.0f, 1.0f };
 
 public:
+    Transform() = default;
+    ~Transform() = default;
+
+    Transform(const Transform& other) = default;
+    Transform& operator= (const Transform& other) = default;
+
+    Transform(Transform&& other) noexcept;
+    Transform& operator= (Transform&& other) noexcept;
+
     glm::vec3 GetTranslation() const;
     float GetRotation() const;
     glm::vec3 GetScale() const;
@@ -23,8 +30,8 @@ public:
 
     glm::mat4 GetMatrix() const;
 
-    bool operator == (const Transform& other);
-    bool operator == (const Transform& other) const;
+    bool operator== (const Transform& other);
+    bool operator== (const Transform& other) const;
 
     void ShowDebugControls();
 };

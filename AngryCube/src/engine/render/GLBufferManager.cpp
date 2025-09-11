@@ -1,5 +1,7 @@
 #include "GLBufferManager.h"
 
+#include <utility>
+
 
 GLBufferManager::GLBufferManager()
 {
@@ -18,6 +20,28 @@ GLBufferManager::~GLBufferManager()
     glDeleteBuffers(1, &vbo);
     glDeleteBuffers(1, &ebo);
     glDeleteVertexArrays(1, &vao);
+}
+
+GLBufferManager::GLBufferManager(GLBufferManager&& other) noexcept
+{
+	vao = std::exchange(other.vao, 0);
+	vbo = std::exchange(other.vbo, 0);
+	ebo = std::exchange(other.ebo, 0);
+	attributeIndex = std::exchange(other.attributeIndex, 0);
+	attributeOffset = std::exchange(other.attributeOffset, 0);
+}
+
+GLBufferManager& GLBufferManager::operator=(GLBufferManager&& other) noexcept
+{
+    if (this != &other)
+    {
+        vao = std::exchange(other.vao, 0);
+        vbo = std::exchange(other.vbo, 0);
+        ebo = std::exchange(other.ebo, 0);
+        attributeIndex = std::exchange(other.attributeIndex, 0);
+        attributeOffset = std::exchange(other.attributeOffset, 0);
+    }
+    return *this;
 }
 
 void GLBufferManager::Bind() const

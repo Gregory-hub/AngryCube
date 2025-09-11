@@ -21,6 +21,13 @@ protected:
 
 public:
     Mesh();
+    ~Mesh();
+
+    Mesh(const Mesh& other) = default;
+    Mesh& operator= (const Mesh& other) = default;
+
+    Mesh(Mesh&& other) noexcept;
+    Mesh& operator= (Mesh&& other) noexcept;
 
     Transform transform;
 

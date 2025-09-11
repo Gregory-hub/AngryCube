@@ -23,6 +23,13 @@ private:
 
 public:
     Cube();
+    ~Cube() = default;
+
+    Cube(const Cube& other);
+    Cube& operator= (const Cube& other);
+
+    Cube(Cube&& other) noexcept;
+    Cube& operator= (Cube&& other) noexcept;
 
     void Update(float deltaTime) override;
 

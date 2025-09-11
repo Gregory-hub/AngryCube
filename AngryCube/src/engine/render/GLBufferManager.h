@@ -20,8 +20,8 @@ public:
     GLBufferManager(const GLBufferManager& other) = delete;
     GLBufferManager& operator= (const GLBufferManager& other) = delete;
 
-    //GLBufferManager(GLBufferManager&& other) = delete;
-    //GLBufferManager& operator= (GLBufferManager&& other) = delete;
+    GLBufferManager(GLBufferManager&& other) noexcept;
+    GLBufferManager& operator= (GLBufferManager&& other) noexcept;
 
     void Bind() const;
     void Unbind() const;

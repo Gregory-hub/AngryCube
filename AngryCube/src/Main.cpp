@@ -27,7 +27,7 @@
 // (done) render multiple objects (scene)
 // (done) optimize multiple object rendering (glBufferSubData)
 // (done) file structure (src folder)
-// copy and move constructors and operators to all
+// (done) copy and move constructors and operators to all
 // physics
 // game logic
 // textures

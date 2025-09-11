@@ -11,13 +11,23 @@
 class MeshBuffer
 {
 private:
-	GLBufferManager bufferManager;
+	std::unique_ptr<GLBufferManager> bufferManager;
 	std::unordered_map<std::shared_ptr<Mesh>, unsigned int> meshOffsets;
-	unsigned int meshVertexCount = -1;
+	unsigned int meshVertexCount = 0;
 	unsigned int vertexCount = 0;
 	unsigned int indexCount = 0;
 
 public:
+	MeshBuffer();
+	~MeshBuffer();
+
+    // not copyable because GLBufferManager is not copyable
+	MeshBuffer(const MeshBuffer& other) = delete;
+	MeshBuffer& operator= (const MeshBuffer& other) = delete;
+
+	MeshBuffer(MeshBuffer&& other) noexcept;
+	MeshBuffer& operator= (MeshBuffer&& other) noexcept;
+
 	unsigned int GetVertexCount() const;
 	unsigned int GetIndexCount() const;
 

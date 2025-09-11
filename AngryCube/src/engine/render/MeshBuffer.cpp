@@ -1,11 +1,43 @@
 #include "MeshBuffer.h"
 
 #include <vector>
+#include <utility>
 
 #include <glm/glm.hpp>
 
 #include "engine/utility/Logger.h"
 
+
+MeshBuffer::MeshBuffer()
+	: bufferManager(std::make_unique<GLBufferManager>())
+{
+}
+
+MeshBuffer::~MeshBuffer()
+{
+}
+
+MeshBuffer::MeshBuffer(MeshBuffer&& other) noexcept
+{
+	bufferManager = std::exchange(other.bufferManager, nullptr);
+	meshOffsets = std::move(other.meshOffsets);
+	meshVertexCount = std::exchange(other.meshVertexCount, 0);
+	vertexCount = std::exchange(other.vertexCount, 0);
+	indexCount = std::exchange(other.indexCount, 0);
+}
+
+MeshBuffer& MeshBuffer::operator=(MeshBuffer&& other) noexcept
+{
+	if (this != &other)
+	{
+		bufferManager = std::exchange(other.bufferManager, nullptr);
+		meshOffsets = std::move(other.meshOffsets);
+		meshVertexCount = std::exchange(other.meshVertexCount, 0);
+		vertexCount = std::exchange(other.vertexCount, 0);
+		indexCount = std::exchange(other.indexCount, 0);
+	}
+	return *this;
+}
 
 unsigned int MeshBuffer::GetVertexCount() const
 {
@@ -53,12 +85,12 @@ void MeshBuffer::RemoveMesh(const std::shared_ptr<Mesh>& mesh)
 
 void MeshBuffer::Bind() const
 {
-	bufferManager.Bind();
+	bufferManager->Bind();
 }
 
 void MeshBuffer::Unbind() const
 {
-	bufferManager.Unbind();
+	bufferManager->Unbind();
 }
 
 void MeshBuffer::SetBufferOnGPU()
@@ -89,9 +121,9 @@ void MeshBuffer::SetBufferOnGPU()
 
 	Logger::Log(LogLevel::Info, "Buffers are being allocated on gpu");
 
-	bufferManager.SetVertexBuffer(vertexCount * sizeof(glm::vec4), vertices.data());
-	bufferManager.SetElementBuffer(indexCount * sizeof(unsigned int), indices.data());
-	bufferManager.AddVertexAttribute(4);
+	bufferManager->SetVertexBuffer(vertexCount * sizeof(glm::vec4), vertices.data());
+	bufferManager->SetElementBuffer(indexCount * sizeof(unsigned int), indices.data());
+	bufferManager->AddVertexAttribute(4);
 }
 
 void MeshBuffer::UpdateMeshOnGPU(const std::shared_ptr<Mesh>& mesh)
@@ -100,7 +132,7 @@ void MeshBuffer::UpdateMeshOnGPU(const std::shared_ptr<Mesh>& mesh)
 
 	std::vector<glm::vec4> meshVertices = mesh->GetVertices();
 	if (meshOffsets.contains(mesh))
-		bufferManager.UpdateVertexBuffer(meshOffsets[mesh], meshVertexCount * sizeof(glm::vec4), meshVertices.data());
+		bufferManager->UpdateVertexBuffer(meshOffsets[mesh], meshVertexCount * sizeof(glm::vec4), meshVertices.data());
 	else
 		Logger::Log(LogLevel::Warning, "UpdateBuffer: mesh is not in buffer");
 }

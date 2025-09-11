@@ -26,19 +26,62 @@ Cube::Cube()
     };
 }
 
+Cube::Cube(const Cube& other)
+{
+    name = "Cube " + std::to_string(id++);
+    x = other.x;
+    speed = other.speed;
+    startingTranslation = other.startingTranslation;
+    startingScale = other.startingScale;
+    startedMovement = other.startedMovement;
+}
+
+Cube& Cube::operator=(const Cube& other)
+{
+    name = "Cube " + std::to_string(id++);
+    x = other.x;
+    speed = other.speed;
+    startingTranslation = other.startingTranslation;
+    startingScale = other.startingScale;
+    startedMovement = other.startedMovement;
+    return *this;
+}
+
+Cube::Cube(Cube&& other) noexcept
+{
+    x = std::exchange(other.x, 0.0);
+    speed = std::exchange(other.speed, 0.0f);
+    startingTranslation = std::exchange(other.startingTranslation, glm::vec3());
+    startingScale = std::exchange(other.startingScale, glm::vec3());
+    startedMovement = std::exchange(other.startedMovement, false);
+}
+
+Cube& Cube::operator=(Cube&& other) noexcept
+{
+    if (this != &other)
+    {
+        x = std::exchange(other.x, 0.0);
+        speed = std::exchange(other.speed, 0.0f);
+        startingTranslation = std::exchange(other.startingTranslation, glm::vec3());
+        startingScale = std::exchange(other.startingScale, glm::vec3());
+        startedMovement = std::exchange(other.startedMovement, false);
+    }
+    return *this;
+}
+
 void Cube::Update(float deltaTime)
 {
- //   if (!startedMovement)
- //   {
- //       startingTranslation = transform.GetTranslation();
- //       startingScale = transform.GetScale();
- //       startedMovement = true;
- //   }
-	//transform.SetTranslation(startingTranslation + glm::vec3({ 0.0f, 75.0f, 0.0f }) * sin(2.0f * x));
-	//Rotate(50.0f * speed * deltaTime);
-	//transform.SetScale(startingScale + startingScale * glm::vec3(0.8f, -0.5f, 0.0f) * sin(1.0f * x));
+    if (!startedMovement)
+    {
+        startingTranslation = transform.GetTranslation();
+        startingScale = transform.GetScale();
+        startedMovement = true;
+    }
+	transform.SetTranslation(startingTranslation + glm::vec3({ 0.0f, 75.0f, 0.0f }) * sin(2.0f * x));
+	Rotate(50.0f * speed * deltaTime);
+	transform.SetScale(startingScale + startingScale * glm::vec3(0.8f, -0.5f, 0.0f) * sin(1.0f * x));
 
- //   x += speed * deltaTime;
+    x += speed * deltaTime;
 }
 
 void Cube::ShowDebugControls(glm::vec2 pos)

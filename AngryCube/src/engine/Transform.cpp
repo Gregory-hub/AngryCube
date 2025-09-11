@@ -1,9 +1,29 @@
 #include "Transform.h"
 
+#include <utility>
+
 #include <imgui.h>
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
  
+
+Transform::Transform(Transform&& other) noexcept
+{
+	translation = std::exchange(other.translation, glm::vec3());
+	rotation = std::exchange(other.rotation, 0.0f);
+	scale = std::exchange(other.scale, glm::vec3());
+}
+
+Transform& Transform::operator=(Transform&& other) noexcept
+{
+	if (this != &other)
+	{
+		translation = std::exchange(other.translation, glm::vec3());
+		rotation = std::exchange(other.rotation, 0.0f);
+		scale = std::exchange(other.scale, glm::vec3());
+	}
+	return *this;
+}
 
 glm::vec3 Transform::GetTranslation() const
 {

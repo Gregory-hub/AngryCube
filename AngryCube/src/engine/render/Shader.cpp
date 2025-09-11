@@ -4,6 +4,7 @@
 #include <sstream>
 #include <fstream>
 #include <iostream>
+#include <utility>
 
 #include <GL/glew.h>
 #include <glm/vec4.hpp>
@@ -53,6 +54,18 @@ Shader::Shader(const std::string& name)
 Shader::~Shader()
 {
     glDeleteProgram(id);
+}
+
+Shader::Shader(Shader&& other) noexcept
+{
+    id = std::exchange(other.id, 0);
+}
+
+Shader& Shader::operator=(Shader&& other) noexcept
+{
+    if (this != &other)
+		id = std::exchange(other.id, 0);
+    return *this;
 }
 
 void Shader::Bind() const
