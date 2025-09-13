@@ -1,44 +1,34 @@
 #pragma once
 
 #include <memory>
-#include <vector>
+#include <unordered_set>
 
 #include <glm/glm.hpp>
 
-#include "Mesh.h"
-#include "engine/render/MeshBuffer.h"
+#include "GameObject.h"
 
 
 class Scene
 {
 private:
-	MeshBuffer meshBuffer;
+	std::unordered_set<std::shared_ptr<GameObject>> objects;
 
 public:
 	Scene() = default;
 	~Scene() = default;
 
-    // not copyable because MeshBuffer is not copyable
-	Scene(const Scene& other) = delete;
-	Scene& operator= (const Scene& other) = delete;
+	Scene(const Scene& other);
+	Scene& operator= (const Scene& other);
 
-	Scene(Scene&& other) noexcept = default;
-	Scene& operator= (Scene&& other) noexcept = default;
+	Scene(Scene&& other) noexcept;
+	Scene& operator= (Scene&& other) noexcept;
 
-	std::vector<std::shared_ptr<Mesh>> GetMeshes() const;
+	const std::unordered_set<std::shared_ptr<GameObject>>& GetObjects() const;
 
-	void BindBuffer() const;
-	void UnbindBuffer() const;
+	void Add(const std::shared_ptr<GameObject>& object);
+	void Remove(const std::shared_ptr<GameObject>& object);
+	bool Contains(const std::shared_ptr<GameObject>& object) const;
 
-	void AddMesh(std::shared_ptr<Mesh>& mesh);
-	void RemoveMesh(const std::shared_ptr<Mesh>& mesh);
-	bool Contains(const std::shared_ptr<Mesh>& mesh) const;
-
-	void SendMeshesToGPU();
-
-	unsigned int GetVertexCount() const;
-	unsigned int GetIndexCount() const;
-
-	void Update(float deltaTime);
+	void Update(float deltaTime) const;
 };
 

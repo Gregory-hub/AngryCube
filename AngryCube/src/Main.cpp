@@ -14,9 +14,11 @@
 #include "engine/utility/Logger.h"
 #include "engine/utility/debugCallback.h"
 #include "engine/utility/Clock.h"
+#include "engine/utility/Timer.h"
 #include "engine/render/Renderer.h"
 #include "engine/render/Shader.h"
 #include "engine/Scene.h"
+#include "engine/GameObject.h"
 
 #include "Cube.h"
 
@@ -28,11 +30,12 @@
 // (done) optimize multiple object rendering (glBufferSubData)
 // (done) file structure (src folder)
 // (done) copy and move constructors and operators to all
+// game-like architecture
 // physics
 // game logic
 // textures
 
-glm::vec2 WINDOW_RESOLUTION = { 1280, 720 };
+static glm::ivec2 WINDOW_RESOLUTION = { 1280, 720 };
 
 
 GLFWwindow* runSetup()
@@ -116,38 +119,43 @@ int main()
 
     Scene scene;
 
-    std::shared_ptr<Mesh> cube = std::make_shared<Cube>();
-    cube->transform.SetTranslation({ 990.0f, 360.0f, -1.0f });
-    cube->transform.SetScale(glm::vec3(1.5f, 1.5f, 0.0f));
+    std::shared_ptr<GameObject> cube = std::make_shared<Cube>();
+    cube->GetMovement()->GetTransform().SetTranslation({ 990.0f, 360.0f });
+    cube->GetMovement()->GetTransform().SetScale({ 1.5f, 1.5f });
 
-    std::shared_ptr<Mesh> cube1 = std::make_shared<Cube>();
-    cube1->transform.SetTranslation({ 440.0f, 460.0f, -1.0f });
+    std::shared_ptr<GameObject> cube1 = std::make_shared<Cube>();
+    cube1->GetMovement()->GetTransform().SetTranslation({ 790.0f, 360.0f });
 
-    std::shared_ptr<Mesh> cube2 = std::make_shared<Cube>();
-    cube2->transform.SetTranslation({ 640.0f, 260.0f, -1.0f });
-    cube2->transform.SetScale(glm::vec3(0.5f, 1.5f, 0.0f));
+    std::shared_ptr<GameObject> cube2 = std::make_shared<Cube>();
+    cube2->GetMovement()->GetTransform().SetTranslation({ 590.0f, 360.0f });
 
-    scene.AddMesh(cube);
-    scene.AddMesh(cube1);
-    scene.AddMesh(cube2);
-    scene.SendMeshesToGPU();
+    scene.Add(cube);
+    scene.Add(cube1);
+    scene.Add(cube2);
 
     Renderer renderer(window, WINDOW_RESOLUTION);
+
+    Timer timer;
 
     glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
     while (!glfwWindowShouldClose(window))
     {
+        timer.Start();
         float deltaTime = clock.Tick();
 
 		float timeValue = glfwGetTime();
-		float red = (sin(timeValue) / 2.0f) + 0.5f;
-		float green = (cos(1.6 * timeValue) / 2.0f) + 0.5f;
-		float blue = (sin(0.3 * timeValue) / 2.0f) + 0.5f;
+		float red = sin(timeValue) / 2.0f + 0.5f;
+		float green = cos(1.6f * timeValue) / 2.0f + 0.5f;
+		float blue = sin(0.3f * timeValue) / 2.0f + 0.5f;
 
         scene.Update(deltaTime);
 
 		shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
         renderer.Render(scene, shader);
+
+        float frametime = timer.End();
+
+        Logger::Log(LogLevel::Info, "Frametime: " + std::to_string(frametime) + ", framerate: " + std::to_string(1.0f / frametime));
     }
 
     ImGui_ImplOpenGL3_Shutdown();

@@ -9,11 +9,7 @@
 
 
 Renderer::Renderer(GLFWwindow* window, glm::vec2 resolution)
-	: window(window), projMatrix(glm::ortho(0.0f, resolution.x, 0.0f, resolution.y, 0.1f, 100.0f)) { }
-
-Renderer::~Renderer()
-{
-}
+	: window(window), projMatrix(glm::ortho(0.0f, resolution.x, 0.0f, resolution.y, -1.0f, 1.0f)) { }
 
 Renderer::Renderer(Renderer&& other) noexcept
 {
@@ -33,9 +29,7 @@ Renderer& Renderer::operator=(Renderer&& other) noexcept
 
 void Renderer::Render(const Scene& scene, Shader& shader) const
 {
-	scene.BindBuffer();
 	shader.Bind();
-	shader.SetUniform("projMatrix", projMatrix);
 
 	glClear(GL_COLOR_BUFFER_BIT);
 
@@ -44,12 +38,14 @@ void Renderer::Render(const Scene& scene, Shader& shader) const
 	ImGui::NewFrame();
 
 	glm::vec2 debugControlsPos = { 20, 20 };
-	for (const std::shared_ptr<Mesh>& model : scene.GetMeshes())
+	for (const std::shared_ptr<GameObject>& object : scene.GetObjects())
 	{
-		model->ShowDebugControls(debugControlsPos);
+		shader.SetUniform("transform", projMatrix * object->GetMovement()->GetTransform().GetMatrix());
+		object->ShowDebugControls(debugControlsPos);
 		debugControlsPos += glm::vec2({ 0, 120 });
+		object->GetMesh()->BindBuffers();
+		glDrawElements(GL_TRIANGLES, object->GetMesh()->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 	}
-	glDrawElements(GL_TRIANGLES, scene.GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 
 	ImGui::Render();
 	ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());

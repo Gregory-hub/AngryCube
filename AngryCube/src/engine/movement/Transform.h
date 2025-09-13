@@ -6,9 +6,9 @@
 class Transform
 {
 private:
-    glm::vec3 translation { 0.0f, 0.0f, -1.0f };
+    glm::vec2 translation { 0.0f, 0.0f };
     float rotation = 0.0f;  // degrees
-    glm::vec3 scale { 1.0f, 1.0f, 1.0f };
+    glm::vec2 scale { 1.0f, 1.0f };
 
 public:
     Transform() = default;
@@ -20,13 +20,13 @@ public:
     Transform(Transform&& other) noexcept;
     Transform& operator= (Transform&& other) noexcept;
 
-    glm::vec3 GetTranslation() const;
+    glm::vec2 GetTranslation() const;
     float GetRotation() const;
-    glm::vec3 GetScale() const;
+    glm::vec2 GetScale() const;
 
-    void SetTranslation(const glm::vec3& value);
+    void SetTranslation(const glm::vec2& value);
     void SetRotation(const float value);
-    void SetScale(const glm::vec3& value);
+    void SetScale(const glm::vec2& value);
 
     glm::mat4 GetMatrix() const;
 

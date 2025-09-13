@@ -3,59 +3,63 @@
 #include <GL/glew.h>
 
 
-std::vector<std::shared_ptr<Mesh>> Scene::GetMeshes() const
+Scene::Scene(const Scene& other)
 {
-    return meshBuffer.GetMeshes();
+    for (std::shared_ptr<GameObject> object : other.objects)
+        objects.insert(object->Clone());
 }
 
-void Scene::BindBuffer() const
+Scene& Scene::operator=(const Scene& other)
 {
-    meshBuffer.Bind();
-}
-
-void Scene::UnbindBuffer() const
-{
-    meshBuffer.Unbind();
-}
-
-void Scene::AddMesh(std::shared_ptr<Mesh>& mesh)
-{
-    meshBuffer.AddMesh(mesh);
-}
-
-void Scene::RemoveMesh(const std::shared_ptr<Mesh>& mesh)
-{
-    meshBuffer.RemoveMesh(mesh);
-}
-
-bool Scene::Contains(const std::shared_ptr<Mesh>& mesh) const
-{
-    return meshBuffer.Contains(mesh);
-}
-
-void Scene::SendMeshesToGPU()
-{
-    meshBuffer.SetBufferOnGPU();
-}
-
-unsigned int Scene::GetVertexCount() const
-{
-    return meshBuffer.GetVertexCount();
-}
-
-unsigned int Scene::GetIndexCount() const
-{
-    return meshBuffer.GetIndexCount();
-}
-
-void Scene::Update(float deltaTime)
-{
-    for (std::shared_ptr<Mesh> mesh : meshBuffer.GetMeshes())
+    if (this != &other)
     {
-        mesh->Update(deltaTime);
-        if (mesh->TransformHasChanged())
-			meshBuffer.UpdateMeshOnGPU(mesh);
-        mesh->PostUpdate();
+        for (std::shared_ptr<GameObject> object : other.objects)
+			objects.insert(object->Clone());
+    }
+    return *this;
+}
+
+Scene::Scene(Scene&& other) noexcept
+{
+	for (std::shared_ptr<GameObject> object : other.objects)
+		objects.insert(object->MoveClone());
+}
+
+Scene& Scene::operator=(Scene&& other) noexcept
+{
+    if (this != &other)
+    {
+		for (std::shared_ptr<GameObject> object : other.objects)
+			objects.insert(object->MoveClone());
+    }
+    return *this;
+}
+
+const std::unordered_set<std::shared_ptr<GameObject>>& Scene::GetObjects() const
+{
+    return objects;
+}
+
+void Scene::Add(const std::shared_ptr<GameObject>& object)
+{
+    objects.insert(object);
+}
+
+void Scene::Remove(const std::shared_ptr<GameObject>& object)
+{
+    objects.erase(object);
+}
+
+bool Scene::Contains(const std::shared_ptr<GameObject>& object) const
+{
+    return objects.contains(object);
+}
+
+void Scene::Update(float deltaTime) const
+{
+    for (std::shared_ptr<GameObject> object : objects)
+    {
+        object->Update(deltaTime);
     }
 }
 

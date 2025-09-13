@@ -9,23 +9,23 @@
 
 Transform::Transform(Transform&& other) noexcept
 {
-	translation = std::exchange(other.translation, glm::vec3());
+	translation = std::exchange(other.translation, glm::vec2());
 	rotation = std::exchange(other.rotation, 0.0f);
-	scale = std::exchange(other.scale, glm::vec3());
+	scale = std::exchange(other.scale, glm::vec2());
 }
 
 Transform& Transform::operator=(Transform&& other) noexcept
 {
 	if (this != &other)
 	{
-		translation = std::exchange(other.translation, glm::vec3());
+		translation = std::exchange(other.translation, glm::vec2());
 		rotation = std::exchange(other.rotation, 0.0f);
-		scale = std::exchange(other.scale, glm::vec3());
+		scale = std::exchange(other.scale, glm::vec2());
 	}
 	return *this;
 }
 
-glm::vec3 Transform::GetTranslation() const
+glm::vec2 Transform::GetTranslation() const
 {
 	return translation;
 }
@@ -35,12 +35,12 @@ float Transform::GetRotation() const
 	return rotation;
 }
 
-glm::vec3 Transform::GetScale() const
+glm::vec2 Transform::GetScale() const
 {
 	return scale;
 }
 
-void Transform::SetTranslation(const glm::vec3& value)
+void Transform::SetTranslation(const glm::vec2& value)
 {
 	translation = value;
 }
@@ -50,7 +50,7 @@ void Transform::SetRotation(const float value)
 	rotation = value;
 }
 
-void Transform::SetScale(const glm::vec3& value)
+void Transform::SetScale(const glm::vec2& value)
 {
 	scale = value;
 }
@@ -58,9 +58,9 @@ void Transform::SetScale(const glm::vec3& value)
 glm::mat4 Transform::GetMatrix() const
 {
 	glm::mat4 transform(1.0f);
-	transform = glm::translate(transform, translation);
+	transform = glm::translate(transform, glm::vec3(translation, 0.0f));
 	transform = glm::rotate(transform, glm::radians(rotation), { 0.0f, 0.0f, 1.0f });
-	transform = glm::scale(transform, scale);
+	transform = glm::scale(transform, glm::vec3(scale, 0.0f));
     return transform;
 }
 
@@ -71,13 +71,13 @@ bool Transform::operator==(const Transform& other)
 
 bool Transform::operator==(const Transform& other) const
 {
-	return (translation == other.translation) && (rotation == other.rotation) && (scale == other.scale);
+	return (translation == other.translation) && (abs(rotation - other.rotation) < 10e-6) && (scale == other.scale);
 }
 
 void Transform::ShowDebugControls()
 {
-    ImGui::DragFloat3("Translation", &translation.x);
+    ImGui::DragFloat2("Translation", &translation.x);
     ImGui::DragFloat("Rotation", &rotation);
-    ImGui::DragFloat3("Scale", &scale.x, 0.01f);
+    ImGui::DragFloat2("Scale", &scale.x, 0.01f);
 }
 

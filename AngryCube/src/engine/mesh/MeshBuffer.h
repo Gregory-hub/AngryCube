@@ -4,10 +4,11 @@
 #include <unordered_map>
 #include <vector>
 
-#include "engine/Mesh.h"
+#include "engine/mesh/Mesh.h"
 #include "engine/render/GLBufferManager.h"
 
 
+// for rendering many meshes in a single draw call
 class MeshBuffer
 {
 private:

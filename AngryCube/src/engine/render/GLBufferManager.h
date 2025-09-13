@@ -1,6 +1,5 @@
 #pragma once
-
-#include <GL/glew.h>
+#include <vector>
 
 
 class GLBufferManager
@@ -27,10 +26,12 @@ public:
     void Unbind() const;
 
     void AddVertexAttribute(unsigned int numComponents);
+    void SetVertexAttributes(const std::vector<unsigned int>& components);
+    void ClearVertexAttributes();
 
-    void SetElementBuffer(unsigned int size, unsigned int* indices);
+    void SetElementBuffer(unsigned int size, const unsigned int* indices);
 
-    void SetVertexBuffer(unsigned int size, void* vertices);
-    void UpdateVertexBuffer(unsigned int offset, unsigned int size, void* vertices);
+    void SetVertexBuffer(unsigned int size, const void* vertices);
+    void UpdateVertexBuffer(unsigned int offset, unsigned int size, const void* vertices);
 };
 

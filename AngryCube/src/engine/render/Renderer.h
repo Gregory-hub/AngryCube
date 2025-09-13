@@ -16,7 +16,7 @@ private:
 
 public:
 	Renderer(GLFWwindow* w, glm::vec2 resolution);
-	~Renderer();
+	~Renderer() = default;
 
 	Renderer(const Renderer& other) = default;
 	Renderer& operator= (const Renderer& other) = default;

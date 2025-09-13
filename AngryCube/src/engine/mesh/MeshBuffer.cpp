@@ -95,14 +95,14 @@ void MeshBuffer::Unbind() const
 
 void MeshBuffer::SetBufferOnGPU()
 {
-	std::vector<glm::vec4> vertices(vertexCount);
+	std::vector<glm::vec2> vertices(vertexCount);
 	std::vector<unsigned int> indices;
 	indices.reserve(indexCount);
 
 	unsigned int offset = 0;
 	for (const auto& [mesh, _] : meshOffsets)
 	{
-		std::vector<glm::vec4> meshVertices = mesh->GetVertices();
+		std::vector<glm::vec2> meshVertices = mesh->GetVertices();
 		std::copy(meshVertices.begin(), meshVertices.end(), vertices.begin() + offset);
 
 		for (glm::uvec3 triangle : mesh->GetTriangles())
@@ -112,27 +112,27 @@ void MeshBuffer::SetBufferOnGPU()
 			indices.push_back(triangle.z + offset);
 		}
 
-		meshOffsets[mesh] = offset * sizeof(glm::vec4);
+		meshOffsets[mesh] = offset * sizeof(glm::vec2);
 
 		if (offset == 0)
 			meshVertexCount = mesh->GetVertexCount();
 		offset += meshVertexCount;
 	}
 
-	Logger::Log(LogLevel::Info, "Buffers are being allocated on gpu");
+	//Logger::Log(LogLevel::Info, "Buffers are being allocated on gpu");
 
-	bufferManager->SetVertexBuffer(vertexCount * sizeof(glm::vec4), vertices.data());
+	bufferManager->SetVertexBuffer(vertexCount * sizeof(glm::vec2), vertices.data());
 	bufferManager->SetElementBuffer(indexCount * sizeof(unsigned int), indices.data());
-	bufferManager->AddVertexAttribute(4);
+	bufferManager->AddVertexAttribute(2);
 }
 
 void MeshBuffer::UpdateMeshOnGPU(const std::shared_ptr<Mesh>& mesh)
 {
-	Logger::Log(LogLevel::Info, std::string("Mesh ") + mesh->GetName() + " is being updated on gpu");
+	//Logger::Log(LogLevel::Info, std::string("Mesh ") + mesh->GetName() + " is being updated on gpu");
 
-	std::vector<glm::vec4> meshVertices = mesh->GetVertices();
+	std::vector<glm::vec2> meshVertices = mesh->GetVertices();
 	if (meshOffsets.contains(mesh))
-		bufferManager->UpdateVertexBuffer(meshOffsets[mesh], meshVertexCount * sizeof(glm::vec4), meshVertices.data());
+		bufferManager->UpdateVertexBuffer(meshOffsets[mesh], meshVertexCount * sizeof(glm::vec2), meshVertices.data());
 	else
 		Logger::Log(LogLevel::Warning, "UpdateBuffer: mesh is not in buffer");
 }

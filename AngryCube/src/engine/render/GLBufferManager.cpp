@@ -1,6 +1,9 @@
 #include "GLBufferManager.h"
 
 #include <utility>
+#include <stdexcept>
+
+#include <GL/glew.h>
 
 
 GLBufferManager::GLBufferManager()
@@ -56,29 +59,48 @@ void GLBufferManager::Unbind() const
 
 void GLBufferManager::AddVertexAttribute(unsigned int numComponents)
 {
+    if (numComponents < 1 || numComponents > 4)
+        throw std::out_of_range("Number of components must be 1, 2, 3 or 4");
+
+    Bind();
     glEnableVertexAttribArray(attributeIndex);
-    glVertexAttribPointer(attributeIndex, numComponents, GL_FLOAT, GL_FALSE, 0, (void*)attributeOffset);
+    glVertexAttribPointer(attributeIndex, numComponents, GL_FLOAT, GL_FALSE, 0, reinterpret_cast<void*>(attributeOffset));
     attributeIndex++;
     attributeOffset += numComponents * sizeof(float);
 }
 
-void GLBufferManager::SetElementBuffer(unsigned int size, unsigned int* indices)
+void GLBufferManager::SetVertexAttributes(const std::vector<unsigned int>& components)
 {
-	glBindVertexArray(vao);
+    ClearVertexAttributes();
+    for (unsigned int num : components)
+        AddVertexAttribute(num);
+}
+
+void GLBufferManager::ClearVertexAttributes()
+{
+    Bind();
+    while (attributeIndex > 0)
+        glDisableVertexAttribArray(attributeIndex--);
+    attributeOffset = 0;
+}
+
+void GLBufferManager::SetElementBuffer(unsigned int size, const unsigned int* indices)
+{
+    Bind();
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
 }
 
-void GLBufferManager::SetVertexBuffer(unsigned int size, void* vertices)
+void GLBufferManager::SetVertexBuffer(unsigned int size, const void* vertices)
 {
-	glBindVertexArray(vao);
+    Bind();
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 }
 
-void GLBufferManager::UpdateVertexBuffer(unsigned int offset, unsigned int size, void* vertices)
+void GLBufferManager::UpdateVertexBuffer(unsigned int offset, unsigned int size, const void* vertices)
 {
-	glBindVertexArray(vao);
+    Bind();
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
     glBufferSubData(GL_ARRAY_BUFFER, offset, size, vertices);
 }

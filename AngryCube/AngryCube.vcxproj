@@ -139,7 +139,10 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="src\engine\render\MeshBuffer.h" />
+    <ClInclude Include="src\engine\mesh\DefaultMeshes.h" />
+    <ClInclude Include="src\engine\movement\Movement.h" />
+    <ClInclude Include="src\engine\GameObject.h" />
+    <ClInclude Include="src\engine\mesh\MeshBuffer.h" />
     <ClInclude Include="src\engine\render\GLBufferManager.h" />
     <ClInclude Include="src\engine\utility\Clock.h" />
     <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_glfw.h" />
@@ -153,12 +156,13 @@
     <ClInclude Include="Dependencies\compiled\imgui\imstb_truetype.h" />
     <ClInclude Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="src\engine\render\Renderer.h" />
-    <ClInclude Include="src\engine\Mesh.h" />
+    <ClInclude Include="src\engine\mesh\Mesh.h" />
     <ClInclude Include="src\engine\Scene.h" />
     <ClInclude Include="src\engine\utility\Logger.h" />
     <ClInclude Include="src\Cube.h" />
     <ClInclude Include="src\engine\render\Shader.h" />
-    <ClInclude Include="src\engine\Transform.h" />
+    <ClInclude Include="src\engine\movement\Transform.h" />
+    <ClInclude Include="src\engine\utility\Timer.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\compiled\imgui\misc\debuggers\imgui.natstepfilter" />
@@ -168,7 +172,10 @@
     <None Include="shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\engine\render\MeshBuffer.cpp" />
+    <ClCompile Include="src\engine\mesh\DefaultMeshes.cpp" />
+    <ClCompile Include="src\engine\movement\Movement.cpp" />
+    <ClCompile Include="src\engine\GameObject.cpp" />
+    <ClCompile Include="src\engine\mesh\MeshBuffer.cpp" />
     <ClCompile Include="src\engine\render\GLBufferManager.cpp" />
     <ClCompile Include="src\engine\utility\Clock.cpp" />
     <ClCompile Include="Dependencies\compiled\imgui\backends\imgui_impl_glfw.cpp" />
@@ -180,14 +187,15 @@
     <ClCompile Include="Dependencies\compiled\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="src\engine\render\Renderer.cpp" />
-    <ClCompile Include="src\engine\Mesh.cpp" />
+    <ClCompile Include="src\engine\mesh\Mesh.cpp" />
     <ClCompile Include="src\engine\Scene.cpp" />
     <ClCompile Include="src\engine\utility\debugCallback.h" />
     <ClCompile Include="src\engine\utility\Logger.cpp" />
     <ClCompile Include="src\Cube.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\engine\render\Shader.cpp" />
-    <ClCompile Include="src\engine\Transform.cpp" />
+    <ClCompile Include="src\engine\movement\Transform.cpp" />
+    <ClCompile Include="src\engine\utility\Timer.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="Dependencies\compiled\imgui\misc\debuggers\imgui.natvis" />
