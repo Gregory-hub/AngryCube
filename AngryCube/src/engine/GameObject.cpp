@@ -1,18 +1,28 @@
 #include "GameObject.h"
 
 
+GameObject::GameObject(Mesh mesh, Transform transform)
+	: mesh(std::move(mesh)), transform(std::move(transform)), physics(this->transform, 1.0f)
+{
+}
+
 const std::string& GameObject::GetName() const
 {
 	return name;
 }
 
-const std::shared_ptr<Mesh>& GameObject::GetMesh()
+Mesh& GameObject::GetMesh()
 {
 	return mesh;
 }
 
-const std::shared_ptr<Movement>& GameObject::GetMovement()
+Transform& GameObject::GetTransform()
 {
-	return movement;
+	return transform;
+}
+
+Physics& GameObject::GetPhysics()
+{
+	return physics;
 }
 

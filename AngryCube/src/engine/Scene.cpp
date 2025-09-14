@@ -1,7 +1,5 @@
 #include "Scene.h"
 
-#include <GL/glew.h>
-
 
 Scene::Scene(const Scene& other)
 {
@@ -60,6 +58,7 @@ void Scene::Update(float deltaTime) const
     for (std::shared_ptr<GameObject> object : objects)
     {
         object->Update(deltaTime);
+        object->GetPhysics().Update(deltaTime);
     }
 }
 

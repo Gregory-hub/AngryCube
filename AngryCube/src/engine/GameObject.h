@@ -3,19 +3,21 @@
 #include <string>
 #include <memory>
 
-#include "engine/mesh/Mesh.h"
-#include "engine/movement/Movement.h"
+#include "components/physics/Physics.h"
+#include "components/transform/Transform.h"
+#include "engine/components/mesh/Mesh.h"
 
 
 class GameObject
 {
 protected:
 	std::string name;
-	std::shared_ptr<Mesh> mesh = nullptr;
-	std::shared_ptr<Movement> movement = nullptr;
+	Mesh mesh;
+	Transform transform;
+	Physics physics;
 
 public:
-	GameObject() = default;
+	GameObject(Mesh mesh, Transform transform);
 	virtual ~GameObject() = default;
 
 	GameObject(const GameObject& other) = default;
@@ -28,11 +30,12 @@ public:
 	virtual std::shared_ptr<GameObject> MoveClone() = 0;
 
 	const std::string& GetName() const;
-	const std::shared_ptr<Mesh>& GetMesh();
-	const std::shared_ptr<Movement>& GetMovement();
+	Mesh& GetMesh();
+	Transform& GetTransform();
+	Physics& GetPhysics();
 
 	virtual void Update(float deltaTime) = 0;
 
-	virtual void ShowDebugControls(glm::vec2 pos) { };
+	virtual void ShowDebugControls(glm::vec2 pos) { }
 };
 

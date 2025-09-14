@@ -1,7 +1,5 @@
 #include <iostream>
-#include <fstream>
 #include <string>
-#include <sstream>
 #include <memory>
 
 #include <GL/glew.h>
@@ -30,7 +28,9 @@
 // (done) optimize multiple object rendering (glBufferSubData)
 // (done) file structure (src folder)
 // (done) copy and move constructors and operators to all
-// game-like architecture
+// (done) optimize multiple object rendering back (no frequent cpu-gpu data transfer)
+// (done) game-like architecture
+// (skipped) component system with component checking
 // physics
 // game logic
 // textures
@@ -38,7 +38,7 @@
 static glm::ivec2 WINDOW_RESOLUTION = { 1280, 720 };
 
 
-GLFWwindow* runSetup()
+static GLFWwindow* runSetup()
 {
     if (!glfwInit())
     {
@@ -120,14 +120,14 @@ int main()
     Scene scene;
 
     std::shared_ptr<GameObject> cube = std::make_shared<Cube>();
-    cube->GetMovement()->GetTransform().SetTranslation({ 990.0f, 360.0f });
-    cube->GetMovement()->GetTransform().SetScale({ 1.5f, 1.5f });
+    cube->GetTransform().SetTranslation({ 990.0f, 360.0f });
+    cube->GetTransform().SetScale({ 1.5f, 1.5f });
 
     std::shared_ptr<GameObject> cube1 = std::make_shared<Cube>();
-    cube1->GetMovement()->GetTransform().SetTranslation({ 790.0f, 360.0f });
+    cube1->GetTransform().SetTranslation({ 790.0f, 360.0f });
 
     std::shared_ptr<GameObject> cube2 = std::make_shared<Cube>();
-    cube2->GetMovement()->GetTransform().SetTranslation({ 590.0f, 360.0f });
+    cube2->GetTransform().SetTranslation({ 590.0f, 360.0f });
 
     scene.Add(cube);
     scene.Add(cube1);
@@ -137,9 +137,20 @@ int main()
 
     Timer timer;
 
+
+    float time = 0.0f;
+
+
     glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
     while (!glfwWindowShouldClose(window))
     {
+		glClear(GL_COLOR_BUFFER_BIT);
+
+		ImGui_ImplOpenGL3_NewFrame();
+		ImGui_ImplGlfw_NewFrame();
+		ImGui::NewFrame();
+
+
         timer.Start();
         float deltaTime = clock.Tick();
 
@@ -154,8 +165,20 @@ int main()
         renderer.Render(scene, shader);
 
         float frametime = timer.End();
+        //Logger::Log(LogLevel::Info, "Frametime: " + std::to_string(frametime) + ", framerate: " + std::to_string(1.0f / frametime));
 
-        Logger::Log(LogLevel::Info, "Frametime: " + std::to_string(frametime) + ", framerate: " + std::to_string(1.0f / frametime));
+        time += deltaTime;
+
+		ImGui::Begin("deltaTime");
+        ImGui::DragFloat("time", &time, 1.0f, 0.0f, 0.0f, "%.6f");
+		ImGui::End();
+
+
+		ImGui::Render();
+		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
+
+		glfwSwapBuffers(window);
+		glfwPollEvents();
     }
 
     ImGui_ImplOpenGL3_Shutdown();

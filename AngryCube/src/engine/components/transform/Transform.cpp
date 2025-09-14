@@ -3,9 +3,9 @@
 #include <utility>
 
 #include <imgui.h>
-#include <backends/imgui_impl_glfw.h>
-#include <backends/imgui_impl_opengl3.h>
- 
+
+#include "engine/components/physics/constants.h"
+
 
 Transform::Transform(Transform&& other) noexcept
 {
@@ -45,7 +45,7 @@ void Transform::SetTranslation(const glm::vec2& value)
 	translation = value;
 }
 
-void Transform::SetRotation(const float value)
+void Transform::SetRotation(float value)
 {
 	rotation = value;
 }
@@ -53,6 +53,21 @@ void Transform::SetRotation(const float value)
 void Transform::SetScale(const glm::vec2& value)
 {
 	scale = value;
+}
+
+void Transform::Move(const glm::vec2& value)
+{
+    SetTranslation(translation + MOVE_RATIO * value);
+}
+
+void Transform::Rotate(float value)
+{
+    SetRotation(rotation + value);
+}
+
+void Transform::Scale(const glm::vec2& value)
+{
+	SetScale(scale + value);
 }
 
 glm::mat4 Transform::GetMatrix() const

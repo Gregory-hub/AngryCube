@@ -1,34 +1,34 @@
 #include "Cube.h"
 
-#include <GL/glew.h>
 #include <imgui.h>
-#include <backends/imgui_impl_glfw.h>
-#include <backends/imgui_impl_opengl3.h>
+#include <glm/gtc/matrix_transform.hpp>
 
-#include "engine/mesh/DefaultMeshes.h"
+#include "engine/components/mesh/DefaultMeshes.h"
 
 
 int Cube::id = 0;
 
 Cube::Cube()
+	: GameObject(CubeMesh(), Transform())
 {
-    mesh = std::make_shared<CubeMesh>();
-    movement = std::make_shared<Movement>();
     name = "Cube " + std::to_string(id++);
 }
 
 Cube::Cube(const Cube& other)
+	: GameObject(other.mesh, other.transform)
 {
     name = "Cube " + std::to_string(id++);
 }
 
 Cube& Cube::operator=(const Cube& other)
 {
+    GameObject::operator=(other);
     name = "Cube " + std::to_string(id++);
     return *this;
 }
 
 Cube::Cube(Cube&& other) noexcept
+	: GameObject(std::move(other.mesh), std::move(other.transform))
 {
     name = std::exchange(other.name, "");
 }
@@ -38,6 +38,7 @@ Cube& Cube::operator=(Cube&& other) noexcept
     if (this != &other)
     {
 		name = std::exchange(other.name, "");
+		GameObject::operator=(std::move(other));
     }
     return *this;
 }
@@ -60,7 +61,7 @@ void Cube::ShowDebugControls(glm::vec2 pos)
 {
     ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
     ImGui::Begin(name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-    GetMovement()->GetTransform().ShowDebugControls();
+    GetTransform().ShowDebugControls();
     ImGui::End();
 }
 

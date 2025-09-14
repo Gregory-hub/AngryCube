@@ -4,7 +4,7 @@
 #include <unordered_map>
 #include <vector>
 
-#include "engine/mesh/Mesh.h"
+#include "engine/components/mesh/Mesh.h"
 #include "engine/render/GLBufferManager.h"
 
 

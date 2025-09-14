@@ -3,8 +3,6 @@
 #include <memory>
 #include <unordered_set>
 
-#include <glm/glm.hpp>
-
 #include "GameObject.h"
 
 
