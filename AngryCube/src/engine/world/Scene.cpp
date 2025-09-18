@@ -1,9 +1,14 @@
 #include "Scene.h"
 
 
+Scene::Scene()
+	: ground(std::make_shared<FlatGround>(50.0f))
+{
+}
+
 Scene::Scene(const Scene& other)
 {
-    for (std::shared_ptr<GameObject> object : other.objects)
+    for (const std::shared_ptr<GameObject>& object : other.objects)
         objects.insert(object->Clone());
 }
 
@@ -11,7 +16,7 @@ Scene& Scene::operator=(const Scene& other)
 {
     if (this != &other)
     {
-        for (std::shared_ptr<GameObject> object : other.objects)
+        for (const std::shared_ptr<GameObject>& object : other.objects)
 			objects.insert(object->Clone());
     }
     return *this;
@@ -19,7 +24,7 @@ Scene& Scene::operator=(const Scene& other)
 
 Scene::Scene(Scene&& other) noexcept
 {
-	for (std::shared_ptr<GameObject> object : other.objects)
+	for (const std::shared_ptr<GameObject>& object : other.objects)
 		objects.insert(object->MoveClone());
 }
 
@@ -27,7 +32,7 @@ Scene& Scene::operator=(Scene&& other) noexcept
 {
     if (this != &other)
     {
-		for (std::shared_ptr<GameObject> object : other.objects)
+		for (const std::shared_ptr<GameObject>& object : other.objects)
 			objects.insert(object->MoveClone());
     }
     return *this;
@@ -55,7 +60,7 @@ bool Scene::Contains(const std::shared_ptr<GameObject>& object) const
 
 void Scene::Update(float deltaTime) const
 {
-    for (std::shared_ptr<GameObject> object : objects)
+    for (const std::shared_ptr<GameObject>& object : objects)
     {
         object->Update(deltaTime);
         object->GetPhysics().Update(deltaTime);

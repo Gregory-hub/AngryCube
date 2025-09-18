@@ -15,8 +15,7 @@
 #include "engine/utility/Timer.h"
 #include "engine/render/Renderer.h"
 #include "engine/render/Shader.h"
-#include "engine/Scene.h"
-#include "engine/GameObject.h"
+#include "engine/world/Scene.h"
 
 #include "Cube.h"
 
@@ -33,6 +32,8 @@
 // (skipped) component system with component checking
 // physics
 // game logic
+// saves
+// levels
 // textures
 
 static glm::ivec2 WINDOW_RESOLUTION = { 1280, 720 };
@@ -108,11 +109,28 @@ static GLFWwindow* runSetup()
 }
 
 
+void ShowDebugTimeValues(float deltaTime, float framerate)
+{
+    static float time = 0.0f;
+    time += deltaTime;
+
+    ImGui::SetNextWindowPos(ImVec2(WINDOW_RESOLUTION.x - 220.0f, 20.0f));
+    ImGui::Begin("Time", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::Text(("time from start: " + std::to_string(time)).c_str());
+	ImGui::Text(("deltaTime: " + std::to_string(deltaTime)).c_str());
+	ImGui::Text(("fps: " + std::to_string(static_cast<int>(framerate))).c_str());
+	ImGui::End();
+}
+
+
 int main()
 {
     GLFWwindow* window = runSetup();
 
     Clock clock;
+    Timer timer;
+
+    Renderer renderer(window, WINDOW_RESOLUTION);
 
     Shader shader("cube");
 	shader.Bind();
@@ -132,14 +150,6 @@ int main()
     scene.Add(cube);
     scene.Add(cube1);
     scene.Add(cube2);
-
-    Renderer renderer(window, WINDOW_RESOLUTION);
-
-    Timer timer;
-
-
-    float time = 0.0f;
-
 
     glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
     while (!glfwWindowShouldClose(window))
@@ -167,11 +177,7 @@ int main()
         float frametime = timer.End();
         //Logger::Log(LogLevel::Info, "Frametime: " + std::to_string(frametime) + ", framerate: " + std::to_string(1.0f / frametime));
 
-        time += deltaTime;
-
-		ImGui::Begin("deltaTime");
-        ImGui::DragFloat("time", &time, 1.0f, 0.0f, 0.0f, "%.6f");
-		ImGui::End();
+        ShowDebugTimeValues(deltaTime, 1.0f / frametime);
 
 
 		ImGui::Render();

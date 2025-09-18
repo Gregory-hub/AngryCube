@@ -17,7 +17,7 @@ protected:
 
 public:
     Mesh();
-    ~Mesh() = default;
+    virtual ~Mesh() = default;
 
     Mesh(const Mesh& other);
     Mesh& operator= (const Mesh& other);
@@ -26,10 +26,10 @@ public:
     Mesh& operator= (Mesh&& other) noexcept;
 
     std::vector<glm::vec2> GetVertices() const;
-    void SetVertices(const std::vector<glm::vec2>& newVertices);
+    virtual void SetVertices(const std::vector<glm::vec2>& newVertices);
 
     std::vector<glm::uvec3> GetTriangles() const;
-    void SetTriangles(const std::vector<glm::uvec3>& newTriangles);
+    virtual void SetTriangles(const std::vector<glm::uvec3>& newTriangles);
 
     void BindBuffers() const;
     void UnbindBuffers() const;

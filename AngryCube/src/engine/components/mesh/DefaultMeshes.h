@@ -6,10 +6,13 @@
 class CubeMesh : public Mesh
 {
 private:
-	int width = 100;
-	int height = 100;
+	float width = 100;
+	float height = 100;
 public:
 	CubeMesh();
-	void SetSizes(int w, int h);
+
+	float GetWidth() const;
+	float GetHeight() const;
+	void SetSizes(float w, float h);
 };
 

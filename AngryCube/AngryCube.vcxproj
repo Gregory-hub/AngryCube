@@ -145,7 +145,6 @@
     <ClInclude Include="src\engine\components\physics\constants.h" />
     <ClInclude Include="src\engine\components\physics\Physics.h" />
     <ClInclude Include="src\engine\components\transform\Transform.h" />
-    <ClInclude Include="src\engine\GameObject.h" />
     <ClInclude Include="src\engine\render\GLBufferManager.h" />
     <ClInclude Include="src\engine\utility\Clock.h" />
     <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_glfw.h" />
@@ -159,11 +158,13 @@
     <ClInclude Include="Dependencies\compiled\imgui\imstb_truetype.h" />
     <ClInclude Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="src\engine\render\Renderer.h" />
-    <ClInclude Include="src\engine\Scene.h" />
     <ClInclude Include="src\engine\utility\Logger.h" />
     <ClInclude Include="src\Cube.h" />
     <ClInclude Include="src\engine\render\Shader.h" />
     <ClInclude Include="src\engine\utility\Timer.h" />
+    <ClInclude Include="src\engine\world\FlatGround.h" />
+    <ClInclude Include="src\engine\world\GameObject.h" />
+    <ClInclude Include="src\engine\world\Scene.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="Dependencies\compiled\imgui\misc\debuggers\imgui.natstepfilter" />
@@ -178,7 +179,6 @@
     <ClCompile Include="src\engine\components\mesh\MeshBuffer.cpp" />
     <ClCompile Include="src\engine\components\physics\Physics.cpp" />
     <ClCompile Include="src\engine\components\transform\Transform.cpp" />
-    <ClCompile Include="src\engine\GameObject.cpp" />
     <ClCompile Include="src\engine\render\GLBufferManager.cpp" />
     <ClCompile Include="src\engine\utility\Clock.cpp" />
     <ClCompile Include="Dependencies\compiled\imgui\backends\imgui_impl_glfw.cpp" />
@@ -190,10 +190,12 @@
     <ClCompile Include="Dependencies\compiled\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.cpp" />
     <ClCompile Include="src\engine\render\Renderer.cpp" />
-    <ClCompile Include="src\engine\Scene.cpp" />
     <ClCompile Include="src\engine\utility\debugCallback.h" />
     <ClCompile Include="src\engine\utility\Logger.cpp" />
     <ClCompile Include="src\Cube.cpp" />
+    <ClCompile Include="src\engine\world\FlatGround.cpp" />
+    <ClCompile Include="src\engine\world\GameObject.cpp" />
+    <ClCompile Include="src\engine\world\Scene.cpp" />
     <ClCompile Include="src\Main.cpp" />
     <ClCompile Include="src\engine\render\Shader.cpp" />
     <ClCompile Include="src\engine\utility\Timer.cpp" />

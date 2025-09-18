@@ -10,7 +10,17 @@ CubeMesh::CubeMesh()
     SetSizes(width, height);
 }
 
-void CubeMesh::SetSizes(int w, int h)
+float CubeMesh::GetWidth() const
+{
+    return width;
+}
+
+float CubeMesh::GetHeight() const
+{
+    return height;
+}
+
+void CubeMesh::SetSizes(float w, float h)
 {
     width = w;
     height = h;

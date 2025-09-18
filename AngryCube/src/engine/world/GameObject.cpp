@@ -2,7 +2,7 @@
 
 
 GameObject::GameObject(Mesh mesh, Transform transform)
-	: mesh(std::move(mesh)), transform(std::move(transform)), physics(this->transform, 1.0f)
+	: mesh(std::move(mesh)), transform(std::move(transform)), physics(this->transform, this->mesh, 1.0f)
 {
 }
 

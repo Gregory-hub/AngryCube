@@ -36,7 +36,7 @@ void Renderer::Render(const Scene& scene, Shader& shader) const
 	{
 		shader.SetUniform("transform", projMatrix * object->GetTransform().GetMatrix());
 		object->ShowDebugControls(debugControlsPos);
-		debugControlsPos += glm::vec2({ 0, 120 });
+		debugControlsPos += glm::vec2({ 0, 200 });
 		object->GetMesh().BindBuffers();
 		glDrawElements(GL_TRIANGLES, object->GetMesh().GetIndexCount(), GL_UNSIGNED_INT, nullptr);
 	}

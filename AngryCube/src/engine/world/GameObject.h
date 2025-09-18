@@ -3,8 +3,8 @@
 #include <string>
 #include <memory>
 
-#include "components/physics/Physics.h"
-#include "components/transform/Transform.h"
+#include "../components/physics/Physics.h"
+#include "../components/transform/Transform.h"
 #include "engine/components/mesh/Mesh.h"
 
 

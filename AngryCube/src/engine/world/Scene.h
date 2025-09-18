@@ -3,6 +3,7 @@
 #include <memory>
 #include <unordered_set>
 
+#include "FlatGround.h"
 #include "GameObject.h"
 
 
@@ -10,9 +11,10 @@ class Scene
 {
 private:
 	std::unordered_set<std::shared_ptr<GameObject>> objects;
+	std::shared_ptr<FlatGround> ground;
 
 public:
-	Scene() = default;
+	Scene();
 	~Scene() = default;
 
 	Scene(const Scene& other);

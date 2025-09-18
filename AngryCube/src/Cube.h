@@ -1,14 +1,17 @@
 #pragma once
 
+#include <memory>
 #include <glm/glm.hpp>
 
-#include "engine/GameObject.h"
+#include "engine/world/GameObject.h"
 
 
 class Cube : public GameObject
 {
 private:
     static int id;
+
+    glm::vec2 pushDirection = { 0.0f, 0.0f };
 
 public:
     Cube();
@@ -22,6 +25,8 @@ public:
 
     std::shared_ptr<GameObject> Clone() const override;
     std::shared_ptr<GameObject> MoveClone() override;
+
+	float GetHeight() const;
 
     void Update(float deltaTime) override;
 
