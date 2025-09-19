@@ -6,5 +6,7 @@ private:
 
 public:
 	FlatGround(float height);
+
+	float GetHeight() const;
 };
 

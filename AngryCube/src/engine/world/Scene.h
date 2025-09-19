@@ -29,6 +29,9 @@ public:
 	void Remove(const std::shared_ptr<GameObject>& object);
 	bool Contains(const std::shared_ptr<GameObject>& object) const;
 
+	const std::shared_ptr<FlatGround>& GetGround() const;
+	void SetGround(float height);
+
 	void Update(float deltaTime) const;
 };
 

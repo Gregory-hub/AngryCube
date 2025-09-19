@@ -2,8 +2,10 @@
 #include <glm/glm.hpp>
 #include <glm/gtc/matrix_transform.hpp>
 
+#include "engine/components/GameObjectComponent.h"
 
-class Transform
+
+class Transform : public GameObjectComponent
 {
 private:
     glm::vec2 translation { 0.0f, 0.0f };
@@ -12,7 +14,7 @@ private:
 
 public:
     Transform() = default;
-    ~Transform() = default;
+    ~Transform() override = default;
 
     Transform(const Transform& other) = default;
     Transform& operator= (const Transform& other) = default;

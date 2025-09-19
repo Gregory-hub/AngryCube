@@ -6,3 +6,8 @@ FlatGround::FlatGround(float height)
 {
 }
 
+float FlatGround::GetHeight() const
+{
+	return height;
+}
+

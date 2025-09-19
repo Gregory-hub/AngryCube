@@ -5,10 +5,11 @@
 
 #include <glm/glm.hpp>
 
+#include "engine/components/GameObjectComponent.h"
 #include "engine/render/GLBufferManager.h"
 
 
-class Mesh
+class Mesh : public GameObjectComponent
 {
 protected:
     std::vector<glm::vec2> vertices;
@@ -17,7 +18,7 @@ protected:
 
 public:
     Mesh();
-    virtual ~Mesh() = default;
+    ~Mesh() override = default;
 
     Mesh(const Mesh& other);
     Mesh& operator= (const Mesh& other);

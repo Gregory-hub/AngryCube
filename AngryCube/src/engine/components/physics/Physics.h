@@ -1,24 +1,29 @@
 #pragma once
+#include <memory>
+
 #include <glm/vec2.hpp>
 
-#include "engine/components/mesh/Mesh.h"
+#include "engine/components/GameObjectComponent.h"
 #include "engine/components/transform/Transform.h"
+#include "engine/world/FlatGround.h"
+
+
+class GameObject;
 
 
 // handles game object movement caused by any of mechanics laws
-class Physics
+class Physics : public GameObjectComponent
 {
 private:
 	bool enabled = true;
-	Transform* transform;
-	Mesh* mesh;
+	GameObject* parentObject;
+	float mass;
 	glm::vec2 netForce = { 0.0f, 0.0f };
 	glm::vec2 velocity = { 0.0f, 0.0f };
 	glm::vec2 acceleration = { 0.0f, 0.0f };
-	float mass;
 
 public:
-	Physics(Transform& transform, Mesh& mesh, float mass);
+	Physics(GameObject* parentObject, float mass);
 
 	void Enable();
 	void Disable();
@@ -31,10 +36,12 @@ public:
 	void RemoveForces();
 	void Stop();
 
+	void ResolveGroundCollision(const std::shared_ptr<FlatGround>& ground);
+
 	void Update(float deltaTime);
 
 private:
 	void ApplyGravity();
-	void ResolveGroundCollision();
+	void ApplyAirDrag();
 };
 

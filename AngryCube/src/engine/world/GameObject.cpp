@@ -1,8 +1,13 @@
 #include "GameObject.h"
 
 
-GameObject::GameObject(Mesh mesh, Transform transform)
-	: mesh(std::move(mesh)), transform(std::move(transform)), physics(this->transform, this->mesh, 1.0f)
+GameObject::GameObject(std::shared_ptr<Mesh> mesh, std::shared_ptr<Transform> transform)
+	: mesh(std::move(mesh)), transform(std::move(transform)), physics(std::make_shared<Physics>(this, 1.0f))
+{
+}
+
+GameObject::GameObject(std::shared_ptr<Mesh> mesh, std::shared_ptr<Transform> transform, std::shared_ptr<Physics> physics)
+	: mesh(std::move(mesh)), transform(std::move(transform)), physics(std::move(physics))
 {
 }
 
@@ -11,17 +16,17 @@ const std::string& GameObject::GetName() const
 	return name;
 }
 
-Mesh& GameObject::GetMesh()
+std::shared_ptr<Mesh>& GameObject::GetMesh()
 {
 	return mesh;
 }
 
-Transform& GameObject::GetTransform()
+std::shared_ptr<Transform>& GameObject::GetTransform()
 {
 	return transform;
 }
 
-Physics& GameObject::GetPhysics()
+std::shared_ptr<Physics>& GameObject::GetPhysics()
 {
 	return physics;
 }

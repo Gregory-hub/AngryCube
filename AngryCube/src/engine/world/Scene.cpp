@@ -2,7 +2,7 @@
 
 
 Scene::Scene()
-	: ground(std::make_shared<FlatGround>(50.0f))
+	: ground(std::make_shared<FlatGround>(0.0f))
 {
 }
 
@@ -58,12 +58,23 @@ bool Scene::Contains(const std::shared_ptr<GameObject>& object) const
     return objects.contains(object);
 }
 
+const std::shared_ptr<FlatGround>& Scene::GetGround() const
+{
+    return ground;
+}
+
+void Scene::SetGround(float height)
+{
+    ground = std::make_shared<FlatGround>(height);
+}
+
 void Scene::Update(float deltaTime) const
 {
     for (const std::shared_ptr<GameObject>& object : objects)
     {
         object->Update(deltaTime);
-        object->GetPhysics().Update(deltaTime);
+        object->GetPhysics()->Update(deltaTime);
+        object->GetPhysics()->ResolveGroundCollision(ground);
     }
 }
 

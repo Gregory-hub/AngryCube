@@ -57,7 +57,7 @@ void Transform::SetScale(const glm::vec2& value)
 
 void Transform::Move(const glm::vec2& value)
 {
-    SetTranslation(translation + MOVE_RATIO * value);
+    SetTranslation(translation + CM_IN_METER * value);
 }
 
 //void Transform::Rotate(float value)

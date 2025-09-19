@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\components\GameObjectComponent.h" />
     <ClInclude Include="src\engine\components\mesh\DefaultMeshes.h" />
     <ClInclude Include="src\engine\components\mesh\Mesh.h" />
     <ClInclude Include="src\engine\components\mesh\MeshBuffer.h" />

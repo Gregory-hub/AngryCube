@@ -7,8 +7,6 @@
 #include <utility>
 
 #include <GL/glew.h>
-#include <glm/vec4.hpp>
-#include "GLBufferManager.h"
 
 
 std::string readFile(const std::string& filename)
@@ -45,7 +43,7 @@ Shader::Shader(const std::string& name)
     glAttachShader(id, vs);
     glAttachShader(id, fs);
     glLinkProgram(id);
-    //glValidateProgram(id);
+    glValidateProgram(id);
 
     glDeleteShader(vs);
     glDeleteShader(fs);

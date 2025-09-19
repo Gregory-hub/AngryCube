@@ -11,10 +11,12 @@ class Cube : public GameObject
 private:
     static int id;
 
+    float mass;
     glm::vec2 pushDirection = { 0.0f, 0.0f };
 
 public:
     Cube();
+    Cube(float mass);
     ~Cube() override = default;
 
     Cube(const Cube& other);
@@ -26,7 +28,9 @@ public:
     std::shared_ptr<GameObject> Clone() const override;
     std::shared_ptr<GameObject> MoveClone() override;
 
-	float GetHeight() const;
+	glm::vec2 GetLowestPoint() const override;
+	float GetHeight() const override;
+	float GetWidth() const override;
 
     void Update(float deltaTime) override;
 
