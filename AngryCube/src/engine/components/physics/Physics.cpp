@@ -36,6 +36,16 @@ const glm::vec2& Physics::GetAcceleration() const
 	return acceleration;
 }
 
+void Physics::SetGround(const std::shared_ptr<FlatGround>& ground)
+{
+	this->ground = ground;
+}
+
+const std::shared_ptr<FlatGround>& Physics::GetGround() const
+{
+	return ground;
+}
+
 void Physics::ApplyForce(glm::vec2 force)
 {
 	if (!enabled)
@@ -74,8 +84,33 @@ void Physics::ApplyAirDrag()
 	ApplyForce(-dragForce);
 }
 
-void Physics::ResolveGroundCollision(const std::shared_ptr<FlatGround>& ground)
+// Apply after other forces
+void Physics::ApplyGroundDryFriction()
 {
+	if (!ground)
+		return;
+
+	if (parentObject->GetLowestPoint().y > ground->GetHeight())
+		return;
+
+	float stictionThreshold = 0.00001f;
+	if (abs(netForce.x) > stictionThreshold)
+	{
+		float coefOfFriction = 0.4f;
+		ApplyForce(coefOfFriction * glm::vec2(1.0f, 0.0f) * abs(netForce.y) * glm::sign(netForce.x));
+	}
+	else
+	{
+		netForce.x = 0.0f;
+		velocity.x = 0.0f;
+	}
+}
+
+void Physics::ResolveGroundCollision()
+{
+	if (!ground)
+		return;
+
 	glm::vec2 lowest = parentObject->GetLowestPoint();
 	if (lowest.y < ground->GetHeight())
 	{
@@ -91,11 +126,14 @@ void Physics::Update(float deltaTime)
 
 	ApplyGravity();
 	ApplyAirDrag();
+	ApplyGroundDryFriction();
 
 	acceleration = netForce / mass;
 	velocity += acceleration * deltaTime;
 	parentObject->GetTransform()->Move(velocity * deltaTime);
 
 	netForce = { 0.0f, 0.0f };
+
+	ResolveGroundCollision();
 }
 

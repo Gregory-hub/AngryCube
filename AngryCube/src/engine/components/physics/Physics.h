@@ -17,6 +17,7 @@ class Physics : public GameObjectComponent
 private:
 	bool enabled = true;
 	GameObject* parentObject;
+	std::shared_ptr<FlatGround> ground;
 	float mass;
 	glm::vec2 netForce = { 0.0f, 0.0f };
 	glm::vec2 velocity = { 0.0f, 0.0f };
@@ -32,16 +33,20 @@ public:
 	const glm::vec2& GetVelocity() const;
 	const glm::vec2& GetAcceleration() const;
 
+	void SetGround(const std::shared_ptr<FlatGround>& ground);
+	const std::shared_ptr<FlatGround>& GetGround() const;
+
 	void ApplyForce(glm::vec2 force);
 	void RemoveForces();
 	void Stop();
-
-	void ResolveGroundCollision(const std::shared_ptr<FlatGround>& ground);
 
 	void Update(float deltaTime);
 
 private:
 	void ApplyGravity();
 	void ApplyAirDrag();
+	void ApplyGroundDryFriction();
+
+	void ResolveGroundCollision();
 };
 
