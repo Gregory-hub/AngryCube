@@ -2,12 +2,18 @@
 
 
 GameObject::GameObject(std::shared_ptr<Mesh> mesh, std::shared_ptr<Transform> transform)
-	: mesh(std::move(mesh)), transform(std::move(transform)), physics(std::make_shared<Physics>(this, 1.0f))
+	:	mesh(std::move(mesh)),
+		transform(std::move(transform)),
+		physics(std::make_shared<Physics>(this, 1.0f)),
+		collision(std::make_shared<Collision>(this))
 {
 }
 
 GameObject::GameObject(std::shared_ptr<Mesh> mesh, std::shared_ptr<Transform> transform, std::shared_ptr<Physics> physics)
-	: mesh(std::move(mesh)), transform(std::move(transform)), physics(std::move(physics))
+	:	mesh(std::move(mesh)),
+		transform(std::move(transform)),
+		physics(std::move(physics)),
+		collision(std::make_shared<Collision>(this))
 {
 }
 
@@ -29,5 +35,10 @@ std::shared_ptr<Transform>& GameObject::GetTransform()
 std::shared_ptr<Physics>& GameObject::GetPhysics()
 {
 	return physics;
+}
+
+std::shared_ptr<Collision>& GameObject::GetCollision()
+{
+	return collision;
 }
 

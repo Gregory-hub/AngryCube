@@ -2,6 +2,7 @@
 #include <string>
 #include <memory>
 
+#include "engine/components/collision/Collision.h"
 #include "engine/components/physics/Physics.h"
 #include "engine/components/transform/Transform.h"
 #include "engine/components/mesh/Mesh.h"
@@ -14,6 +15,7 @@ protected:
 	std::shared_ptr<Mesh> mesh;
 	std::shared_ptr<Transform> transform;
 	std::shared_ptr<Physics> physics;
+	std::shared_ptr<Collision> collision;
 
 public:
 	GameObject(std::shared_ptr<Mesh> mesh, std::shared_ptr<Transform> transform);
@@ -37,6 +39,7 @@ public:
 	std::shared_ptr<Mesh>& GetMesh();
 	std::shared_ptr<Transform>& GetTransform();
 	std::shared_ptr<Physics>& GetPhysics();
+	std::shared_ptr<Collision>& GetCollision();
 
 	virtual void Update(float deltaTime) = 0;
 

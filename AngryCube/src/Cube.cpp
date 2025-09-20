@@ -11,7 +11,10 @@
 int Cube::id = 0;
 
 Cube::Cube()
-	: GameObject(std::make_shared<CubeMesh>(), std::make_shared<Transform>(), std::make_shared<Physics>(this, 1.0f)), mass(1.0f)
+	:   GameObject(std::make_shared<CubeMesh>(), 
+		std::make_shared<Transform>(),
+        std::make_shared<Physics>(this, 1.0f)),
+		mass(1.0f)
 {
     name = "Cube " + std::to_string(id++);
 
@@ -19,7 +22,10 @@ Cube::Cube()
 }
 
 Cube::Cube(float mass)
-	: GameObject(std::make_shared<CubeMesh>(), std::make_shared<Transform>(), std::make_shared<Physics>(this, mass)), mass(mass)
+	:   GameObject(std::make_shared<CubeMesh>(),
+        std::make_shared<Transform>(),
+        std::make_shared<Physics>(this, mass)),
+		mass(mass)
 {
     name = "Cube " + std::to_string(id++);
 
@@ -81,7 +87,7 @@ float Cube::GetHeight() const
 float Cube::GetWidth() const
 {
     if (const std::shared_ptr<CubeMesh>& cubeMesh = std::dynamic_pointer_cast<CubeMesh>(mesh))
-        return cubeMesh->GetWidth();
+        return cubeMesh->GetWidth() * transform->GetScale().x;
     else
         throw std::runtime_error("mesh is not of type CubeMesh");
 }

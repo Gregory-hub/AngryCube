@@ -139,6 +139,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\components\collision\Collision.h" />
     <ClInclude Include="src\engine\components\GameObjectComponent.h" />
     <ClInclude Include="src\engine\components\mesh\DefaultMeshes.h" />
     <ClInclude Include="src\engine\components\mesh\Mesh.h" />
@@ -175,6 +176,7 @@
     <None Include="shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\components\collision\Collision.cpp" />
     <ClCompile Include="src\engine\components\mesh\DefaultMeshes.cpp" />
     <ClCompile Include="src\engine\components\mesh\Mesh.cpp" />
     <ClCompile Include="src\engine\components\mesh\MeshBuffer.cpp" />
