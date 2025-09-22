@@ -9,6 +9,7 @@
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
+#include "engine/core/Game.h"
 #include "engine/utility/Logger.h"
 #include "engine/utility/debugCallback.h"
 #include "engine/utility/Clock.h"
@@ -16,8 +17,7 @@
 #include "engine/render/Renderer.h"
 #include "engine/render/Shader.h"
 #include "engine/world/Scene.h"
-
-#include "Cube.h"
+#include "game/levels/Level1.h"
 
 
 // TODO:
@@ -30,8 +30,8 @@
 // (done) optimize multiple object rendering back (no frequent cpu-gpu data transfer)
 // (done) game-like architecture
 // (skipped) component system with component checking
-// collision
-// physics
+// (done) physics
+// (done) collision
 // game logic
 // saves
 // levels
@@ -138,23 +138,11 @@ int main()
 
     Shader shader("cube");
 	shader.Bind();
+	shader.SetUniform<glm::vec4>("vertexColor", { 0.8f, 0.8f, 1.0f, 1.0f });
 
-    Scene scene;
-
-    std::shared_ptr<GameObject> cube = std::make_shared<Cube>(1.0f);
-    cube->GetTransform()->SetTranslation({ 990.0f, 660.0f });
-    cube->GetTransform()->SetScale({ 1.5f, 1.5f });
-
-    std::shared_ptr<GameObject> cube1 = std::make_shared<Cube>(10.0f);
-    cube1->GetTransform()->SetTranslation({ 790.0f, 660.0f });
-
-    std::shared_ptr<GameObject> cube2 = std::make_shared<Cube>(100.0f);
-    cube2->GetTransform()->SetTranslation({ 590.0f, 660.0f });
-    cube2->GetTransform()->SetScale({ 0.5f, 0.5f });
-
-    scene.Add(cube);
-    scene.Add(cube1);
-    scene.Add(cube2);
+    Game game;
+    std::shared_ptr<Level> level = std::make_shared<Level1>();
+    game.LoadLevel(level);
 
     glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
     while (!glfwWindowShouldClose(window))
@@ -174,14 +162,12 @@ int main()
 		float green = cos(1.6f * timeValue) / 2.0f + 0.5f;
 		float blue = sin(0.3f * timeValue) / 2.0f + 0.5f;
 
-        scene.Update(deltaTime);
+        game.GetActiveLevel()->Update(deltaTime);
 
-		shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
-        renderer.Render(scene, shader);
+		//shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
+        renderer.Render(game.GetActiveLevel()->GetScene(), shader);
 
         float frametime = timer.End();
-        //Logger::Log(LogLevel::Info, "Frametime: " + std::to_string(frametime) + ", framerate: " + std::to_string(1.0f / frametime));
-
         ShowDebugTimeValues(deltaTime, 1.0f / frametime);
 
 

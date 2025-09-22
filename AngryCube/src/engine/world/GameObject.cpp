@@ -22,22 +22,22 @@ const std::string& GameObject::GetName() const
 	return name;
 }
 
-std::shared_ptr<Mesh>& GameObject::GetMesh()
+const std::shared_ptr<Mesh>& GameObject::GetMesh()
 {
 	return mesh;
 }
 
-std::shared_ptr<Transform>& GameObject::GetTransform()
+const std::shared_ptr<Transform>& GameObject::GetTransform()
 {
 	return transform;
 }
 
-std::shared_ptr<Physics>& GameObject::GetPhysics()
+const std::shared_ptr<Physics>& GameObject::GetPhysics()
 {
 	return physics;
 }
 
-std::shared_ptr<Collision>& GameObject::GetCollision()
+const std::shared_ptr<Collision>& GameObject::GetCollision()
 {
 	return collision;
 }

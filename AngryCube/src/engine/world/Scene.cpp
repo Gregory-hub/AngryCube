@@ -83,9 +83,7 @@ void Scene::Update(float deltaTime) const
 		for (const std::shared_ptr<GameObject>& other : objects)
 		{
 			if (object != other && object->GetCollision()->IsColliding(other))
-			{
-                bool colliding = true;
-			}
+                object->OnCollisionStart(other);
 		}
     }
 }

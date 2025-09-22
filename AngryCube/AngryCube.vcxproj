@@ -139,6 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\core\Game.h" />
+    <ClInclude Include="src\game\levels\Level1.h" />
+    <ClInclude Include="src\engine\core\Level.h" />
     <ClInclude Include="src\engine\components\collision\Collision.h" />
     <ClInclude Include="src\engine\components\GameObjectComponent.h" />
     <ClInclude Include="src\engine\components\mesh\DefaultMeshes.h" />
@@ -161,7 +164,7 @@
     <ClInclude Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="src\engine\render\Renderer.h" />
     <ClInclude Include="src\engine\utility\Logger.h" />
-    <ClInclude Include="src\Cube.h" />
+    <ClInclude Include="src\game\objects\Cube.h" />
     <ClInclude Include="src\engine\render\Shader.h" />
     <ClInclude Include="src\engine\utility\Timer.h" />
     <ClInclude Include="src\engine\world\FlatGround.h" />
@@ -176,6 +179,9 @@
     <None Include="shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\core\Game.cpp" />
+    <ClCompile Include="src\game\levels\Level1.cpp" />
+    <ClCompile Include="src\engine\core\Level.cpp" />
     <ClCompile Include="src\engine\components\collision\Collision.cpp" />
     <ClCompile Include="src\engine\components\mesh\DefaultMeshes.cpp" />
     <ClCompile Include="src\engine\components\mesh\Mesh.cpp" />
@@ -195,7 +201,7 @@
     <ClCompile Include="src\engine\render\Renderer.cpp" />
     <ClCompile Include="src\engine\utility\debugCallback.h" />
     <ClCompile Include="src\engine\utility\Logger.cpp" />
-    <ClCompile Include="src\Cube.cpp" />
+    <ClCompile Include="src\game\objects\Cube.cpp" />
     <ClCompile Include="src\engine\world\FlatGround.cpp" />
     <ClCompile Include="src\engine\world\GameObject.cpp" />
     <ClCompile Include="src\engine\world\Scene.cpp" />

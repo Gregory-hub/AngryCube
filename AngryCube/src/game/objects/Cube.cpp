@@ -96,6 +96,11 @@ void Cube::Update(float deltaTime)
 {
 }
 
+void Cube::OnCollisionStart(const std::shared_ptr<GameObject>& other)
+{
+
+}
+
 void Cube::ShowDebugControls(glm::vec2 pos)
 {
     ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));

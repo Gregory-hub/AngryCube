@@ -34,6 +34,8 @@ public:
 
     void Update(float deltaTime) override;
 
+	void OnCollisionStart(const std::shared_ptr<GameObject>& other) override;
+
     void ShowDebugControls(glm::vec2 pos) override;
 };
 

@@ -36,12 +36,14 @@ public:
 	virtual float GetWidth() const = 0;
 
 	const std::string& GetName() const;
-	std::shared_ptr<Mesh>& GetMesh();
-	std::shared_ptr<Transform>& GetTransform();
-	std::shared_ptr<Physics>& GetPhysics();
-	std::shared_ptr<Collision>& GetCollision();
+	const std::shared_ptr<Mesh>& GetMesh();
+	const std::shared_ptr<Transform>& GetTransform();
+	const std::shared_ptr<Physics>& GetPhysics();
+	const std::shared_ptr<Collision>& GetCollision();
 
 	virtual void Update(float deltaTime) = 0;
+
+	virtual void OnCollisionStart(const std::shared_ptr<GameObject>& other) { }
 
 	virtual void ShowDebugControls(glm::vec2 pos) { }
 };
