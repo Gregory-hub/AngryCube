@@ -12,21 +12,21 @@ class GameObject
 {
 protected:
 	std::string name;
-	std::shared_ptr<Mesh> mesh;
-	std::shared_ptr<Transform> transform;
-	std::shared_ptr<Physics> physics;
-	std::shared_ptr<Collision> collision;
+	std::vector<std::shared_ptr<Mesh>> meshes;
+	Transform transform;
+	Physics physics;
+	Collision collision;
 
 public:
-	GameObject(std::shared_ptr<Mesh> mesh, std::shared_ptr<Transform> transform);
-	GameObject(std::shared_ptr<Mesh> mesh, std::shared_ptr<Transform> transform, std::shared_ptr<Physics> physics);
+	GameObject();
+	GameObject(float mass);
 	virtual ~GameObject() = default;
 
-	GameObject(const GameObject& other) = default;
-	GameObject& operator= (const GameObject& other) = default;
+	GameObject(const GameObject& other);
+	GameObject& operator= (const GameObject& other);
 
-	GameObject(GameObject&& other) noexcept = default;
-	GameObject& operator= (GameObject&& other) noexcept = default;
+	GameObject(GameObject&& other) noexcept;
+	GameObject& operator= (GameObject&& other) noexcept;
 
 	virtual std::shared_ptr<GameObject> Clone() const = 0;
 	virtual std::shared_ptr<GameObject> MoveClone() = 0;
@@ -36,10 +36,10 @@ public:
 	virtual float GetWidth() const = 0;
 
 	const std::string& GetName() const;
-	const std::shared_ptr<Mesh>& GetMesh();
-	const std::shared_ptr<Transform>& GetTransform();
-	const std::shared_ptr<Physics>& GetPhysics();
-	const std::shared_ptr<Collision>& GetCollision();
+	const std::vector<std::shared_ptr<Mesh>>& GetMeshes();
+	Transform& GetTransform();
+	Physics& GetPhysics();
+	Collision& GetCollision();
 
 	virtual void Update(float deltaTime) = 0;
 

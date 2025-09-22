@@ -10,11 +10,11 @@ Collision::Collision(GameObject* parentObject)
 
 bool Collision::IsColliding(const std::shared_ptr<GameObject>& other) const
 {
-	glm::vec2 thisLocation = parentObject->GetTransform()->GetTranslation();
+	glm::vec2 thisLocation = parentObject->GetTransform().GetTranslation();
 	float thisHalfWidth = parentObject->GetWidth()  / 2.0f;
 	float thisHalfHeight = parentObject->GetHeight() / 2.0f;
 
-	glm::vec2 otherLocation = other->GetTransform()->GetTranslation();
+	glm::vec2 otherLocation = other->GetTransform().GetTranslation();
 	float otherHalfWidth = other->GetWidth()  / 2.0f;
 	float otherHalfHeight = other->GetHeight() / 2.0f;
 

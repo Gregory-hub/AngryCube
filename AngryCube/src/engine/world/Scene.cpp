@@ -47,11 +47,13 @@ void Scene::Add(const std::shared_ptr<GameObject>& object)
 {
     objects.insert(object);
     if (ground)
-        object->GetPhysics()->SetGround(ground);
+        object->GetPhysics().SetGround(ground);
 }
 
 void Scene::Remove(const std::shared_ptr<GameObject>& object)
 {
+    if (object->GetPhysics().GetGround())
+        object->GetPhysics().SetGround(nullptr);
     objects.erase(object);
 }
 
@@ -74,15 +76,15 @@ void Scene::Update(float deltaTime) const
 {
     for (const std::shared_ptr<GameObject>& object : objects)
     {
-		if (ground && !object->GetPhysics()->GetGround())
-			object->GetPhysics()->SetGround(ground);
+		if (ground && !object->GetPhysics().GetGround())
+			object->GetPhysics().SetGround(ground);
 
         object->Update(deltaTime);
-        object->GetPhysics()->Update(deltaTime);
+        object->GetPhysics().Update(deltaTime);
 
 		for (const std::shared_ptr<GameObject>& other : objects)
 		{
-			if (object != other && object->GetCollision()->IsColliding(other))
+			if (object != other && object->GetCollision().IsColliding(other))
                 object->OnCollisionStart(other);
 		}
     }

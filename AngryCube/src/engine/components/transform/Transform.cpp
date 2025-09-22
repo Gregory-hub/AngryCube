@@ -45,10 +45,10 @@ void Transform::SetTranslation(const glm::vec2& value)
 	translation = value;
 }
 
-//void Transform::SetRotation(float value)
-//{
-//	rotation = value;
-//}
+void Transform::SetRotation(float value)
+{
+	rotation = value;
+}
 
 void Transform::SetScale(const glm::vec2& value)
 {
@@ -57,13 +57,13 @@ void Transform::SetScale(const glm::vec2& value)
 
 void Transform::Move(const glm::vec2& value)
 {
-    SetTranslation(translation + CM_IN_METER * value);
+    SetTranslation(translation + value);
 }
 
-//void Transform::Rotate(float value)
-//{
-//    SetRotation(rotation + value);
-//}
+void Transform::Rotate(float value)
+{
+    SetRotation(rotation + value);
+}
 
 void Transform::Scale(const glm::vec2& value)
 {

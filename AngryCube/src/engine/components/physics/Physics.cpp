@@ -114,7 +114,7 @@ void Physics::ResolveGroundCollision()
 	glm::vec2 lowest = parentObject->GetLowestPoint();
 	if (lowest.y < ground->GetHeight())
 	{
-		parentObject->GetTransform()->SetTranslation(glm::vec2(lowest.x, ground->GetHeight() + parentObject->GetHeight() / 2.0f));
+		parentObject->GetTransform().SetTranslation(glm::vec2(lowest.x, ground->GetHeight() + parentObject->GetHeight() / 2.0f));
 		velocity.y = 0.0f;
 	}
 }
@@ -130,7 +130,7 @@ void Physics::Update(float deltaTime)
 
 	acceleration = netForce / mass;
 	velocity += acceleration * deltaTime;
-	parentObject->GetTransform()->Move(velocity * deltaTime);
+	parentObject->GetTransform().Move(CM_IN_METER * velocity * deltaTime);
 
 	netForce = { 0.0f, 0.0f };
 

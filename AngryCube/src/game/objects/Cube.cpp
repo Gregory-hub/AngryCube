@@ -11,51 +11,47 @@
 int Cube::id = 0;
 
 Cube::Cube()
-	:   GameObject(std::make_shared<CubeMesh>(), 
-		std::make_shared<Transform>(),
-        std::make_shared<Physics>(this, 1.0f)),
-		mass(1.0f)
+	:   GameObject(1.0f)
 {
     name = "Cube " + std::to_string(id++);
-
-    physics->Disable();
+    meshes.push_back(std::make_shared<CubeMesh>());
 }
 
 Cube::Cube(float mass)
-	:   GameObject(std::make_shared<CubeMesh>(),
-        std::make_shared<Transform>(),
-        std::make_shared<Physics>(this, mass)),
-		mass(mass)
+	:   GameObject(mass)
 {
     name = "Cube " + std::to_string(id++);
-
-    physics->Disable();
+    meshes.push_back(std::make_shared<CubeMesh>());
 }
 
 Cube::Cube(const Cube& other)
-	: GameObject(other.mesh, other.transform)
+	: GameObject(other)
 {
     name = "Cube " + std::to_string(id++);
+    mass = other.mass;
 }
 
 Cube& Cube::operator=(const Cube& other)
 {
-    GameObject::operator=(other);
-    name = "Cube " + std::to_string(id++);
-    return *this;
+    if (this != &other)
+    {
+        GameObject::operator=(other);
+        name = "Cube " + std::to_string(id++);
+        mass = other.mass;
+    }
+	return *this;
 }
 
 Cube::Cube(Cube&& other) noexcept
-	: GameObject(std::move(other.mesh), std::move(other.transform))
+	: GameObject(std::move(other)), mass(std::exchange(other.mass, 0.0f))
 {
-    name = std::exchange(other.name, "");
 }
 
 Cube& Cube::operator=(Cube&& other) noexcept
 {
     if (this != &other)
     {
-		name = std::exchange(other.name, "");
+		mass = std::exchange(other.mass, 0.0f);
 		GameObject::operator=(std::move(other));
     }
     return *this;
@@ -73,21 +69,21 @@ std::shared_ptr<GameObject> Cube::MoveClone()
 
 glm::vec2 Cube::GetLowestPoint() const
 {
-	return transform->GetTranslation() - glm::vec2(0.0f, GetHeight() / 2);
+	return transform.GetTranslation() - glm::vec2(0.0f, GetHeight() / 2);
 }
 
 float Cube::GetHeight() const
 {
-    if (const std::shared_ptr<CubeMesh>& cubeMesh = std::dynamic_pointer_cast<CubeMesh>(mesh))
-        return cubeMesh->GetHeight() * transform->GetScale().y;
+    if (const std::shared_ptr<CubeMesh>& cubeMesh = std::dynamic_pointer_cast<CubeMesh>(meshes[0]))
+        return cubeMesh->GetHeight() * transform.GetScale().y;
     else
         throw std::runtime_error("mesh is not of type CubeMesh");
 }
 
 float Cube::GetWidth() const
 {
-    if (const std::shared_ptr<CubeMesh>& cubeMesh = std::dynamic_pointer_cast<CubeMesh>(mesh))
-        return cubeMesh->GetWidth() * transform->GetScale().x;
+    if (const std::shared_ptr<CubeMesh>& cubeMesh = std::dynamic_pointer_cast<CubeMesh>(meshes[0]))
+        return cubeMesh->GetWidth() * transform.GetScale().x;
     else
         throw std::runtime_error("mesh is not of type CubeMesh");
 }
@@ -105,24 +101,24 @@ void Cube::ShowDebugControls(glm::vec2 pos)
 {
     ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
     ImGui::Begin(name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize);
-    GetTransform()->ShowDebugControls();
+    GetTransform().ShowDebugControls();
 
     ImGui::DragFloat2("Push direction", &pushDirection.x, 0.01f, -1.0f, 1.0f);
 
     if (ImGui::Button("Toggle physics"))
     {
-        if (GetPhysics()->Enabled())
-			GetPhysics()->Disable();
+        if (GetPhysics().Enabled())
+			GetPhysics().Disable();
         else
-			GetPhysics()->Enable();
+			GetPhysics().Enable();
     }
     if (ImGui::Button("Stop"))
     {
-		GetPhysics()->Stop();
+		GetPhysics().Stop();
     }
     if (ImGui::Button("Push"))
     {
-		GetPhysics()->ApplyForce(pushDirection * 30000.0f);
+		GetPhysics().ApplyForce(pushDirection * 30000.0f);
     }
 
     ImGui::End();

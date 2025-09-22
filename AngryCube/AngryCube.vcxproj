@@ -139,6 +139,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\world\GameObjectContainer.h" />
+    <ClInclude Include="src\game\objects\Catapult.h" />
     <ClInclude Include="src\engine\core\Game.h" />
     <ClInclude Include="src\game\levels\Level1.h" />
     <ClInclude Include="src\engine\core\Level.h" />
@@ -179,6 +181,8 @@
     <None Include="shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\world\GameObjectContainer.cpp" />
+    <ClCompile Include="src\game\objects\Catapult.cpp" />
     <ClCompile Include="src\engine\core\Game.cpp" />
     <ClCompile Include="src\game\levels\Level1.cpp" />
     <ClCompile Include="src\engine\core\Level.cpp" />

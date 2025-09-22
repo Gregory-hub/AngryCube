@@ -27,11 +27,11 @@ public:
     glm::vec2 GetScale() const;
 
     void SetTranslation(const glm::vec2& value);
-    //void SetRotation(float value);
+    void SetRotation(float value);
     void SetScale(const glm::vec2& value);
 
 	void Move(const glm::vec2& value);
-	//void Rotate(float value);
+	void Rotate(float value);
 	void Scale(const glm::vec2& value);
 
     glm::mat4 GetMatrix() const;
