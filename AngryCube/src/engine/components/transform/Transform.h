@@ -4,6 +4,8 @@
 
 #include "engine/components/GameObjectComponent.h"
 
+class GameObject;
+
 
 class Transform : public GameObjectComponent
 {
@@ -13,14 +15,14 @@ private:
     glm::vec2 scale { 1.0f, 1.0f };
 
 public:
-    Transform() = default;
+    Transform(GameObject* parentObject);
     ~Transform() override = default;
 
     Transform(const Transform& other) = default;
     Transform& operator= (const Transform& other) = default;
 
-    Transform(Transform&& other) noexcept;
-    Transform& operator= (Transform&& other) noexcept;
+    Transform(Transform&& other) noexcept = default;
+    Transform& operator= (Transform&& other) noexcept = default;
 
     glm::vec2 GetTranslation() const;
     float GetRotation() const;

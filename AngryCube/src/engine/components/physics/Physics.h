@@ -7,7 +7,6 @@
 #include "engine/components/transform/Transform.h"
 #include "engine/world/FlatGround.h"
 
-
 class GameObject;
 
 
@@ -16,15 +15,21 @@ class Physics : public GameObjectComponent
 {
 private:
 	bool enabled = true;
-	GameObject* parentObject;
 	std::shared_ptr<FlatGround> ground;
-	float mass;
+	float mass = 1.0f;
 	glm::vec2 netForce = { 0.0f, 0.0f };
 	glm::vec2 velocity = { 0.0f, 0.0f };
 	glm::vec2 acceleration = { 0.0f, 0.0f };
 
 public:
 	Physics(GameObject* parentObject, float mass);
+	~Physics() override = default;
+
+	Physics(const Physics& other) = default;
+	Physics& operator= (const Physics& other) = default;
+
+	Physics(Physics&& other) noexcept = default;
+	Physics& operator= (Physics&& other) noexcept = default;
 
 	void Enable();
 	void Disable();

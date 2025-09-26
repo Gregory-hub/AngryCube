@@ -114,6 +114,9 @@
     <ClInclude Include="src\engine\world\GameObjectContainer.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="src\engine\components\mesh\CollisionMesh.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basicColor.frag" />
@@ -214,6 +217,12 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\world\GameObjectContainer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\components\GameObjectComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\components\mesh\CollisionMesh.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

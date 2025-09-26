@@ -45,9 +45,15 @@ const std::unordered_set<std::shared_ptr<GameObject>>& Scene::GetObjects() const
 
 void Scene::Add(const std::shared_ptr<GameObject>& object)
 {
+    if (objects.contains(object))
+        return;
+
     objects.insert(object);
     if (ground)
         object->GetPhysics().SetGround(ground);
+
+    for (const std::shared_ptr<GameObject>& child : object->GetChildren())
+        Add(child);
 }
 
 void Scene::Remove(const std::shared_ptr<GameObject>& object)

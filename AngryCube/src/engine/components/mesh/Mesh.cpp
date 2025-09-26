@@ -2,15 +2,14 @@
 
 #include <glm/gtc/type_ptr.inl>
 
-#include "engine/utility/Logger.h"
-
 
 Mesh::Mesh()
-	: bufferManager(std::make_unique<GLBufferManager>())
+	: GameObjectComponent(nullptr), bufferManager(std::make_unique<GLBufferManager>())
 {
 }
 
 Mesh::Mesh(const Mesh& other)
+	: GameObjectComponent(nullptr)
 {
 	vertices = other.vertices;
 	triangles = other.triangles;
@@ -26,11 +25,13 @@ Mesh& Mesh::operator=(const Mesh& other)
 		triangles = other.triangles;
 		bufferManager = std::make_unique<GLBufferManager>();
 		UpdateBuffers();
+		GameObjectComponent::operator=(other);
 	}
 	return *this;
 }
 
 Mesh::Mesh(Mesh&& other) noexcept
+	: GameObjectComponent(nullptr)
 {
 	vertices = std::exchange(other.vertices, std::vector<glm::vec2>());
 	triangles = std::exchange(other.triangles, std::vector<glm::uvec3>());
@@ -44,6 +45,7 @@ Mesh& Mesh::operator=(Mesh&& other) noexcept
 		vertices = std::exchange(other.vertices, std::vector<glm::vec2>());
 		triangles = std::exchange(other.triangles, std::vector<glm::uvec3>());
 		bufferManager = std::exchange(other.bufferManager, nullptr);
+		GameObjectComponent::operator=(std::move(other));
 	}
 	return *this;
 }

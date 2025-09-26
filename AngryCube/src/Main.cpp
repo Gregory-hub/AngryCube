@@ -37,6 +37,10 @@
 // levels
 // textures
 
+// TO BE SOLVED:
+// components with references to parent must not copy reference in copy and move operations
+
+
 static glm::ivec2 WINDOW_RESOLUTION = { 1280, 720 };
 
 

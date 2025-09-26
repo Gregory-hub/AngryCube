@@ -1,28 +1,15 @@
 #include "Transform.h"
 
-#include <utility>
+#include <memory>
 
 #include <imgui.h>
 
-#include "engine/components/physics/constants.h"
+#include "engine/world/GameObject.h"
 
 
-Transform::Transform(Transform&& other) noexcept
+Transform::Transform(GameObject* parentObject)
+	: GameObjectComponent(parentObject)
 {
-	translation = std::exchange(other.translation, glm::vec2());
-	rotation = std::exchange(other.rotation, 0.0f);
-	scale = std::exchange(other.scale, glm::vec2());
-}
-
-Transform& Transform::operator=(Transform&& other) noexcept
-{
-	if (this != &other)
-	{
-		translation = std::exchange(other.translation, glm::vec2());
-		rotation = std::exchange(other.rotation, 0.0f);
-		scale = std::exchange(other.scale, glm::vec2());
-	}
-	return *this;
 }
 
 glm::vec2 Transform::GetTranslation() const
@@ -72,8 +59,17 @@ void Transform::Scale(const glm::vec2& value)
 
 glm::mat4 Transform::GetMatrix() const
 {
+	glm::vec2 translationWorld = translation;
+
+	GameObject* parent = parentObject->GetParent();
+	while (parent)
+	{
+		translationWorld += parent->GetTransform().GetTranslation();
+		parent = parent->GetParent();
+	}
+
 	glm::mat4 transform(1.0f);
-	transform = glm::translate(transform, glm::vec3(translation, 0.0f));
+	transform = glm::translate(transform, glm::vec3(translationWorld, 0.0f));
 	transform = glm::rotate(transform, glm::radians(rotation), { 0.0f, 0.0f, 1.0f });
 	transform = glm::scale(transform, glm::vec3(scale, 0.0f));
     return transform;

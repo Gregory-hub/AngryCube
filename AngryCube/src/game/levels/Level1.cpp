@@ -17,13 +17,12 @@ Level1::Level1()
     cube2->GetTransform().SetTranslation({ 590.0f, 660.0f });
     cube2->GetTransform().SetScale({ 0.5f, 0.5f });
 
-    scene.Add(cube);
+    //scene.Add(cube);
     //scene.Add(cube1);
     //scene.Add(cube2);
 
     std::shared_ptr<Catapult> catapult = std::make_shared<Catapult>();
     catapult->GetTransform().Move(glm::vec2(500.0f, 100.0f));
-    for (const std::shared_ptr<GameObject>& object : catapult->GetObjects())
-        scene.Add(object);
+    scene.Add(catapult);
 }
 

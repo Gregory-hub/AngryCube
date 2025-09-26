@@ -31,9 +31,14 @@ void Renderer::Render(const Scene& scene, Shader& shader) const
 	glm::vec2 debugControlsPos = { 20, 20 };
 	for (const std::shared_ptr<GameObject>& object : scene.GetObjects())
 	{
+		if (!object->GetParent())
+		{
+			object->ShowDebugControls(debugControlsPos);
+			debugControlsPos += glm::vec2({ 0, 200 });
+		}
+
 		shader.SetUniform("transform", projMatrix * object->GetTransform().GetMatrix());
-		object->ShowDebugControls(debugControlsPos);
-		debugControlsPos += glm::vec2({ 0, 200 });
+
 		for (const std::shared_ptr<Mesh>& mesh : object->GetMeshes())
 		{
 			mesh->BindBuffers();

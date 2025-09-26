@@ -5,7 +5,7 @@
 
 
 Physics::Physics(GameObject* parentObject, float mass)
-	: parentObject(parentObject), mass(mass)
+	: GameObjectComponent(parentObject), mass(mass)
 {
 }
 
@@ -77,7 +77,7 @@ void Physics::ApplyAirDrag()
 
 	float airDensity = 1.2f;
 	float dragCoef = 0.5f;
-	float area = abs(direction.x * parentObject->GetWidth() / CM_IN_METER + direction.y * parentObject->GetHeight() / CM_IN_METER);
+	float area = abs(direction.x * parentObject->GetCollisionMesh()->GetWidth() / CM_IN_METER + direction.y * parentObject->GetCollisionMesh()->GetHeight() / CM_IN_METER);
 	float mult = 0.5f * airDensity * area * dragCoef;
 
 	glm::vec2 dragForce = mult * glm::pow(glm::length(velocity), 2.0f) * direction;
@@ -90,7 +90,7 @@ void Physics::ApplyGroundDryFriction()
 	if (!ground)
 		return;
 
-	if (parentObject->GetLowestPoint().y > ground->GetHeight())
+	if (parentObject->GetCollisionMesh()->GetLowestPoint().y > ground->GetHeight())
 		return;
 
 	float stictionThreshold = 0.00001f;
@@ -111,17 +111,17 @@ void Physics::ResolveGroundCollision()
 	if (!ground)
 		return;
 
-	glm::vec2 lowest = parentObject->GetLowestPoint();
+	glm::vec2 lowest = parentObject->GetCollisionMesh()->GetLowestPoint();
 	if (lowest.y < ground->GetHeight())
 	{
-		parentObject->GetTransform().SetTranslation(glm::vec2(lowest.x, ground->GetHeight() + parentObject->GetHeight() / 2.0f));
+		parentObject->GetTransform().SetTranslation(glm::vec2(lowest.x, ground->GetHeight() + parentObject->GetCollisionMesh()->GetHeight() / 2.0f));
 		velocity.y = 0.0f;
 	}
 }
 
 void Physics::Update(float deltaTime)
 {
-	if (!enabled)
+	if (!enabled || !parentObject->GetCollisionMesh())
 		return;
 
 	ApplyGravity();

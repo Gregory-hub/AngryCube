@@ -1,7 +1,8 @@
 #include "DefaultMeshes.h"
 
 
-CubeMesh::CubeMesh()
+CubeMesh::CubeMesh(float w, float h)
+	: width(w), height(h)
 {
     triangles = {
         { 0, 1, 3 },
@@ -30,12 +31,12 @@ void CubeMesh::SetSizes(float w, float h)
     float y0 = -height / 2.0f;
     float y1 = height / 2.0f;
 
-    vertices = {
+    SetVertices({
         { x0, y0 },
         { x1, y0 },
         { x1, y1 },
         { x0, y1 }
-    };
+    });
 
 	UpdateBuffers();
 }

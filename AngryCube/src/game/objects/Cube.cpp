@@ -10,25 +10,17 @@
 
 int Cube::id = 0;
 
-Cube::Cube()
-	:   GameObject(1.0f)
-{
-    name = "Cube " + std::to_string(id++);
-    meshes.push_back(std::make_shared<CubeMesh>());
-}
-
 Cube::Cube(float mass)
-	:   GameObject(mass)
+	: GameObject(mass, std::make_shared<CollisionMesh>(std::make_shared<CubeMesh>()))
 {
     name = "Cube " + std::to_string(id++);
-    meshes.push_back(std::make_shared<CubeMesh>());
+    meshes.push_back(GetCollisionMesh()->GetBaseMesh());
 }
 
 Cube::Cube(const Cube& other)
 	: GameObject(other)
 {
     name = "Cube " + std::to_string(id++);
-    mass = other.mass;
 }
 
 Cube& Cube::operator=(const Cube& other)
@@ -37,24 +29,8 @@ Cube& Cube::operator=(const Cube& other)
     {
         GameObject::operator=(other);
         name = "Cube " + std::to_string(id++);
-        mass = other.mass;
     }
 	return *this;
-}
-
-Cube::Cube(Cube&& other) noexcept
-	: GameObject(std::move(other)), mass(std::exchange(other.mass, 0.0f))
-{
-}
-
-Cube& Cube::operator=(Cube&& other) noexcept
-{
-    if (this != &other)
-    {
-		mass = std::exchange(other.mass, 0.0f);
-		GameObject::operator=(std::move(other));
-    }
-    return *this;
 }
 
 std::shared_ptr<GameObject> Cube::Clone() const
@@ -65,27 +41,6 @@ std::shared_ptr<GameObject> Cube::Clone() const
 std::shared_ptr<GameObject> Cube::MoveClone()
 {
     return std::make_shared<Cube>(std::move(*this));
-}
-
-glm::vec2 Cube::GetLowestPoint() const
-{
-	return transform.GetTranslation() - glm::vec2(0.0f, GetHeight() / 2);
-}
-
-float Cube::GetHeight() const
-{
-    if (const std::shared_ptr<CubeMesh>& cubeMesh = std::dynamic_pointer_cast<CubeMesh>(meshes[0]))
-        return cubeMesh->GetHeight() * transform.GetScale().y;
-    else
-        throw std::runtime_error("mesh is not of type CubeMesh");
-}
-
-float Cube::GetWidth() const
-{
-    if (const std::shared_ptr<CubeMesh>& cubeMesh = std::dynamic_pointer_cast<CubeMesh>(meshes[0]))
-        return cubeMesh->GetWidth() * transform.GetScale().x;
-    else
-        throw std::runtime_error("mesh is not of type CubeMesh");
 }
 
 void Cube::Update(float deltaTime)

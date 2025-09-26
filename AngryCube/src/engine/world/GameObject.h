@@ -1,25 +1,31 @@
 #pragma once
 #include <string>
 #include <memory>
+#include <unordered_set>
 
 #include "engine/components/collision/Collision.h"
+#include "engine/components/mesh/Mesh.h"
+#include "engine/components/mesh/CollisionMesh.h"
 #include "engine/components/physics/Physics.h"
 #include "engine/components/transform/Transform.h"
-#include "engine/components/mesh/Mesh.h"
 
 
 class GameObject
 {
 protected:
 	std::string name;
+	GameObject* parent = nullptr;
+	std::unordered_set<std::shared_ptr<GameObject>> children;
+	
+	// components
 	std::vector<std::shared_ptr<Mesh>> meshes;
 	Transform transform;
 	Physics physics;
 	Collision collision;
+	std::shared_ptr<CollisionMesh> collisionMesh = nullptr;
 
 public:
-	GameObject();
-	GameObject(float mass);
+	GameObject(float mass = 1.0f, const std::shared_ptr<CollisionMesh>& collisionMesh = nullptr);
 	virtual ~GameObject() = default;
 
 	GameObject(const GameObject& other);
@@ -31,12 +37,16 @@ public:
 	virtual std::shared_ptr<GameObject> Clone() const = 0;
 	virtual std::shared_ptr<GameObject> MoveClone() = 0;
 
-	virtual glm::vec2 GetLowestPoint() const = 0;
-	virtual float GetHeight() const = 0;
-	virtual float GetWidth() const = 0;
+	GameObject* GetParent() const;
+	const std::unordered_set<std::shared_ptr<GameObject>>& GetChildren() const;
+	bool HasChild(const std::shared_ptr<GameObject>& child) const;
+
+	virtual void AttachChild(const std::shared_ptr<GameObject>& child);
+	virtual void RemoveChild(const std::shared_ptr<GameObject>& child);
 
 	const std::string& GetName() const;
 	const std::vector<std::shared_ptr<Mesh>>& GetMeshes();
+	std::shared_ptr<CollisionMesh> GetCollisionMesh();
 	Transform& GetTransform();
 	Physics& GetPhysics();
 	Collision& GetCollision();
