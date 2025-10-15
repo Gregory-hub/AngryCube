@@ -35,6 +35,9 @@ public:
 	void Disable();
 	bool Enabled() const;
 
+	float GetMass() const;
+	void SetMass(float newMass);
+
 	const glm::vec2& GetVelocity() const;
 	const glm::vec2& GetAcceleration() const;
 

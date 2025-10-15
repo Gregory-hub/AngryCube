@@ -139,8 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\utility\FileReader.h" />
+    <ClInclude Include="src\engine\core\LevelManager.h" />
     <ClInclude Include="src\engine\components\mesh\CollisionMesh.h" />
-    <ClInclude Include="src\engine\world\GameObjectContainer.h" />
     <ClInclude Include="src\game\objects\Catapult.h" />
     <ClInclude Include="src\engine\core\Game.h" />
     <ClInclude Include="src\game\levels\Level1.h" />
@@ -182,9 +183,10 @@
     <None Include="shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\utility\FileReader.cpp" />
+    <ClCompile Include="src\engine\core\LevelManager.cpp" />
     <ClCompile Include="src\engine\components\mesh\CollisionMesh.cpp" />
     <ClCompile Include="src\engine\components\GameObjectComponent.cpp" />
-    <ClCompile Include="src\engine\world\GameObjectContainer.cpp" />
     <ClCompile Include="src\game\objects\Catapult.cpp" />
     <ClCompile Include="src\engine\core\Game.cpp" />
     <ClCompile Include="src\game\levels\Level1.cpp" />

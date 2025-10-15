@@ -2,6 +2,7 @@
 
 #include "Cube.h"
 #include "imgui.h"
+#include "engine/components/mesh/DefaultMeshes.h"
 
 
 int Catapult::id = 0;
@@ -43,8 +44,10 @@ Catapult::Catapult()
 	AttachChild(frameLeft);
 	AttachChild(frameRight);
 
-	GetPhysics().Disable();
-	GetCollision().Disable();
+	collisionMesh = std::make_unique<CollisionMesh>(std::make_unique<CubeMesh>());
+
+	GetPhysics().Enable();
+	GetCollision().Enable();
 }
 
 std::shared_ptr<GameObject> Catapult::Clone() const
@@ -63,9 +66,17 @@ void Catapult::Update(float deltaTime)
 
 void Catapult::ShowDebugControls(glm::vec2 pos)
 {
-	ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
-	ImGui::Begin(name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	//ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
+	//ImGui::Begin(name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+	ImGui::Begin(name.c_str(), nullptr);
 	GetTransform().ShowDebugControls();
+	if (ImGui::Button("Physics"))
+	{
+		if (GetPhysics().Enabled())
+			GetPhysics().Disable();
+		else
+			GetPhysics().Enable();
+	}
 	ImGui::End();
 }
 

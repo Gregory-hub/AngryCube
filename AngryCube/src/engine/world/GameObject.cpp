@@ -96,6 +96,7 @@ void GameObject::AttachChild(const std::shared_ptr<GameObject>& child)
 		children.insert(child);
 		child->parent = this;
 		child->GetPhysics().Disable();
+		GetPhysics().SetMass(GetPhysics().GetMass() + child->GetPhysics().GetMass());
 	}
 }
 
@@ -105,6 +106,7 @@ void GameObject::RemoveChild(const std::shared_ptr<GameObject>& child)
 	{
 		children.erase(child);
 		child->parent = nullptr;
+		GetPhysics().SetMass(GetPhysics().GetMass() - child->GetPhysics().GetMass());
 	}
 }
 

@@ -36,6 +36,7 @@ std::shared_ptr<Mesh> CollisionMesh::GetBaseMesh()
 
 glm::vec2 CollisionMesh::GetLowestPoint() const
 {
+	// calculate lowest point taking into account object transform
 	return lowestPoint;
 }
 

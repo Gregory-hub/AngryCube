@@ -1,5 +1,5 @@
 #pragma once
-#include "engine/world/GameObjectContainer.h"
+#include "engine/world/GameObject.h"
 
 
 class Catapult : public GameObject
@@ -20,7 +20,7 @@ public:
 	std::shared_ptr<GameObject> Clone() const override;
 	std::shared_ptr<GameObject> MoveClone() override;
 
-	void Update(float deltaTime);
+	void Update(float deltaTime) override;
 
 	void ShowDebugControls(glm::vec2 pos) override;
 };

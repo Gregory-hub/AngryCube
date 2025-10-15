@@ -10,6 +10,7 @@
 #include <backends/imgui_impl_opengl3.h>
 
 #include "engine/core/Game.h"
+#include "engine/core/LevelManager.h"
 #include "engine/utility/Logger.h"
 #include "engine/utility/debugCallback.h"
 #include "engine/utility/Clock.h"
@@ -148,6 +149,12 @@ int main()
     std::shared_ptr<Level> level = std::make_shared<Level1>();
     game.LoadLevel(level);
 
+	// LevelManager levelManager;
+	// levelManager.Save(level, "level1");
+	// Level level1 = levelManager.Load("level1");
+
+	// return 0;
+
     glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
     while (!glfwWindowShouldClose(window))
     {
@@ -168,7 +175,7 @@ int main()
 
         game.GetActiveLevel()->Update(deltaTime);
 
-		//shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
+		shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
         renderer.Render(game.GetActiveLevel()->GetScene(), shader);
 
         float frametime = timer.End();

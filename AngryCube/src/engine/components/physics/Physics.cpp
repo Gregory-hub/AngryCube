@@ -26,6 +26,16 @@ bool Physics::Enabled() const
 	return enabled;
 }
 
+float Physics::GetMass() const
+{
+	return mass;
+}
+
+void Physics::SetMass(float newMass)
+{
+	mass = newMass;
+}
+
 const glm::vec2& Physics::GetVelocity() const
 {
 	return velocity;
@@ -111,10 +121,12 @@ void Physics::ResolveGroundCollision()
 	if (!ground)
 		return;
 
+	glm::mat4 transform = parentObject->GetTransform().GetMatrix();
 	glm::vec2 lowest = parentObject->GetCollisionMesh()->GetLowestPoint();
+	lowest = transform * glm::vec4(lowest, 0.0f, 1.0f);
 	if (lowest.y < ground->GetHeight())
 	{
-		parentObject->GetTransform().SetTranslation(glm::vec2(lowest.x, ground->GetHeight() + parentObject->GetCollisionMesh()->GetHeight() / 2.0f));
+		parentObject->GetTransform().SetTranslation(glm::vec2(parentObject->GetTransform().GetTranslation().x, ground->GetHeight() + parentObject->GetCollisionMesh()->GetHeight() / 2.0f));
 		velocity.y = 0.0f;
 	}
 }

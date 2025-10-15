@@ -111,10 +111,13 @@
     <ClInclude Include="src\game\objects\Catapult.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\world\GameObjectContainer.h">
+    <ClInclude Include="src\engine\components\mesh\CollisionMesh.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="src\engine\components\mesh\CollisionMesh.h">
+    <ClInclude Include="src\engine\core\LevelManager.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\engine\utility\FileReader.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
@@ -216,13 +219,16 @@
     <ClCompile Include="src\game\objects\Catapult.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="src\engine\world\GameObjectContainer.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="src\engine\components\GameObjectComponent.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="src\engine\components\mesh\CollisionMesh.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\core\LevelManager.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\engine\utility\FileReader.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>

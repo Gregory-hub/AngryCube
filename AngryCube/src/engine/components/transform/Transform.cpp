@@ -59,19 +59,20 @@ void Transform::Scale(const glm::vec2& value)
 
 glm::mat4 Transform::GetMatrix() const
 {
-	glm::vec2 translationWorld = translation;
+	glm::mat4 transform(1.0f);
 
 	GameObject* parent = parentObject->GetParent();
 	while (parent)
 	{
-		translationWorld += parent->GetTransform().GetTranslation();
+		transform = glm::translate(transform, glm::vec3(parent->GetTransform().GetTranslation(), 0.0f));
+		transform = glm::rotate(transform, glm::radians(parent->GetTransform().GetRotation()), { 0.0f, 0.0f, 1.0f });
 		parent = parent->GetParent();
 	}
 
-	glm::mat4 transform(1.0f);
-	transform = glm::translate(transform, glm::vec3(translationWorld, 0.0f));
+	transform = glm::translate(transform, glm::vec3(translation, 0.0f));
 	transform = glm::rotate(transform, glm::radians(rotation), { 0.0f, 0.0f, 1.0f });
 	transform = glm::scale(transform, glm::vec3(scale, 0.0f));
+
     return transform;
 }
 

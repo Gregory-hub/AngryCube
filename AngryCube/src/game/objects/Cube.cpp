@@ -54,27 +54,15 @@ void Cube::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 
 void Cube::ShowDebugControls(glm::vec2 pos)
 {
-    ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
-    ImGui::Begin(name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+    //ImGui::SetNextWindowPos(ImVec2(pos.x, pos.y));
+    //ImGui::Begin(name.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize);
+    ImGui::Begin(name.c_str(), nullptr);
     GetTransform().ShowDebugControls();
 
     ImGui::DragFloat2("Push direction", &pushDirection.x, 0.01f, -1.0f, 1.0f);
 
-    if (ImGui::Button("Toggle physics"))
-    {
-        if (GetPhysics().Enabled())
-			GetPhysics().Disable();
-        else
-			GetPhysics().Enable();
-    }
-    if (ImGui::Button("Stop"))
-    {
-		GetPhysics().Stop();
-    }
     if (ImGui::Button("Push"))
-    {
 		GetPhysics().ApplyForce(pushDirection * 30000.0f);
-    }
 
     ImGui::End();
 }

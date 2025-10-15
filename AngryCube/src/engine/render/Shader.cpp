@@ -1,32 +1,14 @@
 #include "Shader.h"
 
-#include <string>
-#include <sstream>
-#include <fstream>
-#include <iostream>
-#include <utility>
-
 #include <GL/glew.h>
 
+#include "engine/utility/FileReader.h"
 
-std::string readFile(const std::string& filename)
-{
-    std::ifstream file(filename);
-    if (!file.is_open())
-    {
-        Logger::Log(Warning, std::string("file not open (") + filename + ")");
-        return "";
-    }
-    std::stringstream ss;
-    ss << file.rdbuf();
-    file.close();
-    return ss.str();
-}
 
 Shader::Shader(const std::string& name)
 {
-    std::string vertShaderStr = readFile(std::string("shaders/") + name + ".vert");
-    std::string fragShaderStr = readFile(std::string("shaders/") + name + ".frag");
+    std::string vertShaderStr = FileReader::ReadFile(std::string("shaders/") + name + ".vert");
+    std::string fragShaderStr = FileReader::ReadFile(std::string("shaders/") + name + ".frag");
 
     id = glCreateProgram();
 
