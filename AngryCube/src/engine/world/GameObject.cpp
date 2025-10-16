@@ -140,3 +140,7 @@ Collision& GameObject::GetCollision()
 	return collision;
 }
 
+void GameObject::ShowDebugControls()
+{
+    GetTransform().ShowDebugControls();
+}

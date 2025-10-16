@@ -11,8 +11,6 @@ class Cube : public GameObject
 private:
     static int id;
 
-    glm::vec2 pushDirection = { 0.0f, 0.0f };
-
 public:
     Cube(float mass = 1.0f);
     ~Cube() override = default;
@@ -29,7 +27,4 @@ public:
     void Update(float deltaTime) override;
 
 	void OnCollisionStart(const std::shared_ptr<GameObject>& other) override;
-
-    void ShowDebugControls(glm::vec2 pos) override;
 };
-

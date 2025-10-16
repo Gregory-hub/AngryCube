@@ -22,6 +22,6 @@ public:
 
 	void Update(float deltaTime) override;
 
-	void ShowDebugControls(glm::vec2 pos) override;
+	void ShowDebugControls() override;
 };
 

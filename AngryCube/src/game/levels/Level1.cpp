@@ -2,6 +2,7 @@
 
 #include "game/objects/Catapult.h"
 #include "game/objects/Cube.h"
+#include "game/objects/CatapultArm.h"
 
 
 Level1::Level1()
@@ -24,7 +25,6 @@ Level1::Level1()
     scene.SetGround(50.0f);
 
     std::shared_ptr<Catapult> catapult = std::make_shared<Catapult>();
-    catapult->GetTransform().Move(glm::vec2(500.0f, 500.0f));
+    catapult->GetTransform().Move(glm::vec2(800.0f, 300.0f));
     scene.Add(catapult);
 }
-

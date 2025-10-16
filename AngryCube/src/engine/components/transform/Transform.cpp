@@ -3,6 +3,7 @@
 #include <memory>
 
 #include <imgui.h>
+#include <stack>
 
 #include "engine/world/GameObject.h"
 
@@ -61,12 +62,20 @@ glm::mat4 Transform::GetMatrix() const
 {
 	glm::mat4 transform(1.0f);
 
+	std::stack<GameObject*> parents;
 	GameObject* parent = parentObject->GetParent();
 	while (parent)
 	{
+		parents.push(parent);
+		parent = parent->GetParent();
+	}
+	
+	while (!parents.empty())
+	{
+		parent = parents.top();
+		parents.pop();
 		transform = glm::translate(transform, glm::vec3(parent->GetTransform().GetTranslation(), 0.0f));
 		transform = glm::rotate(transform, glm::radians(parent->GetTransform().GetRotation()), { 0.0f, 0.0f, 1.0f });
-		parent = parent->GetParent();
 	}
 
 	transform = glm::translate(transform, glm::vec3(translation, 0.0f));

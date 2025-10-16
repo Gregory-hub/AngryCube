@@ -55,6 +55,6 @@ public:
 
 	virtual void OnCollisionStart(const std::shared_ptr<GameObject>& other) { }
 
-	virtual void ShowDebugControls(glm::vec2 pos) { }
+	virtual void ShowDebugControls();
 };
 

@@ -34,4 +34,3 @@ public:
 
 	void Update(float deltaTime) const;
 };
-

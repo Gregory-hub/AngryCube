@@ -25,5 +25,10 @@ public:
 	Renderer& operator= (Renderer&& other) noexcept;
 
 	void Render(const Scene& scene, Shader& shader) const;
+	
+	void RenderDebugUI(const Scene& scene) const;
+	void RenderParentObjectDebugUI(const std::shared_ptr<GameObject>& object) const;
+	void RenderChildObjectDebugUI(const std::shared_ptr<GameObject>& object) const;
+	void RenderObjectDebugUI(const std::shared_ptr<GameObject>& object) const;
 };
 

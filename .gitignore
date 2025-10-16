@@ -44,5 +44,6 @@
 .vs
 **/x64
 **/Debug
+'
 
 .idea
