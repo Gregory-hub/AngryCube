@@ -1,12 +1,15 @@
 #pragma once
-class FlatGround
+#include "game/objects/Cube.h"
+
+
+class FlatGround : public Cube
 {
 private:
 	float height;
 
 public:
-	FlatGround(float height);
+	FlatGround(Scene* parentScene, float height);
 
 	float GetHeight() const;
+	void SetHeight(float newHeight);
 };
-

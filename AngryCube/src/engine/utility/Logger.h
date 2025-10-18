@@ -3,7 +3,7 @@
 #include <string>
 
 
-enum LogLevel
+enum class LogLevel
 {
 	Info,
 	Warning,

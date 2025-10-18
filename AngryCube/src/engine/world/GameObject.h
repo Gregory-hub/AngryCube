@@ -9,14 +9,18 @@
 #include "engine/components/physics/Physics.h"
 #include "engine/components/transform/Transform.h"
 
+class Scene;
+
 
 class GameObject
 {
 protected:
 	std::string name;
+	
+	Scene* scene;
 	GameObject* parent = nullptr;
 	std::unordered_set<std::shared_ptr<GameObject>> children;
-	
+
 	// components
 	std::vector<std::shared_ptr<Mesh>> meshes;
 	Transform transform;
@@ -25,7 +29,7 @@ protected:
 	std::shared_ptr<CollisionMesh> collisionMesh = nullptr;
 
 public:
-	GameObject(float mass = 1.0f, const std::shared_ptr<CollisionMesh>& collisionMesh = nullptr);
+	GameObject(Scene* parentScene, float mass = 1.0f, const std::shared_ptr<CollisionMesh>& collisionMesh = nullptr);
 	virtual ~GameObject() = default;
 
 	GameObject(const GameObject& other);
@@ -45,11 +49,20 @@ public:
 	virtual void RemoveChild(const std::shared_ptr<GameObject>& child);
 
 	const std::string& GetName() const;
+	
 	const std::vector<std::shared_ptr<Mesh>>& GetMeshes();
+	
 	std::shared_ptr<CollisionMesh> GetCollisionMesh();
+	std::shared_ptr<const CollisionMesh> GetCollisionMesh() const;
+	
 	Transform& GetTransform();
+	const Transform& GetTransform() const;
+	
 	Physics& GetPhysics();
+	const Physics& GetPhysics() const;
+	
 	Collision& GetCollision();
+	const Collision& GetCollision() const;
 
 	virtual void Update(float deltaTime) = 0;
 
@@ -57,4 +70,3 @@ public:
 
 	virtual void ShowDebugControls();
 };
-

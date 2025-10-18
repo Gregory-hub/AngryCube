@@ -32,20 +32,21 @@ void Renderer::Render(const Scene& scene, Shader& shader) const
 {
 	shader.Bind();
 
-	std::unordered_set<std::shared_ptr<GameObject>> objectsSet = scene.GetObjects();
-
-	for (const std::shared_ptr<GameObject>& object : objectsSet)
-	{
-		shader.SetUniform("transform", projMatrix * object->GetTransform().GetMatrix());
-
-		for (const std::shared_ptr<Mesh>& mesh : object->GetMeshes())
-		{
-			mesh->BindBuffers();
-			glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
-		}
-	}
+	for (const std::shared_ptr<GameObject>& object : scene.GetObjects())
+		RenderObject(object, shader);
 
 	RenderDebugUI(scene);
+}
+
+void Renderer::RenderObject(const std::shared_ptr<GameObject>& object, Shader& shader) const
+{
+	shader.SetUniform("transform", projMatrix * object->GetTransform().GetMatrix());
+
+	for (const std::shared_ptr<Mesh>& mesh : object->GetMeshes())
+	{
+		mesh->BindBuffers();
+		glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
+	}
 }
 
 void Renderer::RenderDebugUI(const Scene& scene) const
@@ -60,9 +61,7 @@ void Renderer::RenderDebugUI(const Scene& scene) const
 	for (const std::shared_ptr<GameObject>& object : objects)
 	{
 		if (!object->GetParent())
-		{
 			RenderParentObjectDebugUI(object);
-		}
 	}
 	ImGui::End();
 }

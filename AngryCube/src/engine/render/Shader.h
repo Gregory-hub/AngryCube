@@ -34,7 +34,7 @@ public:
 	void SetUniform(const std::string& name, const T& value)
 	{
 		std::string message = std::string("Type '") + typeid(T).name() + "' is not supported";
-		Logger::Log(Error, message);
+		Logger::Log(LogLevel::Error, message);
 		throw std::invalid_argument(message);
 	}
 

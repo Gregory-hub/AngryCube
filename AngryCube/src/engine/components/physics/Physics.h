@@ -5,9 +5,9 @@
 
 #include "engine/components/GameObjectComponent.h"
 #include "engine/components/transform/Transform.h"
-#include "engine/world/FlatGround.h"
 
 class GameObject;
+class FlatGround;
 
 
 // handles game object movement caused by any of mechanics laws
@@ -39,6 +39,8 @@ public:
 	void SetMass(float newMass);
 
 	const glm::vec2& GetVelocity() const;
+	void SetVelocity(const glm::vec2& newVelocity);
+	
 	const glm::vec2& GetAcceleration() const;
 
 	void SetGround(const std::shared_ptr<FlatGround>& ground);

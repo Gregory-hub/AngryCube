@@ -2,16 +2,13 @@
 
 #include <stdexcept>
 
-#include <imgui.h>
-#include <glm/gtc/matrix_transform.hpp>
-
 #include "engine/components/mesh/DefaultMeshes.h"
 
 
 int Cube::id = 0;
 
-Cube::Cube(float mass)
-	: GameObject(mass, std::make_shared<CollisionMesh>(std::make_shared<CubeMesh>()))
+Cube::Cube(Scene* parentScene, float mass)
+	: GameObject(parentScene, mass, std::make_shared<CollisionMesh>(std::make_shared<CubeMesh>()))
 {
     name = "Cube " + std::to_string(id++);
     meshes.push_back(GetCollisionMesh()->GetBaseMesh());

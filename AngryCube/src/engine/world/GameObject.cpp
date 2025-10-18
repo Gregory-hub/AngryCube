@@ -3,8 +3,9 @@
 #include "engine/core/Game.h"
 
 
-GameObject::GameObject(float mass, const std::shared_ptr<CollisionMesh>& collisionMesh)
-	:	transform(Transform(this)),
+GameObject::GameObject(Scene* parentScene, float mass, const std::shared_ptr<CollisionMesh>& collisionMesh)
+	:	scene(parentScene),
+		transform(Transform(this)),
 		physics(Physics(this, mass)),
 		collision(Collision(this)),
 		collisionMesh(collisionMesh)
@@ -12,7 +13,8 @@ GameObject::GameObject(float mass, const std::shared_ptr<CollisionMesh>& collisi
 }
 
 GameObject::GameObject(const GameObject& other)
-	:	transform(other.transform),
+	:	scene(other.scene),
+		transform(other.transform),
 		physics(other.physics),
 		collision(other.collision),
 		collisionMesh(other.collisionMesh)
@@ -30,6 +32,7 @@ GameObject& GameObject::operator=(const GameObject& other)
 {
 	if (this != &other)
 	{
+		scene = other.scene;
 		transform = other.transform;
 		physics = other.physics;
 		collision = other.collision;
@@ -49,6 +52,7 @@ GameObject& GameObject::operator=(const GameObject& other)
 
 GameObject::GameObject(GameObject&& other) noexcept
 	:	name(std::exchange(other.name, "")),
+		scene(std::exchange(other.scene, nullptr)),
 		meshes(std::move(other.meshes)),
 		transform(std::move(other.transform)),
 		physics(std::move(other.physics)),
@@ -62,6 +66,7 @@ GameObject& GameObject::operator=(GameObject&& other) noexcept
 	if (this != &other)
 	{
 		name = std::exchange(other.name, "");
+		scene = std::exchange(other.scene, nullptr);
 		transform = std::move(other.transform);
 		physics = std::move(other.physics);
 		collision = std::move(other.collision);
@@ -96,7 +101,9 @@ void GameObject::AttachChild(const std::shared_ptr<GameObject>& child)
 		children.insert(child);
 		child->parent = this;
 		child->GetPhysics().Disable();
-		GetPhysics().SetMass(GetPhysics().GetMass() + child->GetPhysics().GetMass());
+
+		if (!scene->Contains(child))
+			scene->Add(child);
 	}
 }
 
@@ -106,7 +113,6 @@ void GameObject::RemoveChild(const std::shared_ptr<GameObject>& child)
 	{
 		children.erase(child);
 		child->parent = nullptr;
-		GetPhysics().SetMass(GetPhysics().GetMass() - child->GetPhysics().GetMass());
 	}
 }
 
@@ -125,9 +131,29 @@ std::shared_ptr<CollisionMesh> GameObject::GetCollisionMesh()
 	return collisionMesh;
 }
 
+std::shared_ptr<const CollisionMesh> GameObject::GetCollisionMesh() const
+{
+	return collisionMesh;
+}
+
 Transform& GameObject::GetTransform()
 {
 	return transform;
+}
+
+const Transform& GameObject::GetTransform() const
+{
+	return transform;
+}
+
+const Physics& GameObject::GetPhysics() const
+{
+	return physics;
+}
+
+const Collision& GameObject::GetCollision() const
+{
+	return collision;
 }
 
 Physics& GameObject::GetPhysics()

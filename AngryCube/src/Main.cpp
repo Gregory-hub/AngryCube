@@ -33,6 +33,7 @@
 // (skipped) component system with component checking
 // (done) physics
 // (done) collision
+// fix ground physics
 // game logic
 // saves
 // levels
@@ -93,7 +94,7 @@ static GLFWwindow* runSetup()
         throw std::runtime_error(message);
     }
 
-    Logger::Log(Info, reinterpret_cast<const char*>(glGetString(GL_VERSION)));
+    Logger::Log(LogLevel::Info, reinterpret_cast<const char*>(glGetString(GL_VERSION)));
 
     int flags;
     glGetIntegerv(GL_CONTEXT_FLAGS, &flags);

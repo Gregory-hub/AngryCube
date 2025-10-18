@@ -2,6 +2,7 @@
 
 #include "constants.h"
 #include "engine/world/GameObject.h"
+#include "engine/world/FlatGround.h"
 
 
 Physics::Physics(GameObject* parentObject, float mass)
@@ -39,6 +40,11 @@ void Physics::SetMass(float newMass)
 const glm::vec2& Physics::GetVelocity() const
 {
 	return velocity;
+}
+
+void Physics::SetVelocity(const glm::vec2& newVelocity)
+{
+	velocity = newVelocity;
 }
 
 const glm::vec2& Physics::GetAcceleration() const
@@ -148,4 +154,3 @@ void Physics::Update(float deltaTime)
 
 	ResolveGroundCollision();
 }
-

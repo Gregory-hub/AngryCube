@@ -1,9 +1,12 @@
+#define GLM_ENABLE_EXPERIMENTAL
+
 #include "Transform.h"
 
 #include <memory>
+#include <stack>
 
 #include <imgui.h>
-#include <stack>
+#include <glm/gtx/matrix_decompose.hpp>
 
 #include "engine/world/GameObject.h"
 
@@ -26,6 +29,22 @@ float Transform::GetRotation() const
 glm::vec2 Transform::GetScale() const
 {
 	return scale;
+}
+
+glm::vec2 Transform::GetWorldTranslation() const
+{
+	return GetMatrix()[3];
+}
+
+float Transform::GetWorldRotation() const
+{
+	glm::vec3 scale;
+	glm::quat rotation;
+	glm::vec3 translation;
+	glm::vec3 skew;
+	glm::vec4 perspective;
+	glm::decompose(GetMatrix(), scale, rotation, translation, skew, perspective);
+	return glm::eulerAngles(rotation).z;
 }
 
 void Transform::SetTranslation(const glm::vec2& value)

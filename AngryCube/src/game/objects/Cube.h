@@ -1,7 +1,6 @@
 #pragma once
 
 #include <memory>
-#include <glm/glm.hpp>
 
 #include "engine/world/GameObject.h"
 
@@ -12,7 +11,7 @@ private:
     static int id;
 
 public:
-    Cube(float mass = 1.0f);
+    Cube(Scene* parentScene, float mass = 1.0f);
     ~Cube() override = default;
 
     Cube(const Cube& other);

@@ -27,6 +27,9 @@ public:
     glm::vec2 GetTranslation() const;
     float GetRotation() const;
     glm::vec2 GetScale() const;
+    
+    glm::vec2 GetWorldTranslation() const;
+    float GetWorldRotation() const;
 
     void SetTranslation(const glm::vec2& value);
     void SetRotation(float value);

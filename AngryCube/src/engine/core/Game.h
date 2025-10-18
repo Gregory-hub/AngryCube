@@ -14,4 +14,3 @@ public:
 	void LoadLevel(const std::shared_ptr<Level>& level);
 	const std::shared_ptr<Level>& GetActiveLevel();
 };
-

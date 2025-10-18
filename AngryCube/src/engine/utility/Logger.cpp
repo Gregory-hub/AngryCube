@@ -18,5 +18,5 @@ void Logger::Log(LogLevel logLevel, std::string message)
 		break;
 	}
 
-	std::cout << message << std::endl;
+	std::cout << message << '\n';
 }

@@ -1,14 +1,18 @@
 #pragma once
 #include "engine/world/GameObject.h"
 
+#include "CatapultArm.h"
+
 
 class Catapult : public GameObject
 {
 private:
     static int id;
 
+	std::shared_ptr<CatapultArm> arm;
+
 public:
-	Catapult();
+	Catapult(Scene* parentScene);
 	~Catapult() override = default;
 
 	Catapult(const Catapult& other) = default;
@@ -20,8 +24,10 @@ public:
 	std::shared_ptr<GameObject> Clone() const override;
 	std::shared_ptr<GameObject> MoveClone() override;
 
+	void Release();
+	void Cock();
+
 	void Update(float deltaTime) override;
 
 	void ShowDebugControls() override;
 };
-

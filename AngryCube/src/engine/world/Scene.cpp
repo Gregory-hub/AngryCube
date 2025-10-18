@@ -2,8 +2,9 @@
 
 
 Scene::Scene()
-	: ground(std::make_shared<FlatGround>(0.0f))
+	: ground(std::make_shared<FlatGround>(this, 0.0f))
 {
+    // Add(ground);
 }
 
 Scene::Scene(const Scene& other)
@@ -38,7 +39,7 @@ Scene& Scene::operator=(Scene&& other) noexcept
     return *this;
 }
 
-const std::unordered_set<std::shared_ptr<GameObject>>& Scene::GetObjects() const
+std::unordered_set<std::shared_ptr<GameObject>> Scene::GetObjects() const
 {
     return objects;
 }
@@ -52,8 +53,10 @@ void Scene::Add(const std::shared_ptr<GameObject>& object)
     if (ground)
         object->GetPhysics().SetGround(ground);
 
-    for (const std::shared_ptr<GameObject>& child : object->GetChildren())
+    for (const auto& child : object->GetChildren())
+    {
         Add(child);
+    }
 }
 
 void Scene::Remove(const std::shared_ptr<GameObject>& object)
@@ -73,14 +76,14 @@ const std::shared_ptr<FlatGround>& Scene::GetGround() const
     return ground;
 }
 
-void Scene::SetGround(float height)
+void Scene::SetGroundHeight(float height)
 {
-    ground = std::make_shared<FlatGround>(height);
+    ground->SetHeight(height);
 }
 
 void Scene::Update(float deltaTime) const
 {
-    for (const std::shared_ptr<GameObject>& object : objects)
+    for (const std::shared_ptr<GameObject>& object : GetObjects())
     {
 		if (ground && !object->GetPhysics().GetGround())
 			object->GetPhysics().SetGround(ground);
@@ -95,4 +98,3 @@ void Scene::Update(float deltaTime) const
 		}
     }
 }
-

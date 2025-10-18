@@ -51,7 +51,7 @@ Level LevelManager::ReadLevelFile(const std::string& levelName) const
     std::ifstream file(filename, std::ios::binary);
     if (!file.is_open())
     {
-        Logger::Log(Error, std::string("file not open (") + filename + ")");
+        Logger::Log(LogLevel::Error, std::string("file not open (") + filename + ")");
         return Level();
     }
 
@@ -69,7 +69,7 @@ void LevelManager::WriteLevelToFile(const std::shared_ptr<Level>& level, const s
     std::ofstream file(filename, std::ios::binary);
     if (!file.is_open())
     {
-        Logger::Log(Error, std::string("file not open (") + filename + ")");
+        Logger::Log(LogLevel::Error, std::string("file not open (") + filename + ")");
         return;
     }
 
