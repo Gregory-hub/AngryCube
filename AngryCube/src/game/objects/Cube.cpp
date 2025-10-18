@@ -3,6 +3,7 @@
 #include <stdexcept>
 
 #include "engine/components/mesh/DefaultMeshes.h"
+#include "engine/material/SolidColor.h"
 
 
 int Cube::id = 0;
@@ -11,7 +12,10 @@ Cube::Cube(Scene* parentScene, float mass)
 	: GameObject(parentScene, mass, std::make_shared<CollisionMesh>(std::make_shared<CubeMesh>()))
 {
     name = "Cube " + std::to_string(id++);
-    meshes.push_back(GetCollisionMesh()->GetBaseMesh());
+
+    std::shared_ptr<CubeMesh> mesh = std::make_shared<CubeMesh>();
+    mesh->SetMaterial(std::make_shared<SolidColor>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+    meshes.push_back(mesh);
 }
 
 Cube::Cube(const Cube& other)

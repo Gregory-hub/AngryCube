@@ -1,7 +1,5 @@
 #include "Mesh.h"
 
-#include <glm/gtc/type_ptr.inl>
-
 
 Mesh::Mesh()
 	: GameObjectComponent(nullptr), bufferManager(std::make_unique<GLBufferManager>())
@@ -9,45 +7,46 @@ Mesh::Mesh()
 }
 
 Mesh::Mesh(const Mesh& other)
-	: GameObjectComponent(nullptr)
+	: Mesh()
 {
 	vertices = other.vertices;
 	triangles = other.triangles;
-	bufferManager = std::make_unique<GLBufferManager>();
+	material = other.material;
+	shader = other.shader;
+	
 	UpdateBuffers();
 }
 
-Mesh& Mesh::operator=(const Mesh& other)
+Mesh& Mesh::operator=(Mesh other)
 {
-	if (this != &other)
-	{
-		vertices = other.vertices;
-		triangles = other.triangles;
-		bufferManager = std::make_unique<GLBufferManager>();
-		UpdateBuffers();
-		GameObjectComponent::operator=(other);
-	}
+	swap(*this, other);
+	UpdateBuffers();
 	return *this;
 }
 
 Mesh::Mesh(Mesh&& other) noexcept
-	: GameObjectComponent(nullptr)
+	: GameObjectComponent(std::move(other)),
+	vertices(std::move(other.vertices)),
+	triangles(std::exchange(other.triangles, std::vector<glm::uvec3>())),
+	bufferManager(std::exchange(other.bufferManager, nullptr)),
+	material(std::move(other.material)),
+	shader(std::move(other.shader))
 {
-	vertices = std::exchange(other.vertices, std::vector<glm::vec2>());
-	triangles = std::exchange(other.triangles, std::vector<glm::uvec3>());
-	bufferManager = std::exchange(other.bufferManager, nullptr);
 }
 
 Mesh& Mesh::operator=(Mesh&& other) noexcept
 {
-	if (this != &other)
-	{
-		vertices = std::exchange(other.vertices, std::vector<glm::vec2>());
-		triangles = std::exchange(other.triangles, std::vector<glm::uvec3>());
-		bufferManager = std::exchange(other.bufferManager, nullptr);
-		GameObjectComponent::operator=(std::move(other));
-	}
+	Mesh tmp(std::move(other));
+	swap(*this, tmp);
 	return *this;
+}
+
+void Mesh::swap(Mesh& first, Mesh& second) noexcept
+{
+	std::swap(first.vertices, second.vertices);
+	std::swap(first.triangles, first.triangles);
+	std::swap(first.bufferManager, first.bufferManager);
+	std::swap(first.material, first.material);
 }
 
 std::vector<glm::vec2> Mesh::GetVertices() const
@@ -68,6 +67,21 @@ std::vector<glm::uvec3> Mesh::GetTriangles() const
 void Mesh::SetTriangles(const std::vector<glm::uvec3>& newTriangles)
 {
 	triangles = newTriangles;
+}
+
+const std::shared_ptr<Material>& Mesh::GetMaterial() const
+{
+	return material;
+}
+
+void Mesh::SetMaterial(const std::shared_ptr<Material>& newMaterial)
+{
+	material = newMaterial;
+}
+
+const std::shared_ptr<Shader>& Mesh::GetShader() const
+{
+	return shader;
 }
 
 void Mesh::BindBuffers() const
@@ -96,4 +110,3 @@ void Mesh::UpdateBuffers() const
 	bufferManager->SetElementBuffer(GetIndexCount() * sizeof(glm::uvec3), triangles.empty() ? nullptr : glm::value_ptr(triangles[0]));
 	bufferManager->SetVertexAttributes({ 2 });
 }
-

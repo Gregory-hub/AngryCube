@@ -13,14 +13,14 @@ class Shader
 {
 private:
 	unsigned int id;
+	std::string filename;
 
 public:
 	Shader(const std::string& name);
 	~Shader();
 
-    // not copyable because holds unique resources
-	Shader(const Shader& other) = delete;
-	Shader& operator= (const Shader& other) = delete;
+	Shader(const Shader& other);
+	Shader& operator= (Shader other);
 
 	Shader(Shader&& other) noexcept;
 	Shader& operator= (Shader&& other) noexcept;

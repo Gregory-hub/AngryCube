@@ -139,6 +139,9 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\engine\core\ShaderManager.h" />
+    <ClInclude Include="src\engine\material\Material.h" />
+    <ClInclude Include="src\engine\material\SolidColor.h" />
     <ClInclude Include="src\engine\utility\FileReader.h" />
     <ClInclude Include="src\engine\core\LevelManager.h" />
     <ClInclude Include="src\engine\components\mesh\CollisionMesh.h" />
@@ -184,6 +187,9 @@
     <None Include="shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\engine\core\ShaderManager.cpp" />
+    <ClCompile Include="src\engine\material\Material.cpp" />
+    <ClCompile Include="src\engine\material\SolidColor.cpp" />
     <ClCompile Include="src\engine\utility\FileReader.cpp" />
     <ClCompile Include="src\engine\core\LevelManager.cpp" />
     <ClCompile Include="src\engine\components\mesh\CollisionMesh.cpp" />

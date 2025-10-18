@@ -2,11 +2,11 @@
 
 out vec4 outFragColor;
 
-uniform vec4 vertexColor;
+uniform vec4 color;
 
 
 void main()
 {
-	outFragColor = vertexColor;
+	outFragColor = color;
 }
 

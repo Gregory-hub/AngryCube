@@ -7,6 +7,8 @@
 
 Shader::Shader(const std::string& name)
 {
+    filename = name;
+
     std::string vertShaderStr = FileReader::ReadFile(std::string("shaders/") + name + ".vert");
     std::string fragShaderStr = FileReader::ReadFile(std::string("shaders/") + name + ".frag");
 
@@ -36,15 +38,31 @@ Shader::~Shader()
     glDeleteProgram(id);
 }
 
+Shader::Shader(const Shader& other)
+    : Shader(other.filename)
+{
+}
+
+Shader& Shader::operator=(Shader other)
+{
+    std::swap(this->id, other.id);
+    std::swap(this->filename, other.filename);
+    return *this;
+}
+
 Shader::Shader(Shader&& other) noexcept
 {
     id = std::exchange(other.id, 0);
+    filename = std::move(other.filename);
 }
 
 Shader& Shader::operator=(Shader&& other) noexcept
 {
     if (this != &other)
+    {
 		id = std::exchange(other.id, 0);
+        filename = std::move(other.filename);
+    }
     return *this;
 }
 

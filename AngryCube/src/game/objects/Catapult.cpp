@@ -4,6 +4,7 @@
 #include "Cube.h"
 #include "imgui.h"
 #include "engine/components/mesh/DefaultMeshes.h"
+#include "engine/material/SolidColor.h"
 #include "engine/utility/ImGuiDragFloatWithSetter.h"
 
 
@@ -13,6 +14,9 @@ Catapult::Catapult(Scene* parentScene)
 	: GameObject(parentScene, 100.0f)
 {
     name = "Catapult " + std::to_string(id++);
+
+	glm::vec4 color = glm::vec4(0.55, 0.59, 0.3, 1.0f);
+	auto material = std::make_shared<SolidColor>(color);
 
 	float woodWidth = 0.1f;
 	std::shared_ptr<Cube> platform = std::make_shared<Cube>(scene);
@@ -63,6 +67,13 @@ Catapult::Catapult(Scene* parentScene)
 	AttachChild(frameRight);
 	AttachChild(stopper);
 	AttachChild(arm);
+
+	for (auto& child : children)
+	{
+		for (auto& mesh : child->GetMeshes())
+			mesh->SetMaterial(material);
+	}
+	arm->SetMaterial(material);
 
 	std::shared_ptr<Cube> projectile = std::make_shared<Cube>(scene, 5.0f);
 	projectile->GetTransform().SetScale(glm::vec2(0.2f, 0.2f));

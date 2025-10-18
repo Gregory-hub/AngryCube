@@ -28,24 +28,28 @@ Renderer& Renderer::operator=(Renderer&& other) noexcept
 	return *this;
 }
 
-void Renderer::Render(const Scene& scene, Shader& shader) const
+void Renderer::Render(const Scene& scene) const
 {
-	shader.Bind();
-
 	for (const std::shared_ptr<GameObject>& object : scene.GetObjects())
-		RenderObject(object, shader);
+		RenderObject(object);
 
 	RenderDebugUI(scene);
 }
 
-void Renderer::RenderObject(const std::shared_ptr<GameObject>& object, Shader& shader) const
+void Renderer::RenderObject(const std::shared_ptr<GameObject>& object) const
 {
-	shader.SetUniform("transform", projMatrix * object->GetTransform().GetMatrix());
-
 	for (const std::shared_ptr<Mesh>& mesh : object->GetMeshes())
 	{
-		mesh->BindBuffers();
-		glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
+		if (Shader* shader = mesh->GetShader().get())
+		{
+			shader->Bind();
+			shader->SetUniform("transform", projMatrix * object->GetTransform().GetMatrix());
+			if (const Material* material = mesh->GetMaterial().get())
+				material->SetShaderUniforms(shader);
+	
+			mesh->BindBuffers();
+			glDrawElements(GL_TRIANGLES, mesh->GetIndexCount(), GL_UNSIGNED_INT, nullptr);
+		}
 	}
 }
 

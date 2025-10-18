@@ -66,6 +66,8 @@ public:
     float GetK() const;
     void SetK(float k);
 
+    void SetMaterial(std::shared_ptr<Material> material);
+
     void Update(float deltaTime) override;
     void UpdateArmProgress(float deltaTime);
 

@@ -11,13 +11,14 @@
 
 #include "engine/core/Game.h"
 #include "engine/core/LevelManager.h"
+#include "engine/core/ShaderManager.h"
 #include "engine/utility/Logger.h"
 #include "engine/utility/debugCallback.h"
 #include "engine/utility/Clock.h"
 #include "engine/utility/Timer.h"
 #include "engine/render/Renderer.h"
 #include "engine/render/Shader.h"
-#include "engine/world/Scene.h"
+#include "engine/components/mesh/DefaultMeshes.h"
 #include "game/levels/Level1.h"
 
 
@@ -142,9 +143,8 @@ int main()
 
     Renderer renderer(window, WINDOW_RESOLUTION);
 
-    Shader shader("cube");
-	shader.Bind();
-	shader.SetUniform<glm::vec4>("vertexColor", { 0.8f, 0.8f, 1.0f, 1.0f });
+    auto cubeShader = std::make_shared<Shader>("cube");
+	ShaderManager::RegisterShaderFor<CubeMesh>(std::move(cubeShader));
 
     Game game;
     std::shared_ptr<Level> level = std::make_shared<Level1>();
@@ -154,9 +154,8 @@ int main()
 	// levelManager.Save(level, "level1");
 	// Level level1 = levelManager.Load("level1");
 
-	// return 0;
-
-    glClearColor(0.1f, 0.1f, 0.2f, 1.0f);
+	glm::vec3 skyColor = glm::vec3(0.568f, 0.78f, 0.98f) * 0.9f;
+    glClearColor(skyColor.r, skyColor.g, skyColor.b, 1.0f);
     while (!glfwWindowShouldClose(window))
     {
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -176,8 +175,7 @@ int main()
 
         game.GetActiveLevel()->Update(deltaTime);
 
-		shader.SetUniform<glm::vec4>("vertexColor", { red, green, blue, 1.0f });
-        renderer.Render(game.GetActiveLevel()->GetScene(), shader);
+        renderer.Render(game.GetActiveLevel()->GetScene());
 
         float frametime = timer.End();
         ShowDebugTimeValues(deltaTime, 1.0f / frametime);
@@ -197,4 +195,3 @@ int main()
     glfwTerminate();
     return 0;
 }
-

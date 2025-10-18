@@ -2,7 +2,6 @@
 
 #include "Transform.h"
 
-#include <memory>
 #include <stack>
 
 #include <imgui.h>

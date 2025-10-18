@@ -16,4 +16,3 @@ public:
 	float GetHeight() const;
 	void SetSizes(float w, float h);
 };
-
