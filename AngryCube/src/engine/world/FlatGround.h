@@ -5,6 +5,7 @@
 class FlatGround : public Cube
 {
 private:
+	static unsigned int id;
 	float height;
 
 public:

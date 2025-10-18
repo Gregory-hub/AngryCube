@@ -4,7 +4,7 @@
 Scene::Scene()
 	: ground(std::make_shared<FlatGround>(this, 0.0f))
 {
-    // Add(ground);
+    Add(ground);
 }
 
 Scene::Scene(const Scene& other)
