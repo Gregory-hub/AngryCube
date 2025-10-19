@@ -1,8 +1,6 @@
 #include "pch.h"
 #include "Cube.h"
 
-#include <stdexcept>
-
 #include "engine/components/mesh/DefaultMeshes.h"
 #include "engine/material/SolidColor.h"
 

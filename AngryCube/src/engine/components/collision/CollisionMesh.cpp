@@ -6,8 +6,8 @@
 #include "engine/world/GameObject.h"
 
 
-CollisionMesh::CollisionMesh(GameObject* parentObject, const std::shared_ptr<Mesh>& mesh)
-	: GameObjectComponent(parentObject), baseMesh(mesh)
+CollisionMesh::CollisionMesh(GameObject* parent, const std::shared_ptr<Mesh>& mesh)
+	: GameObjectComponent(parent), baseMesh(mesh)
 {
 	if (mesh->GetVertices().empty())
 		throw std::invalid_argument("Mesh must contain vertices");

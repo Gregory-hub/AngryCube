@@ -23,6 +23,7 @@ GameObject::GameObject(const GameObject& other)
 	transform.SetParentObject(this);
 	physics.SetParentObject(this);
 	collision.SetParentObject(this);
+	collisionMesh->SetParentObject(this);
 
     meshes.reserve(other.meshes.size());
     for (const std::shared_ptr<Mesh>& mesh : other.meshes)
@@ -42,6 +43,7 @@ GameObject& GameObject::operator=(const GameObject& other)
 		transform.SetParentObject(this);
 		physics.SetParentObject(this);
 		collision.SetParentObject(this);
+		collisionMesh->SetParentObject(this);
 
 		meshes.clear();
 		meshes.reserve(other.meshes.size());

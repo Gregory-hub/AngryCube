@@ -56,7 +56,8 @@ void Scene::Add(const std::shared_ptr<GameObject>& object)
 
     for (const auto& child : object->GetChildren())
     {
-        Add(child);
+		if (!Contains(child))
+			Add(child);
     }
 }
 

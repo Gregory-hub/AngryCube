@@ -11,8 +11,8 @@
 #include "engine/world/GameObject.h"
 
 
-Transform::Transform(GameObject* parentObject)
-	: GameObjectComponent(parentObject)
+Transform::Transform(GameObject* parent)
+	: GameObjectComponent(parent)
 {
 }
 
@@ -60,6 +60,29 @@ void Transform::SetRotation(float value)
 void Transform::SetScale(const glm::vec2& value)
 {
 	scale = value;
+}
+
+void Transform::SetWorldTranslation(const glm::vec2& value)
+{
+	translation = value;
+	GameObject* parent = parentObject->GetParent();
+	while (parent)
+	{
+		translation -= parent->GetTransform().GetTranslation();
+		parent = parent->GetParent();
+	}
+}
+
+void Transform::SetWorldRotation(float value)
+{
+	// NOT TESTED!
+	rotation = value;
+	GameObject* parent = parentObject->GetParent();
+	while (parent)
+	{
+		rotation -= parent->GetTransform().GetRotation();
+		parent = parent->GetParent();
+	}
 }
 
 void Transform::Move(const glm::vec2& value)

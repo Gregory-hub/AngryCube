@@ -15,7 +15,7 @@ private:
     glm::vec2 scale { 1.0f, 1.0f };
 
 public:
-    Transform(GameObject* parentObject);
+    Transform(GameObject* parent);
     ~Transform() override = default;
 
     Transform(const Transform& other) = default;
@@ -27,13 +27,16 @@ public:
     glm::vec2 GetTranslation() const;
     float GetRotation() const;
     glm::vec2 GetScale() const;
-    
+
     glm::vec2 GetWorldTranslation() const;
     float GetWorldRotation() const;
 
     void SetTranslation(const glm::vec2& value);
     void SetRotation(float value);
     void SetScale(const glm::vec2& value);
+    
+    void SetWorldTranslation(const glm::vec2& value);
+    void SetWorldRotation(float value);
 
 	void Move(const glm::vec2& value);
 	void Rotate(float value);

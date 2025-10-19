@@ -129,7 +129,9 @@ void Physics::ResolveGroundCollision()
 	glm::vec2 lowest = parentObject->GetCollisionMesh()->GetLowestPoint();
 	if (lowest.y < ground->GetHeight())
 	{
-		parentObject->GetTransform().SetTranslation(glm::vec2(parentObject->GetTransform().GetTranslation().x, ground->GetHeight() + parentObject->GetCollisionMesh()->GetHeight() / 2.0f));
+		parentObject->GetTransform().SetWorldTranslation(glm::vec2(
+			parentObject->GetTransform().GetWorldTranslation().x,
+			ground->GetHeight() + parentObject->GetCollisionMesh()->GetHeight() / 2.0f));
 		velocity.y = 0.0f;
 	}
 }
