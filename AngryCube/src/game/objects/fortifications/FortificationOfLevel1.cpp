@@ -10,24 +10,23 @@ FortificationOfLevel1::FortificationOfLevel1(Scene* parentScene)
     auto brickTemplate = std::make_shared<Cube>(parentScene, 5.0f);
     float scale = 0.5f;
     brickTemplate->GetTransform().SetScale(glm::vec2(scale, scale));
+    brickTemplate->GetPhysics().Disable();
 
     float padding = 2.0f;
 
     auto brickLowest = brickTemplate->Clone();
     brickLowest->GetTransform().SetTranslation(glm::vec2(0.0f, brickLowest->GetCollisionMesh()->GetHeight() / 2.0f));
-    AttachChild(brickLowest);
+    AttachChild(brickLowest, false);
 
     auto brickMiddle = brickTemplate->Clone();
     brickMiddle->GetTransform().SetTranslation(brickLowest->GetTransform().GetTranslation() +
         glm::vec2(0.0f, brickMiddle->GetCollisionMesh()->GetHeight() + padding));
-    AttachChild(brickMiddle);
+    AttachChild(brickMiddle, false);
 
     auto brickHigh = brickTemplate->Clone();
     brickHigh->GetTransform().SetTranslation(brickMiddle->GetTransform().GetTranslation() +
-        glm::vec2(70.0f, brickHigh->GetCollisionMesh()->GetHeight() * 2.0f + padding));
-    AttachChild(brickHigh);
-
-    brickHigh->GetPhysics().Enable();
+        glm::vec2(0.0f, brickHigh->GetCollisionMesh()->GetHeight() + padding));
+    AttachChild(brickHigh, false);
 }
 
 std::shared_ptr<GameObject> FortificationOfLevel1::Clone() const
