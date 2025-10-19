@@ -109,11 +109,9 @@ void Physics::ApplyGroundDryFriction()
 	if (parentObject->GetCollisionMesh()->GetLowestPoint().y > ground->GetHeight())
 		return;
 
-	float stictionThreshold = 0.00001f;
-	if (abs(netForce.x) > stictionThreshold)
+	if (abs(netForce.x) > STICTION_THRESHOLD)
 	{
-		float coefOfFriction = 0.4f;
-		ApplyForce(coefOfFriction * glm::vec2(1.0f, 0.0f) * abs(netForce.y) * glm::sign(netForce.x));
+		ApplyForce(FRICTION_COEFFICIENT * glm::vec2(1.0f, 0.0f) * abs(netForce.y) * glm::sign(netForce.x));
 	}
 	else
 	{
@@ -127,9 +125,7 @@ void Physics::ResolveGroundCollision()
 	if (!ground)
 		return;
 
-	glm::mat4 transform = parentObject->GetTransform().GetMatrix();
 	glm::vec2 lowest = parentObject->GetCollisionMesh()->GetLowestPoint();
-	lowest = transform * glm::vec4(lowest, 0.0f, 1.0f);
 	if (lowest.y < ground->GetHeight())
 	{
 		parentObject->GetTransform().SetTranslation(glm::vec2(parentObject->GetTransform().GetTranslation().x, ground->GetHeight() + parentObject->GetCollisionMesh()->GetHeight() / 2.0f));
