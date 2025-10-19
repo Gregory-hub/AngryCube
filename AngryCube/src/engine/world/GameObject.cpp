@@ -17,13 +17,17 @@ GameObject::GameObject(const GameObject& other)
 	:	scene(other.scene),
 		transform(other.transform),
 		physics(other.physics),
-		collision(other.collision),
-		collisionMesh(other.collisionMesh)
+		collision(other.collision)
 {
 	transform.SetParentObject(this);
 	physics.SetParentObject(this);
 	collision.SetParentObject(this);
-	collisionMesh->SetParentObject(this);
+
+	if (other.collisionMesh)
+	{
+		collisionMesh = std::dynamic_pointer_cast<CollisionMesh>(other.collisionMesh->Clone());
+		collisionMesh->SetParentObject(this);
+	}
 
     meshes.reserve(other.meshes.size());
     for (const std::shared_ptr<Mesh>& mesh : other.meshes)
@@ -38,12 +42,16 @@ GameObject& GameObject::operator=(const GameObject& other)
 		transform = other.transform;
 		physics = other.physics;
 		collision = other.collision;
-		collisionMesh = other.collisionMesh;
 
 		transform.SetParentObject(this);
 		physics.SetParentObject(this);
 		collision.SetParentObject(this);
-		collisionMesh->SetParentObject(this);
+
+		if (other.collisionMesh)
+		{
+			collisionMesh = std::dynamic_pointer_cast<CollisionMesh>(other.collisionMesh->Clone());
+			collisionMesh->SetParentObject(this);
+		}
 
 		meshes.clear();
 		meshes.reserve(other.meshes.size());
@@ -94,7 +102,7 @@ bool GameObject::HasChild(const std::shared_ptr<GameObject>& child) const
 	return children.contains(child);
 }
 
-void GameObject::AttachChild(const std::shared_ptr<GameObject>& child)
+void GameObject::AttachChild(const std::shared_ptr<GameObject>& child, bool disablePhysics)
 {
 	if (child->parent)
 		child->parent->RemoveChild(child);
@@ -103,7 +111,8 @@ void GameObject::AttachChild(const std::shared_ptr<GameObject>& child)
 	{
 		children.insert(child);
 		child->parent = this;
-		child->GetPhysics().Disable();
+		if (disablePhysics)
+			child->GetPhysics().Disable();
 
 		if (!scene->Contains(child))
 			scene->Add(child);

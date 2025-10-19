@@ -45,7 +45,7 @@ public:
 	const std::unordered_set<std::shared_ptr<GameObject>>& GetChildren() const;
 	bool HasChild(const std::shared_ptr<GameObject>& child) const;
 
-	virtual void AttachChild(const std::shared_ptr<GameObject>& child);
+	virtual void AttachChild(const std::shared_ptr<GameObject>& child, bool disablePhysics = true);
 	virtual void RemoveChild(const std::shared_ptr<GameObject>& child);
 
 	const std::string& GetName() const;

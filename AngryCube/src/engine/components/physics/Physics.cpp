@@ -11,6 +11,16 @@ Physics::Physics(GameObject* parentObject, float mass)
 {
 }
 
+std::shared_ptr<GameObjectComponent> Physics::Clone() const
+{
+	return std::make_shared<Physics>(*this);
+}
+
+std::shared_ptr<GameObjectComponent> Physics::MoveClone()
+{
+	return std::make_shared<Physics>(std::move(*this));
+}
+
 void Physics::Enable()
 {
 	enabled = true;

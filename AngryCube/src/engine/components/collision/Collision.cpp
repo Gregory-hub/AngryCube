@@ -11,6 +11,16 @@ Collision::Collision(GameObject* parentObject)
 {
 }
 
+std::shared_ptr<GameObjectComponent> Collision::Clone() const
+{
+	return std::make_shared<Collision>(*this);
+}
+
+std::shared_ptr<GameObjectComponent> Collision::MoveClone()
+{
+	return std::make_shared<Collision>(std::move(*this));
+}
+
 void Collision::Enable()
 {
 	enabled = true;

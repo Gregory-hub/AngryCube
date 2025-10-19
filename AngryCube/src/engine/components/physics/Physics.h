@@ -4,7 +4,6 @@
 #include <glm/glm.hpp>
 
 #include "engine/components/GameObjectComponent.h"
-#include "engine/components/transform/Transform.h"
 
 class GameObject;
 class FlatGround;
@@ -30,6 +29,9 @@ public:
 
 	Physics(Physics&& other) noexcept = default;
 	Physics& operator= (Physics&& other) noexcept = default;
+
+	std::shared_ptr<GameObjectComponent> Clone() const override;
+	std::shared_ptr<GameObjectComponent> MoveClone() override;
 
 	void Enable();
 	void Disable();

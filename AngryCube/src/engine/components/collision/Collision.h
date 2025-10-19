@@ -20,7 +20,10 @@ public:
 
 	Collision(Collision&& other) noexcept = default;
 	Collision& operator= (Collision&& other) noexcept = default;
-
+	
+	std::shared_ptr<GameObjectComponent> Clone() const override;
+	std::shared_ptr<GameObjectComponent> MoveClone() override;
+	
 	void Enable();
 	void Disable();
 	bool Enabled() const;

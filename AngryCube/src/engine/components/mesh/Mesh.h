@@ -30,6 +30,9 @@ public:
     Mesh(Mesh&& other) noexcept;
     Mesh& operator= (Mesh&& other) noexcept;
 
+    std::shared_ptr<GameObjectComponent> Clone() const override;
+    std::shared_ptr<GameObjectComponent> MoveClone() override;
+
     static void swap(Mesh& first, Mesh& second) noexcept;
 
     std::vector<glm::vec2> GetVertices() const;

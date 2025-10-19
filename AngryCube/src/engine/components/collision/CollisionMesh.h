@@ -14,11 +14,14 @@ public:
 	CollisionMesh(GameObject* parent, const std::shared_ptr<Mesh>& mesh);
 	~CollisionMesh() override = default;
 
-	CollisionMesh(const CollisionMesh& other) = default;
-	CollisionMesh& operator= (const CollisionMesh& other) = default;
+	CollisionMesh(const CollisionMesh& other);
+	CollisionMesh& operator= (const CollisionMesh& other);
 
 	CollisionMesh(CollisionMesh&& other) noexcept = default;
 	CollisionMesh& operator= (CollisionMesh&& other) noexcept = default;
+
+	std::shared_ptr<GameObjectComponent> Clone() const override;
+	std::shared_ptr<GameObjectComponent> MoveClone() override;
 
 	std::shared_ptr<Mesh> GetBaseMesh();
 

@@ -24,6 +24,9 @@ public:
     Transform(Transform&& other) noexcept = default;
     Transform& operator= (Transform&& other) noexcept = default;
 
+    std::shared_ptr<GameObjectComponent> Clone() const override;
+    std::shared_ptr<GameObjectComponent> MoveClone() override;
+
     glm::vec2 GetTranslation() const;
     float GetRotation() const;
     glm::vec2 GetScale() const;

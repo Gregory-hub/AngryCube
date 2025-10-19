@@ -18,6 +18,9 @@ public:
 	GameObjectComponent(GameObjectComponent&& other) noexcept;
 	GameObjectComponent& operator= (GameObjectComponent&& other) noexcept;
 
+	virtual std::shared_ptr<GameObjectComponent> Clone() const = 0;
+	virtual std::shared_ptr<GameObjectComponent> MoveClone() = 0;
+
 	GameObject* GetParentObject() const;
 	void SetParentObject(GameObject* parent);
 };

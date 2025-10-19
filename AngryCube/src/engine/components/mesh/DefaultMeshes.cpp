@@ -15,6 +15,16 @@ CubeMesh::CubeMesh(float w, float h)
     SetSizes(width, height);
 }
 
+std::shared_ptr<GameObjectComponent> CubeMesh::Clone() const
+{
+	return std::make_shared<CubeMesh>(*this);
+}
+
+std::shared_ptr<GameObjectComponent> CubeMesh::MoveClone()
+{
+	return std::make_shared<CubeMesh>(std::move(*this));
+}
+
 float CubeMesh::GetWidth() const
 {
     return width;

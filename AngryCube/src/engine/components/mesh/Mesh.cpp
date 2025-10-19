@@ -42,6 +42,16 @@ Mesh& Mesh::operator=(Mesh&& other) noexcept
 	return *this;
 }
 
+std::shared_ptr<GameObjectComponent> Mesh::Clone() const
+{
+	return std::make_shared<Mesh>(*this);
+}
+
+std::shared_ptr<GameObjectComponent> Mesh::MoveClone()
+{
+	return std::make_shared<Mesh>(std::move(*this));
+}
+
 void Mesh::swap(Mesh& first, Mesh& second) noexcept
 {
 	std::swap(first.vertices, second.vertices);

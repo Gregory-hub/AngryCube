@@ -32,6 +32,37 @@ CollisionMesh::CollisionMesh(GameObject* parent, const std::shared_ptr<Mesh>& me
 	height = top - bottom;
 }
 
+CollisionMesh::CollisionMesh(const CollisionMesh& other)
+	: GameObjectComponent(other)
+{
+	baseMesh = std::dynamic_pointer_cast<Mesh>(other.baseMesh->Clone());
+	lowestPoint = other.lowestPoint;
+	width = other.width;
+	height = other.height;
+}
+
+CollisionMesh& CollisionMesh::operator=(const CollisionMesh& other)
+{
+	if (this != &other)
+	{
+		baseMesh = std::dynamic_pointer_cast<Mesh>(other.baseMesh->Clone());
+		lowestPoint = other.lowestPoint;
+		width = other.width;
+		height = other.height;
+	}
+	return *this;
+}
+
+std::shared_ptr<GameObjectComponent> CollisionMesh::Clone() const
+{
+	return std::make_shared<CollisionMesh>(*this);
+}
+
+std::shared_ptr<GameObjectComponent> CollisionMesh::MoveClone()
+{
+	return std::make_shared<CollisionMesh>(std::move(*this));
+}
+
 std::shared_ptr<Mesh> CollisionMesh::GetBaseMesh()
 {
 	return baseMesh;

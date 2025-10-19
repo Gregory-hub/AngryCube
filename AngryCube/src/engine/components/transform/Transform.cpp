@@ -16,6 +16,16 @@ Transform::Transform(GameObject* parent)
 {
 }
 
+std::shared_ptr<GameObjectComponent> Transform::Clone() const
+{
+	return std::make_shared<Transform>(*this);
+}
+
+std::shared_ptr<GameObjectComponent> Transform::MoveClone()
+{
+	return std::make_shared<Transform>(std::move(*this));
+}
+
 glm::vec2 Transform::GetTranslation() const
 {
 	return translation;
