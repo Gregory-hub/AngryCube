@@ -1,3 +1,4 @@
+#include "pch.h"
 #include "SolidColor.h"
 
 #include "engine/render/Shader.h"

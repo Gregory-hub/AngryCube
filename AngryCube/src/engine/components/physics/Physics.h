@@ -1,7 +1,7 @@
 #pragma once
 #include <memory>
 
-#include <glm/vec2.hpp>
+#include <glm/glm.hpp>
 
 #include "engine/components/GameObjectComponent.h"
 #include "engine/components/transform/Transform.h"

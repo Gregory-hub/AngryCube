@@ -1,5 +1,5 @@
 #pragma once
-#include <glm/vec4.hpp>
+#include <glm/glm.hpp>
 
 #include "Material.h"
 

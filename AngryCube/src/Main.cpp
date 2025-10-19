@@ -1,3 +1,4 @@
+#include "pch.h"
 #include <iostream>
 #include <string>
 #include <memory>
@@ -45,7 +46,7 @@
 
 
 static glm::ivec2 WINDOW_RESOLUTION = { 1280, 720 };
-
+// static glm::ivec2 WINDOW_RESOLUTION = { 1920, 1080 };
 
 static GLFWwindow* runSetup()
 {
