@@ -1,7 +1,5 @@
 #include "CatapultArm.h"
 
-#include <stack>
-
 #include "Cube.h"
 #include "imgui.h"
 #include "engine/components/physics/constants.h"
@@ -111,23 +109,6 @@ float CatapultArm::GetK() const
 void CatapultArm::SetK(float k)
 {
     this->k = k;
-}
-
-void CatapultArm::SetMaterial(std::shared_ptr<Material> material)
-{
-    std::stack<GameObject*> s;
-    s.push(this);
-    while (!s.empty())
-    {
-        GameObject* child = s.top();
-        s.pop();
-
-		for (auto& mesh : child->GetMeshes())
-			mesh->SetMaterial(material);
-
-        for (const auto& c : child->GetChildren())
-            s.push(c.get());
-    }
 }
 
 void CatapultArm::Update(float deltaTime)

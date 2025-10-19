@@ -11,7 +11,7 @@ private:
 	float height;
 
 public:
-	CollisionMesh(const std::shared_ptr<Mesh>& mesh);
+	CollisionMesh(GameObject* parentObject, const std::shared_ptr<Mesh>& mesh);
 	~CollisionMesh() override = default;
 
 	CollisionMesh(const CollisionMesh& other) = default;

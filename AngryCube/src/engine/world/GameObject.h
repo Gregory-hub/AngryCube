@@ -5,7 +5,7 @@
 
 #include "engine/components/collision/Collision.h"
 #include "engine/components/mesh/Mesh.h"
-#include "engine/components/mesh/CollisionMesh.h"
+#include "engine/components/collision/CollisionMesh.h"
 #include "engine/components/physics/Physics.h"
 #include "engine/components/transform/Transform.h"
 

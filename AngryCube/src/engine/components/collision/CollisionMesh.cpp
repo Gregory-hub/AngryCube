@@ -1,10 +1,11 @@
 #include "CollisionMesh.h"
 
 #include "stdexcept"
+#include "engine/world/GameObject.h"
 
 
-CollisionMesh::CollisionMesh(const std::shared_ptr<Mesh>& mesh)
-	: GameObjectComponent(nullptr), baseMesh(mesh)
+CollisionMesh::CollisionMesh(GameObject* parentObject, const std::shared_ptr<Mesh>& mesh)
+	: GameObjectComponent(parentObject), baseMesh(mesh)
 {
 	if (mesh->GetVertices().empty())
 		throw std::invalid_argument("Mesh must contain vertices");
@@ -36,16 +37,16 @@ std::shared_ptr<Mesh> CollisionMesh::GetBaseMesh()
 
 glm::vec2 CollisionMesh::GetLowestPoint() const
 {
-	// calculate lowest point taking into account object transform
-	return lowestPoint;
+	glm::vec4 tmp = parentObject->GetTransform().GetMatrix() * glm::vec4(lowestPoint, 0.0f, 1.0f);
+	return { tmp.x, tmp.y };
 }
 
 float CollisionMesh::GetHeight() const
 {
-	return height;
+	return parentObject->GetTransform().GetScale().y * height;
 }
 
 float CollisionMesh::GetWidth() const
 {
-	return width;
+	return parentObject->GetTransform().GetScale().x * width;
 }

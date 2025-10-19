@@ -33,13 +33,13 @@ private:
 
     float pullbackSpeed = 1.0f;
 
-    float armMass = 10.0f;
-    float socketMass = 1.0f;
-    float k = 2000.0;
+    float armMass = 15.0f;
+    float socketMass = 5.0f;
+    float k = 5000.0;
     
     float timeFromRelease = 0.0f;
 
-    float projectileMass = 5.0f;
+    float projectileMass = 50.0f;
 
 public:
     CatapultArm(Scene* parentScene);
@@ -65,8 +65,6 @@ public:
 
     float GetK() const;
     void SetK(float k);
-
-    void SetMaterial(std::shared_ptr<Material> material);
 
     void Update(float deltaTime) override;
     void UpdateArmProgress(float deltaTime);

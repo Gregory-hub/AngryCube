@@ -9,7 +9,7 @@
 int Cube::id = 0;
 
 Cube::Cube(Scene* parentScene, float mass)
-	: GameObject(parentScene, mass, std::make_shared<CollisionMesh>(std::make_shared<CubeMesh>()))
+	: GameObject(parentScene, mass, std::make_shared<CollisionMesh>(this, std::make_shared<CubeMesh>()))
 {
     name = "Cube " + std::to_string(id++);
 

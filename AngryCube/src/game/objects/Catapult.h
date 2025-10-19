@@ -30,4 +30,7 @@ public:
 	void Update(float deltaTime) override;
 
 	void ShowDebugControls() override;
+
+private:
+	void SetMaterial(const std::shared_ptr<Material>& material);
 };
