@@ -70,8 +70,8 @@ std::shared_ptr<Mesh> CollisionMesh::GetBaseMesh()
 
 glm::vec2 CollisionMesh::GetLowestPoint() const
 {
-	glm::vec4 tmp = parentObject->GetTransform().GetMatrix() * glm::vec4(lowestPoint, 0.0f, 1.0f);
-	return { tmp.x, tmp.y };
+	float yScale = parentObject->GetTransform().GetScale().y;
+	return parentObject->GetTransform().GetWorldTranslation() - height * yScale / 2.0f;
 }
 
 float CollisionMesh::GetHeight() const
