@@ -9,7 +9,7 @@ class GameObject;
 class Collision : public GameObjectComponent
 {
 private:
-	bool enabled = true;
+	bool enabled = false;
 
 public:
 	Collision(GameObject* parentObject);

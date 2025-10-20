@@ -13,7 +13,7 @@ class FlatGround;
 class Physics : public GameObjectComponent
 {
 private:
-	bool enabled = true;
+	bool enabled = false;
 	std::shared_ptr<FlatGround> ground;
 	float mass = 1.0f;
 	glm::vec2 netForce = { 0.0f, 0.0f };

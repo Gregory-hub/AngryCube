@@ -7,7 +7,7 @@
 
 #include "engine/components/GameObjectComponent.h"
 #include "engine/render/GLBufferManager.h"
-#include "engine/material/Material.h"
+#include "engine/materials/Material.h"
 #include "engine/render/Shader.h"
 
 

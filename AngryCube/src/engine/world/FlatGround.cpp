@@ -1,15 +1,20 @@
 #include "pch.h"
 #include "FlatGround.h"
 
-#include "engine/material/SolidColor.h"
+#include "engine/materials/SolidColor.h"
+#include <engine/components/mesh/DefaultMeshes.h>
 
 
 unsigned FlatGround::id = 0;
 
 FlatGround::FlatGround(Scene* parentScene, float height)
-	: Cube(parentScene, 0.0f), height(height)
+	: GameObject(parentScene, 0.0f), height(height)
 {
 	name = "FlatGround " + std::to_string(id++);
+
+    std::shared_ptr<CubeMesh> mesh = std::make_shared<CubeMesh>();
+    mesh->SetMaterial(std::make_shared<SolidColor>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
+    meshes.push_back(mesh);
 
 	glm::vec4 color(0.145f, 0.349f, 0.12f, 1.0f);
 
@@ -20,7 +25,33 @@ FlatGround::FlatGround(Scene* parentScene, float height)
 	GetTransform().SetTranslation(glm::vec2(500.0f, height / 2.0f));
 
 	GetPhysics().Disable();
-	GetCollision().Enable();
+	GetCollision().Disable();
+}
+
+FlatGround::FlatGround(const FlatGround& other)
+	: GameObject(other)
+{
+    name = "FlatGround " + std::to_string(id++);
+}
+
+FlatGround& FlatGround::operator=(const FlatGround& other)
+{
+    if (this != &other)
+    {
+        GameObject::operator=(other);
+        name = "FlatGround " + std::to_string(id++);
+    }
+	return *this;
+}
+
+std::shared_ptr<GameObject> FlatGround::Clone() const
+{
+    return std::make_shared<FlatGround>(*this);
+}
+
+std::shared_ptr<GameObject> FlatGround::MoveClone()
+{
+    return std::make_shared<FlatGround>(std::move(*this));
 }
 
 float FlatGround::GetHeight() const
@@ -31,6 +62,10 @@ float FlatGround::GetHeight() const
 void FlatGround::SetHeight(float newHeight)
 {
 	height = newHeight;
-	GetTransform().SetScale(glm::vec2(1000.0f, height / 100.0f));
+	GetTransform().SetScale(glm::vec2(100.0f, height / 100.0f));
 	GetTransform().SetTranslation(glm::vec2(500.0f, height / 2.0f));
+}
+
+void FlatGround::Update(float deltaTime)
+{
 }

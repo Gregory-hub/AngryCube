@@ -41,12 +41,12 @@ bool Collision::IsColliding(const std::shared_ptr<GameObject>& other) const
 	if (!enabled || !parentObject->GetCollisionMesh() || !other->GetCollisionMesh())
 		return false;
 
-	glm::vec2 thisLocation = parentObject->GetTransform().GetTranslation();
-	float thisHalfWidth = parentObject->GetCollisionMesh()->GetWidth()  / 2.0f;
+	glm::vec2 thisLocation = parentObject->GetTransform().GetWorldTranslation();
+	float thisHalfWidth = parentObject->GetCollisionMesh()->GetWidth() / 2.0f;
 	float thisHalfHeight = parentObject->GetCollisionMesh()->GetHeight() / 2.0f;
 
-	glm::vec2 otherLocation = other->GetTransform().GetTranslation();
-	float otherHalfWidth = other->GetCollisionMesh()->GetWidth()  / 2.0f;
+	glm::vec2 otherLocation = other->GetTransform().GetWorldTranslation();
+	float otherHalfWidth = other->GetCollisionMesh()->GetWidth() / 2.0f;
 	float otherHalfHeight = other->GetCollisionMesh()->GetHeight() / 2.0f;
 
 	glm::vec2 distance = otherLocation - thisLocation;
