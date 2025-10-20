@@ -1,5 +1,5 @@
 #pragma once
-#include "game/objects/Fortification.h"
+#include "game/objects/fortifications/Fortification.h"
 
 
 class FortificationOfLevel1 : public Fortification

@@ -1,16 +1,17 @@
 #include "pch.h"
 #include "FortificationOfLevel1.h"
 
-#include "game/objects/Cube.h"
+#include "game/objects/fortifications/Brick.h"
 
 
 FortificationOfLevel1::FortificationOfLevel1(Scene* parentScene)
     : Fortification(parentScene)
 {
-    auto brickTemplate = std::make_shared<Cube>(parentScene, 5.0f);
+    auto brickTemplate = std::make_shared<Brick>(parentScene, 5.0f);
     float scale = 0.5f;
     brickTemplate->GetTransform().SetScale(glm::vec2(scale, scale));
     brickTemplate->GetPhysics().Disable();
+    brickTemplate->GetCollision().Enable();
 
     float padding = 2.0f;
 

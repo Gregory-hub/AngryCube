@@ -8,7 +8,7 @@
 class Cube : public GameObject
 {
 private:
-    static int id;
+    static unsigned int id;
 
 public:
     Cube(Scene* parentScene, float mass = 1.0f);
@@ -23,7 +23,7 @@ public:
     std::shared_ptr<GameObject> Clone() const override;
     std::shared_ptr<GameObject> MoveClone() override;
 
-    void Update(float deltaTime) override;
+    void OnCollisionStart(const std::shared_ptr<GameObject>& other) override;
 
-	void OnCollisionStart(const std::shared_ptr<GameObject>& other) override;
+    void Update(float deltaTime) override;
 };

@@ -1,9 +1,10 @@
 #include "pch.h"
 #include "CatapultArm.h"
 
-#include "Cube.h"
+#include "game/objects/Cube.h"
 #include "imgui.h"
 #include "engine/components/physics/constants.h"
+#include <game/objects/projectiles/ProjectileCube.h>
 
 
 int CatapultArm::id = 0;
@@ -134,7 +135,7 @@ void CatapultArm::UpdateArmProgress(float deltaTime)
         AddProgress(-pullbackSpeed * deltaTime);
         if (progress <= 0.0f && !projectile)
         {
-            std::shared_ptr<Cube> newProjectile = std::make_shared<Cube>(scene, projectileMass);
+            std::shared_ptr<ProjectileCube> newProjectile = std::make_shared<ProjectileCube>(scene, projectileMass);
             newProjectile->GetTransform().SetScale(glm::vec2(0.2f, 0.2f));
             LoadProjectile(newProjectile);
         }

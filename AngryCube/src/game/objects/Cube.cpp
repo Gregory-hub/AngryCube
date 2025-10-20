@@ -2,10 +2,10 @@
 #include "Cube.h"
 
 #include "engine/components/mesh/DefaultMeshes.h"
-#include "engine/material/SolidColor.h"
+#include "engine/materials/SolidColor.h"
 
 
-int Cube::id = 0;
+unsigned int Cube::id = 0;
 
 Cube::Cube(Scene* parentScene, float mass)
 	: GameObject(parentScene, mass, std::make_shared<CollisionMesh>(this, std::make_shared<CubeMesh>()))
@@ -43,10 +43,11 @@ std::shared_ptr<GameObject> Cube::MoveClone()
     return std::make_shared<Cube>(std::move(*this));
 }
 
+void Cube::OnCollisionStart(const std::shared_ptr<GameObject>& other)
+{
+}
+
 void Cube::Update(float deltaTime)
 {
 }
 
-void Cube::OnCollisionStart(const std::shared_ptr<GameObject>& other)
-{
-}

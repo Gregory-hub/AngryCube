@@ -3,12 +3,15 @@
 
 #include <stack>
 
-#include "CatapultArm.h"
-#include "Cube.h"
 #include "imgui.h"
+
 #include "engine/components/mesh/DefaultMeshes.h"
-#include "engine/material/SolidColor.h"
+#include "engine/materials/SolidColor.h"
 #include "engine/utility/ImGuiDragFloatWithSetter.h"
+
+#include "CatapultArm.h"
+#include "game/objects/Cube.h"
+#include <game/objects/projectiles/ProjectileCube.h>
 
 
 int Catapult::id = 0;
@@ -72,7 +75,7 @@ Catapult::Catapult(Scene* parentScene)
 
 	SetMaterial(material);
 
-	std::shared_ptr<Cube> projectile = std::make_shared<Cube>(scene, 50.0f);
+	std::shared_ptr<ProjectileCube> projectile = std::make_shared<ProjectileCube>(scene, 50.0f);
 	projectile->GetTransform().SetScale(glm::vec2(0.2f, 0.2f));
 	arm->LoadProjectile(projectile);
 

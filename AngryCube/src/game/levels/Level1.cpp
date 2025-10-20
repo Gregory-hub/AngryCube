@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "Level1.h"
 
-#include "game/objects/Catapult.h"
+#include "game/objects/catapult/Catapult.h"
 #include "game/objects/Cube.h"
 #include "game/objects/fortifications/FortificationOfLevel1.h"
 

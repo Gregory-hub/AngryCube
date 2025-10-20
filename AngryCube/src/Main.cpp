@@ -3,6 +3,8 @@
 #include <string>
 #include <memory>
 
+#include <thread>
+
 #include <GL/glew.h>
 #include <GLFW/glfw3.h>
 #include <glm/glm.hpp>
@@ -20,6 +22,7 @@
 #include "engine/render/Renderer.h"
 #include "engine/render/Shader.h"
 #include "engine/components/mesh/DefaultMeshes.h"
+
 #include "game/levels/Level1.h"
 
 
@@ -151,10 +154,6 @@ int main()
     std::shared_ptr<Level> level = std::make_shared<Level1>();
     game.LoadLevel(level);
 
-	// LevelManager levelManager;
-	// levelManager.Save(level, "level1");
-	// Level level1 = levelManager.Load("level1");
-
 	glm::vec3 skyColor = glm::vec3(0.568f, 0.78f, 0.98f) * 0.9f;
     glClearColor(skyColor.r, skyColor.g, skyColor.b, 1.0f);
     while (!glfwWindowShouldClose(window))
@@ -169,13 +168,7 @@ int main()
         timer.Start();
         float deltaTime = clock.Tick();
 
-		float timeValue = glfwGetTime();
-		float red = sin(timeValue) / 2.0f + 0.5f;
-		float green = cos(1.6f * timeValue) / 2.0f + 0.5f;
-		float blue = sin(0.3f * timeValue) / 2.0f + 0.5f;
-
         game.GetActiveLevel()->Update(deltaTime);
-
         renderer.Render(game.GetActiveLevel()->GetScene());
 
         float frametime = timer.End();
@@ -187,6 +180,9 @@ int main()
 
 		glfwSwapBuffers(window);
 		glfwPollEvents();
+
+        // Demonstrates physics instability when fps is not stable
+        //std::this_thread::sleep_for(std::chrono::milliseconds((int)(std::rand() / (float)RAND_MAX * 40)));
     }
 
     ImGui_ImplOpenGL3_Shutdown();
