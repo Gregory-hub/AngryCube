@@ -8,7 +8,7 @@
 
 Level1::Level1()
 {
-    scene.SetGroundHeight(50.0f);
+    scene.SetGroundHeight(100.0f);
 
     std::shared_ptr<Catapult> catapult = std::make_shared<Catapult>(&scene);
     catapult->GetTransform().Move(glm::vec2(200.0f, scene.GetGround()->GetHeight()));

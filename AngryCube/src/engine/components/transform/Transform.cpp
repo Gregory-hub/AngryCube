@@ -69,7 +69,8 @@ void Transform::SetRotation(float value)
 
 void Transform::SetScale(const glm::vec2& value)
 {
-	scale = value;
+	scale.x = value.x;
+	scale.y = value.y >= 0 ? value.y : 0.0f;
 }
 
 void Transform::SetWorldTranslation(const glm::vec2& value)
