@@ -180,7 +180,7 @@ Collision& GameObject::GetCollision()
 
 void GameObject::OnCollisionStart(const std::shared_ptr<GameObject>& other) 
 {
-	GetCollision().ResolvePenetration(other);
+	GetCollision().ResolveCollision(other);
 }
 
 void GameObject::ShowDebugControls()

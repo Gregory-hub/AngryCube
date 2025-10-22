@@ -30,7 +30,7 @@ public:
 
 	bool IsColliding(std::shared_ptr<GameObject> other) const;
 
-	void ResolvePenetration(std::shared_ptr<GameObject> penetrated);
+	void ResolveCollision(std::shared_ptr<GameObject> penetrated);
 
 	glm::vec2 CalculateDistanceToObject(std::shared_ptr<GameObject> other) const;
 	glm::vec2 CalculateDistanceBetweenCenters(std::shared_ptr<GameObject> other) const;
