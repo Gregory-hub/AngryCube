@@ -38,6 +38,9 @@
 // (skipped) component system with component checking
 // (done) physics
 // (done) collision
+// make CubeCollision subclass and use it for every cube in a game
+// make Collision abstract
+// move some interfaces to engine folder
 // fix ground physics
 // game logic
 // saves

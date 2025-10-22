@@ -28,6 +28,17 @@ public:
 	void Disable();
 	bool Enabled() const;
 
-	bool IsColliding(const std::shared_ptr<GameObject>& other) const;
+	bool IsColliding(std::shared_ptr<GameObject> other) const;
+
+	void ResolvePenetration(std::shared_ptr<GameObject> penetrated);
+
+	glm::vec2 CalculateDistanceToObject(std::shared_ptr<GameObject> other) const;
+	glm::vec2 CalculateDistanceBetweenCenters(std::shared_ptr<GameObject> other) const;
+
+	glm::vec2 CalculateCollitionPoint(std::shared_ptr<GameObject> penetrated) const;
+
+private:
+	bool CanCollide(std::shared_ptr<GameObject> other) const;
+	bool DidHitSide(std::shared_ptr<GameObject> other) const;
 };
 

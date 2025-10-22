@@ -4,6 +4,7 @@
 #include "engine/components/mesh/DefaultMeshes.h"
 #include "engine/materials/SolidColor.h"
 #include "game/objects/fortifications/Brick.h"
+#include <game/interfaces/IDestructableContainer.h>
 
 
 int ProjectileCube::id = 0;
@@ -12,6 +13,8 @@ ProjectileCube::ProjectileCube(Scene* parentScene, float mass)
 	: GameObject(parentScene, mass, std::make_shared<CollisionMesh>(this, std::make_shared<CubeMesh>()))
 {
     name = "ProjectileCube " + std::to_string(id++);
+
+    GetCollision().Enable();
 
     std::shared_ptr<CubeMesh> mesh = std::make_shared<CubeMesh>();
     mesh->SetMaterial(std::make_shared<SolidColor>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
@@ -46,6 +49,7 @@ std::shared_ptr<GameObject> ProjectileCube::MoveClone()
 
 void ProjectileCube::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 {
+    GameObject::OnCollisionStart(other);
     if (std::dynamic_pointer_cast<Brick>(other))
         OnTargetHit(other);
 }
