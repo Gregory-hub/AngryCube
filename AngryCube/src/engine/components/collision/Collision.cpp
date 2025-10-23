@@ -127,17 +127,8 @@ glm::vec2 Collision::CalculateCollisionPoint(std::shared_ptr<GameObject> penetra
 	float halfWidthB = penetrated->GetCollisionMesh()->GetWidth() / 2.0f;
 	float halfHeightB = penetrated->GetCollisionMesh()->GetHeight() / 2.0f;
 
-	float x0 = b.x;
-	if (v.x < 0)
-		x0 += halfWidthB;
-	else
-		x0 -= halfWidthB;
-
-	float y0 = b.y;
-	if (v.y < 0)
-		y0 += halfHeightB;
-	else
-		y0 -= halfHeightB;
+	float x0 = CalculateClosestSideX(b, halfWidthB, v);
+	float y0 = CalculateClosestSideY(a, halfHeightB, v);
 
 	// if penetrates from up or down
 	float x = y0 * v.x / v.y;
@@ -165,16 +156,31 @@ bool Collision::DidHitSide(std::shared_ptr<GameObject> penetrated) const
 
 	glm::vec2 b = penetrated->GetTransform().GetWorldTranslation();
 	glm::vec2 v = parentObject->GetPhysics().GetVelocity();
-
 	float halfWidthB = penetrated->GetCollisionMesh()->GetWidth() / 2.0f;
 
-	float x0 = b.x;
-	if (v.x < 0)
-		x0 += halfWidthB;
-	else
-		x0 -= halfWidthB;
+	float x0 = CalculateClosestSideX(b, halfWidthB, v);
 
 	glm::vec2 collisionPoint = CalculateCollisionPoint(penetrated);
 	return collisionPoint.x == x0;
+}
+
+float Collision::CalculateClosestSideX(glm::vec2 center, float halfWidth, glm::vec2 v) const
+{
+	float x0 = center.x;
+	if (v.x < 0)
+		x0 += halfWidth;
+	else
+		x0 -= halfWidth;
+	return x0;
+}
+
+float Collision::CalculateClosestSideY(glm::vec2 center, float halfHeight, glm::vec2 v) const
+{
+	float y0 = center.y;
+	if (v.y < 0)
+		y0 += halfHeight;
+	else
+		y0 -= halfHeight;
+	return y0;
 }
 
