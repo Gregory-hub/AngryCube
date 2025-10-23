@@ -93,12 +93,16 @@ void Scene::Update(float deltaTime) const
         object->Update(deltaTime);
         object->GetPhysics().Update(deltaTime);
 
+        for (const std::shared_ptr<GameObject>& other : objects)
+        {
+            if (object->GetCollision().IsColliding(other))
+				object->GetCollision().ResolveCollision(other);
+        }
+
 		for (const std::shared_ptr<GameObject>& other : objects)
 		{
-            if (object != other && object->GetCollision().IsColliding(other))
-            {
+            if (object->GetCollision().IsColliding(other))
                 object->OnCollisionStart(other);
-            }
 		}
     }
 }

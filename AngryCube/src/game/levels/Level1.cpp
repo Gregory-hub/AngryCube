@@ -4,6 +4,7 @@
 #include "game/objects/catapult/Catapult.h"
 #include "game/objects/Cube.h"
 #include "game/objects/fortifications/FortificationOfLevel1.h"
+#include <game/objects/projectiles/ProjectileCube.h>
 
 
 Level1::Level1()

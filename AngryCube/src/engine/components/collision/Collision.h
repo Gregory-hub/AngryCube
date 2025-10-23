@@ -10,6 +10,7 @@ class Collision : public GameObjectComponent
 {
 private:
 	bool enabled = false;
+	float collisionThreshold = 0.0f;
 
 public:
 	Collision(GameObject* parentObject);
@@ -23,7 +24,7 @@ public:
 	
 	std::shared_ptr<GameObjectComponent> Clone() const override;
 	std::shared_ptr<GameObjectComponent> MoveClone() override;
-	
+
 	void Enable();
 	void Disable();
 	bool Enabled() const;
@@ -35,7 +36,7 @@ public:
 	glm::vec2 CalculateDistanceToObject(std::shared_ptr<GameObject> other) const;
 	glm::vec2 CalculateDistanceBetweenCenters(std::shared_ptr<GameObject> other) const;
 
-	glm::vec2 CalculateCollitionPoint(std::shared_ptr<GameObject> penetrated) const;
+	glm::vec2 CalculateCollisionPoint(std::shared_ptr<GameObject> penetrated) const;
 
 private:
 	bool CanCollide(std::shared_ptr<GameObject> other) const;

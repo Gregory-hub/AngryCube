@@ -42,7 +42,7 @@ bool Collision::IsColliding(std::shared_ptr<GameObject> other) const
 		return false;
 
 	glm::vec2 d = CalculateDistanceToObject(other);
-	return d.x <= 0 && d.y <= 0;
+	return d.x < -collisionThreshold && d.y < -collisionThreshold;
 }
 
 void Collision::ResolveCollision(std::shared_ptr<GameObject> penetrated)
@@ -50,20 +50,14 @@ void Collision::ResolveCollision(std::shared_ptr<GameObject> penetrated)
 	if (!CanCollide(penetrated))
 		return;
 
-	float vThreshold = 1e-3;
-	float collisionThreshold = 1.0f;
-
-	//if (!parentObject->GetPhysics().Enabled() || parentObject->GetPhysics().GetVelocity().length() < vThreshold)
-	//	return;
-
 	glm::vec2 d = CalculateDistanceToObject(penetrated);
 	glm::vec2 v = parentObject->GetPhysics().GetVelocity();
-	if (d.x < -collisionThreshold && d.y < -collisionThreshold && v.length() > vThreshold)
+	if (d.x < -collisionThreshold && d.y < -collisionThreshold && glm::length(v) != 0.0f)
 	{
 		float k = 0.0f;
-		if (abs(d.x) <= abs(d.y) && abs(v.x) > vThreshold)
+		if (abs(d.x) <= abs(d.y) && abs(v.x) != 0.0f)
 			k = abs(d.x / v.x);
-		else if (abs(d.x) > abs(d.y) && abs(v.y) > vThreshold)
+		else if (abs(d.x) > abs(d.y) && abs(v.y) != 0.0f)
 			k = abs(d.y / v.y);
 
 		glm::vec2 moveBack = -k * v;
@@ -117,7 +111,7 @@ glm::vec2 Collision::CalculateDistanceBetweenCenters(std::shared_ptr<GameObject>
 	return glm::abs(parentObject->GetTransform().GetWorldTranslation() - other->GetTransform().GetWorldTranslation());
 }
 
-glm::vec2 Collision::CalculateCollitionPoint(std::shared_ptr<GameObject> penetrated) const
+glm::vec2 Collision::CalculateCollisionPoint(std::shared_ptr<GameObject> penetrated) const
 {
 	if (!CanCollide(penetrated))
 		return glm::vec2();
@@ -133,8 +127,17 @@ glm::vec2 Collision::CalculateCollitionPoint(std::shared_ptr<GameObject> penetra
 	float halfWidthB = penetrated->GetCollisionMesh()->GetWidth() / 2.0f;
 	float halfHeightB = penetrated->GetCollisionMesh()->GetHeight() / 2.0f;
 
-	float x0 = b.x - glm::sign(v.x) * halfWidthB;
-	float y0 = b.y - glm::sign(v.y) * halfHeightB;
+	float x0 = b.x;
+	if (v.x < 0)
+		x0 += halfWidthB;
+	else
+		x0 -= halfWidthB;
+
+	float y0 = b.y;
+	if (v.y < 0)
+		y0 += halfHeightB;
+	else
+		y0 -= halfHeightB;
 
 	// if penetrates from up or down
 	float x = y0 * v.x / v.y;
@@ -151,7 +154,7 @@ glm::vec2 Collision::CalculateCollitionPoint(std::shared_ptr<GameObject> penetra
 
 bool Collision::CanCollide(std::shared_ptr<GameObject> other) const
 {
-	return other && enabled && other->GetCollision().Enabled()
+	return other && other.get() != parentObject && enabled && other->GetCollision().Enabled()
 		&& parentObject->GetCollisionMesh() && other->GetCollisionMesh();
 }
 
@@ -162,10 +165,16 @@ bool Collision::DidHitSide(std::shared_ptr<GameObject> penetrated) const
 
 	glm::vec2 b = penetrated->GetTransform().GetWorldTranslation();
 	glm::vec2 v = parentObject->GetPhysics().GetVelocity();
-	float halfWidthB = penetrated->GetCollisionMesh()->GetWidth() / 2.0f;
-	float x0 = b.x - glm::sign(v.x) * halfWidthB;
 
-	glm::vec2 collisionPoint = CalculateCollitionPoint(penetrated);
+	float halfWidthB = penetrated->GetCollisionMesh()->GetWidth() / 2.0f;
+
+	float x0 = b.x;
+	if (v.x < 0)
+		x0 += halfWidthB;
+	else
+		x0 -= halfWidthB;
+
+	glm::vec2 collisionPoint = CalculateCollisionPoint(penetrated);
 	return collisionPoint.x == x0;
 }
 

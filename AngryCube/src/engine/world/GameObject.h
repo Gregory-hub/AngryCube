@@ -66,7 +66,7 @@ public:
 
 	virtual void Update(float deltaTime) = 0;
 
-	virtual void OnCollisionStart(const std::shared_ptr<GameObject>& other);
+	virtual void OnCollisionStart(const std::shared_ptr<GameObject>& other) {};
 
 	virtual void ShowDebugControls();
 };

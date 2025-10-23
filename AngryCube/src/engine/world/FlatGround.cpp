@@ -27,6 +27,7 @@ FlatGround::FlatGround(Scene* parentScene, float height)
 	GetPhysics().Disable();
 	GetCollision().Disable();
 
+	//GetCollision().Enable();
 	//collisionMesh = std::make_shared<CollisionMesh>(this, std::make_shared<CubeMesh>());
 }
 
