@@ -6,7 +6,7 @@ class FlatGround : public GameObject
 {
 private:
 	static unsigned int id;
-	float height;
+	float height = 0.0f;
 
 public:
 	FlatGround(Scene* parentScene, float height);

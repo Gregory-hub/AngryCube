@@ -17,6 +17,8 @@ ProjectileCube::ProjectileCube(Scene* parentScene, float mass)
     GetCollision().Enable();
     GetPhysics().Enable();
 
+    GetPhysics().SetPhysicsMaterial(std::make_shared<PhysicsMaterial>(1.2f, 0.00001f));
+
     std::shared_ptr<CubeMesh> mesh = std::make_shared<CubeMesh>();
     mesh->SetMaterial(std::make_shared<SolidColor>(glm::vec4(1.0f, 1.0f, 1.0f, 1.0f)));
     meshes.push_back(mesh);

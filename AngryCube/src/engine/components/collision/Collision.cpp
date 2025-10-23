@@ -42,7 +42,7 @@ bool Collision::IsColliding(std::shared_ptr<GameObject> other) const
 		return false;
 
 	glm::vec2 d = CalculateDistanceToObject(other);
-	return d.x < -collisionThreshold && d.y < -collisionThreshold;
+	return d.x < 0.0f && d.y < 0.0f;
 }
 
 void Collision::ResolveCollision(std::shared_ptr<GameObject> penetrated)
@@ -52,7 +52,7 @@ void Collision::ResolveCollision(std::shared_ptr<GameObject> penetrated)
 
 	glm::vec2 d = CalculateDistanceToObject(penetrated);
 	glm::vec2 v = parentObject->GetPhysics().GetVelocity();
-	if (d.x < -collisionThreshold && d.y < -collisionThreshold && glm::length(v) != 0.0f)
+	if (d.x < 0.0f && d.y < 0.0f && glm::length(v) != 0.0f)
 	{
 		float k = 0.0f;
 		if (abs(d.x) <= abs(d.y) && abs(v.x) != 0.0f)
@@ -62,23 +62,21 @@ void Collision::ResolveCollision(std::shared_ptr<GameObject> penetrated)
 
 		glm::vec2 moveBack = -k * v;
 
-		if (!DidHitSide(penetrated))
+		bool didHitSide = DidHitSide(penetrated);
+		if (didHitSide)			// Hit from left or right
 		{
-			// Hit from up or down
-			v.y = 0.0f;
-			moveBack.x = 0.0f;
-		}
-		else
-		{
-			// Hit from side
-			v.x = 0.0f;
 			moveBack.y = 0.0f;
+			v.x = 0.0f;
+		}
+		else					// Hit from up or down
+		{
+			moveBack.x = 0.0f;
+			v.y = 0.0f;
 		}
 
 		parentObject->GetTransform().Move(moveBack);
-
-		// Should be Physics.OnCollision()
 		parentObject->GetPhysics().SetVelocity(v);
+		parentObject->GetPhysics().OnCollision(penetrated, !didHitSide);
 	}
 }
 

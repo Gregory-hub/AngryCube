@@ -4,6 +4,7 @@
 #include <glm/glm.hpp>
 
 #include "engine/components/GameObjectComponent.h"
+#include "PhysicsMaterial.h"
 
 class GameObject;
 class FlatGround;
@@ -14,11 +15,12 @@ class Physics : public GameObjectComponent
 {
 private:
 	bool enabled = false;
-	std::shared_ptr<FlatGround> ground;
 	float mass = 1.0f;
 	glm::vec2 netForce = { 0.0f, 0.0f };
 	glm::vec2 velocity = { 0.0f, 0.0f };
 	glm::vec2 acceleration = { 0.0f, 0.0f };
+
+	std::shared_ptr<PhysicsMaterial> physicsMaterial;
 
 public:
 	Physics(GameObject* parentObject, float mass);
@@ -45,8 +47,8 @@ public:
 	
 	const glm::vec2& GetAcceleration() const;
 
-	void SetGround(const std::shared_ptr<FlatGround>& ground);
-	const std::shared_ptr<FlatGround>& GetGround() const;
+	void SetPhysicsMaterial(std::shared_ptr<PhysicsMaterial> newPhysicsMaterial);
+	std::shared_ptr<PhysicsMaterial> GetPhysicsMaterial() const;
 
 	void ApplyForce(glm::vec2 force);
 	void RemoveForces();
@@ -54,11 +56,11 @@ public:
 
 	void Update(float deltaTime);
 
+	void OnCollision(std::shared_ptr<GameObject> other, bool didHitSide);
+
 private:
 	void ApplyGravity();
 	void ApplyAirDrag();
-	void ApplyGroundDryFriction();
-
-	void ResolveGroundCollision();
+	void ApplyDryFriction(std::shared_ptr<GameObject> other);
 };
 

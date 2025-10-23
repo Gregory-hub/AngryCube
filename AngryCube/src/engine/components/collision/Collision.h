@@ -10,7 +10,6 @@ class Collision : public GameObjectComponent
 {
 private:
 	bool enabled = false;
-	float collisionThreshold = 0.0f;
 
 public:
 	Collision(GameObject* parentObject);

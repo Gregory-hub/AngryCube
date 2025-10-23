@@ -46,6 +46,8 @@
 // saves
 // levels
 // textures
+// rename Collision to CubeCollision
+// rename Physics to CubePhysics
 
 // TO BE SOLVED:
 // components with references to parent must not copy reference in copy and move operations

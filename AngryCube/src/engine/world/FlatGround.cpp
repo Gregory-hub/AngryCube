@@ -25,10 +25,10 @@ FlatGround::FlatGround(Scene* parentScene, float height)
 	GetTransform().SetTranslation(glm::vec2(500.0f, height / 2.0f));
 
 	GetPhysics().Disable();
-	GetCollision().Disable();
+    GetPhysics().SetPhysicsMaterial(std::make_shared<PhysicsMaterial>(1.2f, 0.001f));
 
-	//GetCollision().Enable();
-	//collisionMesh = std::make_shared<CollisionMesh>(this, std::make_shared<CubeMesh>());
+	GetCollision().Enable();
+	collisionMesh = std::make_shared<CollisionMesh>(this, std::make_shared<CubeMesh>());
 }
 
 FlatGround::FlatGround(const FlatGround& other)

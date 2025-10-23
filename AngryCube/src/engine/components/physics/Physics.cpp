@@ -63,14 +63,14 @@ const glm::vec2& Physics::GetAcceleration() const
 	return acceleration;
 }
 
-void Physics::SetGround(const std::shared_ptr<FlatGround>& ground)
+void Physics::SetPhysicsMaterial(std::shared_ptr<PhysicsMaterial> newPhysicsMaterial)
 {
-	this->ground = ground;
+	physicsMaterial = newPhysicsMaterial;
 }
 
-const std::shared_ptr<FlatGround>& Physics::GetGround() const
+std::shared_ptr<PhysicsMaterial> Physics::GetPhysicsMaterial() const
 {
-	return ground;
+	return physicsMaterial;
 }
 
 void Physics::ApplyForce(glm::vec2 force)
@@ -111,18 +111,16 @@ void Physics::ApplyAirDrag()
 	ApplyForce(-dragForce);
 }
 
-// Apply after other forces
-void Physics::ApplyGroundDryFriction()
+void Physics::ApplyDryFriction(std::shared_ptr<GameObject> other)
 {
-	if (!ground)
+	if (!other || !other->GetPhysics().GetPhysicsMaterial())
 		return;
 
-	if (parentObject->GetCollisionMesh()->GetLowestPoint().y > ground->GetHeight())
-		return;
+	float forceY = netForce.y - G * mass;
 
-	if (abs(netForce.x) > STICTION_THRESHOLD)
+	if (forceY < 0.0f && abs(velocity.x) > other->GetPhysics().GetPhysicsMaterial()->StictionThreshold)
 	{
-		ApplyForce(FRICTION_COEFFICIENT * glm::vec2(1.0f, 0.0f) * abs(netForce.y) * glm::sign(netForce.x));
+		ApplyForce(GetPhysicsMaterial()->FrictionCoefficient * glm::vec2(1.0f, 0.0f) * forceY * glm::sign(velocity.x));
 	}
 	else
 	{
@@ -131,21 +129,7 @@ void Physics::ApplyGroundDryFriction()
 	}
 }
 
-void Physics::ResolveGroundCollision()
-{
-	if (!ground)
-		return;
-
-	glm::vec2 lowest = parentObject->GetCollisionMesh()->GetLowestPoint();
-	if (lowest.y < ground->GetHeight())
-	{
-		parentObject->GetTransform().SetWorldTranslation(glm::vec2(
-			parentObject->GetTransform().GetWorldTranslation().x,
-			ground->GetHeight() + parentObject->GetCollisionMesh()->GetHeight() / 2.0f));
-		velocity.y = 0.0f;
-	}
-}
-
+// Call after OnCollision
 void Physics::Update(float deltaTime)
 {
 	if (!enabled || !parentObject->GetCollisionMesh())
@@ -153,13 +137,19 @@ void Physics::Update(float deltaTime)
 
 	ApplyGravity();
 	ApplyAirDrag();
-	ApplyGroundDryFriction();
 
 	acceleration = netForce / mass;
 	velocity += acceleration * deltaTime;
 	parentObject->GetTransform().Move(CM_IN_METER * velocity * deltaTime);
 
 	netForce = { 0.0f, 0.0f };
+}
 
-	ResolveGroundCollision();
+void Physics::OnCollision(std::shared_ptr<GameObject> other, bool applyDryFriction)
+{	
+	if (!enabled || !parentObject->GetCollisionMesh())
+		return;
+
+	if (applyDryFriction)
+		ApplyDryFriction(other);
 }
