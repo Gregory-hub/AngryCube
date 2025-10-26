@@ -39,7 +39,7 @@ public:
 
 private:
 	bool CanCollide(std::shared_ptr<GameObject> other) const;
-	bool DidHitSide(std::shared_ptr<GameObject> other) const;
+	bool DidHitSide(std::shared_ptr<GameObject> other, glm::vec2 collisionPoint) const;
 
 	float CalculateClosestSideX(glm::vec2 center, float halfWidth, glm::vec2 v) const;
 	float CalculateClosestSideY(glm::vec2 center, float halfHeight, glm::vec2 v) const;

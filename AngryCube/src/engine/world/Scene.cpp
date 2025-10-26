@@ -76,7 +76,9 @@ const std::shared_ptr<FlatGround>& Scene::GetGround() const
 
 void Scene::SetGroundHeight(float height)
 {
+    ground->GetTransform().Enable();
     ground->SetHeight(height);
+    ground->GetTransform().Disable();
 }
 
 void Scene::Update(float deltaTime) const
@@ -85,17 +87,17 @@ void Scene::Update(float deltaTime) const
     {
         object->Update(deltaTime);
 
-        for (const std::shared_ptr<GameObject>& other : objects)
-        {
-            if (object->GetCollision().IsColliding(other))
-				object->GetCollision().ResolveCollision(other);
-        }
-
 		for (const std::shared_ptr<GameObject>& other : objects)
 		{
             if (object->GetCollision().IsColliding(other))
                 object->OnCollisionStart(other);
 		}
+
+        for (const std::shared_ptr<GameObject>& other : objects)
+        {
+            if (object->GetCollision().IsColliding(other))
+				object->GetCollision().ResolveCollision(other);
+        }
 
         object->GetPhysics().Update(deltaTime);
     }

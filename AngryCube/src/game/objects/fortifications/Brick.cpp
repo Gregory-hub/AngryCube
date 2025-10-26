@@ -11,6 +11,8 @@ Brick::Brick(Scene* parentScene, float mass)
 	: Cube(parentScene, mass)
 {
 	name = "Brick " + std::to_string(id++);
+    GetPhysics().Enable();
+    GetCollision().Enable();
 }
 
 std::shared_ptr<GameObject> Brick::Clone() const
@@ -32,7 +34,5 @@ void Brick::Destroy()
 void Brick::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 {
 	if (auto projectile = std::dynamic_pointer_cast<IProjectile>(other))
-	{
 		Destroy();
-	}
 }

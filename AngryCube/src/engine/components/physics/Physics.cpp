@@ -55,6 +55,8 @@ const glm::vec2& Physics::GetVelocity() const
 
 void Physics::SetVelocity(const glm::vec2& newVelocity)
 {
+	if (!enabled)
+		return;
 	velocity = newVelocity;
 }
 
@@ -129,7 +131,6 @@ void Physics::ApplyDryFriction(std::shared_ptr<GameObject> other)
 	}
 }
 
-// Call after OnCollision
 void Physics::Update(float deltaTime)
 {
 	if (!enabled || !parentObject->GetCollisionMesh())

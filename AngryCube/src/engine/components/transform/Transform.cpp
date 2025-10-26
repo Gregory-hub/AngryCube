@@ -26,6 +26,21 @@ std::shared_ptr<GameObjectComponent> Transform::MoveClone()
 	return std::make_shared<Transform>(std::move(*this));
 }
 
+void Transform::Enable()
+{
+	enabled = true;
+}
+
+void Transform::Disable()
+{
+	enabled = false;
+}
+
+bool Transform::Enabled() const
+{
+	return enabled;
+}
+
 glm::vec2 Transform::GetTranslation() const
 {
 	return translation;
@@ -59,22 +74,30 @@ float Transform::GetWorldRotation() const
 
 void Transform::SetTranslation(const glm::vec2& value)
 {
+	if (!enabled)
+		return;
 	translation = value;
 }
 
 void Transform::SetRotation(float value)
 {
+	if (!enabled)
+		return;
 	rotation = value;
 }
 
 void Transform::SetScale(const glm::vec2& value)
 {
+	if (!enabled)
+		return;
 	scale.x = value.x;
 	scale.y = value.y >= 0 ? value.y : 0.0f;
 }
 
 void Transform::SetWorldTranslation(const glm::vec2& value)
 {
+	if (!enabled)
+		return;
 	translation = value;
 	GameObject* parent = parentObject->GetParent();
 	while (parent)
@@ -86,6 +109,8 @@ void Transform::SetWorldTranslation(const glm::vec2& value)
 
 void Transform::SetWorldRotation(float value)
 {
+	if (!enabled)
+		return;
 	// NOT TESTED!
 	rotation = value;
 	GameObject* parent = parentObject->GetParent();

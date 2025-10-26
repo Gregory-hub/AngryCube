@@ -24,6 +24,7 @@ FlatGround::FlatGround(Scene* parentScene, float height)
 	GetTransform().SetScale(glm::vec2(10.0f, height / 100.0f));
 	GetTransform().SetTranslation(glm::vec2(500.0f, height / 2.0f));
 
+	GetTransform().Disable();
 	GetPhysics().Disable();
     GetPhysics().SetPhysicsMaterial(std::make_shared<PhysicsMaterial>(1.2f, 0.001f));
 

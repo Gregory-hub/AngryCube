@@ -10,6 +10,8 @@ class GameObject;
 class Transform : public GameObjectComponent
 {
 private:
+    bool enabled = true;
+
     glm::vec2 translation { 0.0f, 0.0f };
     float rotation = 0.0f;  // degrees
     glm::vec2 scale { 1.0f, 1.0f };
@@ -26,6 +28,10 @@ public:
 
     std::shared_ptr<GameObjectComponent> Clone() const override;
     std::shared_ptr<GameObjectComponent> MoveClone() override;
+
+	void Enable();
+	void Disable();
+	bool Enabled() const;
 
     glm::vec2 GetTranslation() const;
     float GetRotation() const;

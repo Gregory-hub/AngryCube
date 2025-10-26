@@ -172,6 +172,7 @@ int main()
 
         timer.Start();
         float deltaTime = clock.Tick();
+        //float deltaTime = 1.0f / 500.0f;
 
         game.GetActiveLevel()->Update(deltaTime);
         renderer.Render(game.GetActiveLevel()->GetScene());
