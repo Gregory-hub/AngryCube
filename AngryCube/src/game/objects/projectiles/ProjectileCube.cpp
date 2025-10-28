@@ -63,5 +63,6 @@ void ProjectileCube::Update(float deltaTime)
 void ProjectileCube::OnTargetHit(std::shared_ptr<GameObject> target)
 {
 	Logger::Log(LogLevel::Info, "Hit brick");
+    //GetPhysics().SetVelocity(GetPhysics().GetVelocity());
 }
 

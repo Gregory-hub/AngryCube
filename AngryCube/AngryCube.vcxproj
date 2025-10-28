@@ -142,6 +142,11 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3_loader.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\imgui_internal.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\imstb_rectpack.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\imstb_textedit.h" />
+    <ClInclude Include="Dependencies\compiled\imgui\imstb_truetype.h" />
     <ClInclude Include="src\engine\components\physics\PhysicsMaterial.h" />
     <ClInclude Include="src\engine\components\collision\CollisionMesh.h" />
     <ClInclude Include="src\engine\core\ShaderManager.h" />
@@ -164,13 +169,8 @@
     <ClInclude Include="src\engine\utility\Clock.h" />
     <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_glfw.h" />
     <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3.h" />
-    <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3_loader.h" />
     <ClInclude Include="Dependencies\compiled\imgui\imconfig.h" />
     <ClInclude Include="Dependencies\compiled\imgui\imgui.h" />
-    <ClInclude Include="Dependencies\compiled\imgui\imgui_internal.h" />
-    <ClInclude Include="Dependencies\compiled\imgui\imstb_rectpack.h" />
-    <ClInclude Include="Dependencies\compiled\imgui\imstb_textedit.h" />
-    <ClInclude Include="Dependencies\compiled\imgui\imstb_truetype.h" />
     <ClInclude Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="src\engine\render\Renderer.h" />
     <ClInclude Include="src\engine\utility\Logger.h" />
@@ -193,13 +193,27 @@
     <ClInclude Include="src\pch.h" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Dependencies\compiled\imgui\misc\debuggers\imgui.gdb" />
     <None Include="Dependencies\compiled\imgui\misc\debuggers\imgui.natstepfilter" />
+    <None Include="Dependencies\compiled\imgui\misc\freetype\README.md" />
     <None Include="shaders\basicColor.frag" />
     <None Include="shaders\basicColor.vert" />
     <None Include="shaders\cube.frag" />
     <None Include="shaders\cube.vert" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_demo.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_draw.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_tables.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_widgets.cpp">
+      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
+    </ClCompile>
     <ClCompile Include="src\engine\components\physics\PhysicsMaterial.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
@@ -451,18 +465,6 @@
     <ClCompile Include="Dependencies\compiled\imgui\imgui.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
-    <ClCompile Include="Dependencies\compiled\imgui\imgui_demo.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Dependencies\compiled\imgui\imgui_draw.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Dependencies\compiled\imgui\imgui_tables.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
-    <ClCompile Include="Dependencies\compiled\imgui\imgui_widgets.cpp">
-      <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
-    </ClCompile>
     <ClCompile Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
@@ -652,6 +654,19 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="src\engine\utility\ImGuiDragFloatWithSetter.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Dependencies\compiled\imgui\misc\cpp\README.txt" />
+    <Text Include="Dependencies\compiled\imgui\misc\debuggers\README.txt" />
+    <Text Include="Dependencies\compiled\imgui\misc\README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\Cousine-Regular.ttf" />
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\DroidSans.ttf" />
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\Karla-Regular.ttf" />
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\ProggyClean.ttf" />
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\ProggyTiny.ttf" />
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\Roboto-Medium.ttf" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

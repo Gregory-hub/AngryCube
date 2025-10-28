@@ -9,18 +9,18 @@ private:
 	const std::string fileExtension = ".lvl";
 	
 	std::vector<std::string> levelNames;
-	unsigned int currentLevelIndex = -1;
+	int currentLevelIndex = -1;
 
 public:
 	void AppendLevelName(const std::string& levelName);
-	void InsertLevelName(unsigned int index, const std::string& levelName);
-	void RemoveLevelName(unsigned int index);
+	void InsertLevelName(int index, const std::string& levelName);
+	void RemoveLevelName(int index);
 
-	unsigned int LevelCount() const;
-	unsigned int CurrentLevelIndex() const;
+	int LevelCount() const;
+	int CurrentLevelIndex() const;
 
 	Level Load(const std::string& levelName) const;
-	Level Load(unsigned int index) const;
+	Level Load(int index) const;
 	Level LoadNext() const;
 	
 	void Save(const std::shared_ptr<Level>& level, const std::string& levelName) const;

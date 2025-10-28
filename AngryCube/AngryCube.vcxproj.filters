@@ -24,25 +24,10 @@
     <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3_loader.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Dependencies\compiled\imgui\imconfig.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Dependencies\compiled\imgui\imgui.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\compiled\imgui\imgui_internal.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\compiled\imgui\imstb_rectpack.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\compiled\imgui\imstb_textedit.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="Dependencies\compiled\imgui\imstb_truetype.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.h">
@@ -162,6 +147,21 @@
     <ClInclude Include="src\engine\components\physics\PhysicsMaterial.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="Dependencies\compiled\imgui\imgui_internal.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\compiled\imgui\imstb_rectpack.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\compiled\imgui\imstb_textedit.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\compiled\imgui\imstb_truetype.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\compiled\imgui\backends\imgui_impl_opengl3_loader.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <None Include="shaders\basicColor.frag" />
@@ -169,6 +169,8 @@
     <None Include="shaders\cube.frag" />
     <None Include="shaders\cube.vert" />
     <None Include="Dependencies\compiled\imgui\misc\debuggers\imgui.natstepfilter" />
+    <None Include="Dependencies\compiled\imgui\misc\debuggers\imgui.gdb" />
+    <None Include="Dependencies\compiled\imgui\misc\freetype\README.md" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Main.cpp">
@@ -252,18 +254,6 @@
     <ClCompile Include="Dependencies\compiled\imgui\imgui.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="Dependencies\compiled\imgui\imgui_demo.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Dependencies\compiled\imgui\imgui_draw.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Dependencies\compiled\imgui\imgui_tables.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Dependencies\compiled\imgui\imgui_widgets.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Dependencies\compiled\imgui\misc\cpp\imgui_stdlib.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
@@ -309,8 +299,33 @@
     <ClCompile Include="src\engine\components\physics\PhysicsMaterial.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_demo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_draw.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_tables.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\compiled\imgui\imgui_widgets.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="Dependencies\compiled\imgui\misc\debuggers\imgui.natvis" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="Dependencies\compiled\imgui\misc\cpp\README.txt" />
+    <Text Include="Dependencies\compiled\imgui\misc\debuggers\README.txt" />
+    <Text Include="Dependencies\compiled\imgui\misc\README.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\Roboto-Medium.ttf" />
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\Cousine-Regular.ttf" />
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\DroidSans.ttf" />
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\Karla-Regular.ttf" />
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\ProggyClean.ttf" />
+    <Font Include="Dependencies\compiled\imgui\misc\fonts\ProggyTiny.ttf" />
   </ItemGroup>
 </Project>

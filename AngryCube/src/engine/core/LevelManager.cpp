@@ -11,17 +11,17 @@ void LevelManager::AppendLevelName(const std::string& levelName)
     levelNames.push_back(levelName);
 }
 
-void LevelManager::InsertLevelName(unsigned int index, const std::string& levelName)
+void LevelManager::InsertLevelName(int index, const std::string& levelName)
 {
     levelNames.insert(levelNames.begin() + index, levelName);
 }
 
-void LevelManager::RemoveLevelName(unsigned int index)
+void LevelManager::RemoveLevelName(int index)
 {
     levelNames.erase(levelNames.begin() + index);
 }
 
-unsigned int LevelManager::LevelCount() const
+int LevelManager::LevelCount() const
 {
     return levelNames.size();
 }
@@ -31,7 +31,7 @@ Level LevelManager::Load(const std::string& levelName) const
     return ReadLevelFile(levelName);
 }
 
-Level LevelManager::Load(unsigned int index) const
+Level LevelManager::Load(int index) const
 {
     return ReadLevelFile(levelNames[index]);
 }
