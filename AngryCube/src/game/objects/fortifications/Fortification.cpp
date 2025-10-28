@@ -4,7 +4,7 @@
 #include "engine/world/Scene.h"
 
 
-unsigned int Fortification::id = 0;
+int Fortification::id = 0;
 
 Fortification::Fortification(Scene* parentScene)
     : GameObject(parentScene, 0.0f)
@@ -20,6 +20,10 @@ void Fortification::Update(float deltaTime)
 void Fortification::AddToDestructionQueue(std::shared_ptr<IDestructable> destroyed)
 {
     destructionQueue.push(destroyed);
+}
+
+void Fortification::OnCollisionStart(const std::shared_ptr<GameObject>& other)
+{
 }
 
 void Fortification::DestroyObjectsInQueue()

@@ -13,10 +13,10 @@ class MeshBuffer
 {
 private:
 	std::unique_ptr<GLBufferManager> bufferManager;
-	std::unordered_map<std::shared_ptr<Mesh>, unsigned int> meshOffsets;
-	unsigned int meshVertexCount = 0;
-	unsigned int vertexCount = 0;
-	unsigned int indexCount = 0;
+	std::unordered_map<std::shared_ptr<Mesh>, int> meshOffsets;
+	int meshVertexCount = 0;
+	int vertexCount = 0;
+	int indexCount = 0;
 
 public:
 	MeshBuffer();
@@ -29,8 +29,8 @@ public:
 	MeshBuffer(MeshBuffer&& other) noexcept;
 	MeshBuffer& operator= (MeshBuffer&& other) noexcept;
 
-	unsigned int GetVertexCount() const;
-	unsigned int GetIndexCount() const;
+	int GetVertexCount() const;
+	int GetIndexCount() const;
 
 	std::vector<std::shared_ptr<Mesh>> GetMeshes() const;
 	bool Contains(const std::shared_ptr<Mesh>& mesh) const;

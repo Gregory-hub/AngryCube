@@ -5,11 +5,11 @@
 class GLBufferManager
 {
 private:
-    unsigned int vao;
-    unsigned int vbo;
-    unsigned int ebo;
-    unsigned int attributeIndex = 0;
-    unsigned int attributeOffset = 0;
+    GLuint vao;
+    GLuint vbo;
+    GLuint ebo;
+    int attributeIndex = 0;
+    int attributeOffset = 0;
 
 public:
     GLBufferManager();
@@ -25,13 +25,13 @@ public:
     void Bind() const;
     void Unbind() const;
 
-    void AddVertexAttribute(unsigned int numComponents);
-    void SetVertexAttributes(const std::vector<unsigned int>& components);
+    void AddVertexAttribute(int numComponents);
+    void SetVertexAttributes(const std::vector<int>& components);
     void ClearVertexAttributes();
 
-    void SetElementBuffer(unsigned int size, const unsigned int* indices);
+    void SetElementBuffer(int size, const unsigned int* indices);
 
-    void SetVertexBuffer(unsigned int size, const void* vertices);
-    void UpdateVertexBuffer(unsigned int offset, unsigned int size, const void* vertices);
+    void SetVertexBuffer(int size, const void* vertices);
+    void UpdateVertexBuffer(int offset, int size, const void* vertices);
 };
 

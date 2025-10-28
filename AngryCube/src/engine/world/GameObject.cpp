@@ -178,6 +178,11 @@ Collision& GameObject::GetCollision()
 	return collision;
 }
 
+void GameObject::OnCollisionStart(const std::shared_ptr<GameObject>& other)
+{
+	GetCollision().ResolveCollision(other);
+}
+
 void GameObject::ShowDebugControls()
 {
     GetTransform().ShowDebugControls();

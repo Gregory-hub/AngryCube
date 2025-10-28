@@ -105,12 +105,12 @@ void Mesh::UnbindBuffers() const
 	bufferManager->Unbind();
 }
 
-unsigned int Mesh::GetVertexCount() const
+int Mesh::GetVertexCount() const
 {
     return vertices.size();
 }
 
-unsigned int Mesh::GetIndexCount() const
+int Mesh::GetIndexCount() const
 {
     return triangles.size() * 3;
 }

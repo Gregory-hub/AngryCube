@@ -5,7 +5,7 @@
 #include "game/interfaces/IProjectile.h"
 
 
-unsigned int Brick::id = 0;
+int Brick::id = 0;
 
 Brick::Brick(Scene* parentScene, float mass)
 	: Cube(parentScene, mass)
@@ -35,4 +35,6 @@ void Brick::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 {
 	if (auto projectile = std::dynamic_pointer_cast<IProjectile>(other))
 		Destroy();
+	else
+		GetCollision().ResolveCollision(other);
 }

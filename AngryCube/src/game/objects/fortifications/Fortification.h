@@ -10,7 +10,7 @@
 class Fortification : public GameObject, public IDestructableContainer
 {
 private:
-    static unsigned int id;
+    static int id;
 
 protected:
     std::queue<std::shared_ptr<IDestructable>> destructionQueue;
@@ -21,6 +21,8 @@ public:
     void Update(float deltaTime) override;
 
     void AddToDestructionQueue(std::shared_ptr<IDestructable> destroyed) override;
+
+    void OnCollisionStart(const std::shared_ptr<GameObject>& other) override;
 
 private:
     void DestroyObjectsInQueue() override;

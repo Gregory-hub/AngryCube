@@ -12,7 +12,7 @@
 inline void APIENTRY glDebugOutput(
 	GLenum source,
     GLenum type,
-    unsigned int id,
+    GLuint id,
     GLenum severity,
     GLsizei length,
     const char* message,

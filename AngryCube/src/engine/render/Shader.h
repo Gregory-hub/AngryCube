@@ -12,7 +12,7 @@
 class Shader
 {
 private:
-	unsigned int id;
+	int id;
 	std::string filename;
 
 public:

@@ -58,7 +58,7 @@ void GLBufferManager::Unbind() const
     glBindVertexArray(0);
 }
 
-void GLBufferManager::AddVertexAttribute(unsigned int numComponents)
+void GLBufferManager::AddVertexAttribute(int numComponents)
 {
     if (numComponents < 1 || numComponents > 4)
         throw std::out_of_range("Number of components must be 1, 2, 3 or 4");
@@ -70,10 +70,10 @@ void GLBufferManager::AddVertexAttribute(unsigned int numComponents)
     attributeOffset += numComponents * sizeof(float);
 }
 
-void GLBufferManager::SetVertexAttributes(const std::vector<unsigned int>& components)
+void GLBufferManager::SetVertexAttributes(const std::vector<int>& components)
 {
     ClearVertexAttributes();
-    for (unsigned int num : components)
+    for (int num : components)
         AddVertexAttribute(num);
 }
 
@@ -85,21 +85,21 @@ void GLBufferManager::ClearVertexAttributes()
     attributeOffset = 0;
 }
 
-void GLBufferManager::SetElementBuffer(unsigned int size, const unsigned int* indices)
+void GLBufferManager::SetElementBuffer(int size, const unsigned int* indices)
 {
     Bind();
 	glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo);
 	glBufferData(GL_ELEMENT_ARRAY_BUFFER, size, indices, GL_STATIC_DRAW);
 }
 
-void GLBufferManager::SetVertexBuffer(unsigned int size, const void* vertices)
+void GLBufferManager::SetVertexBuffer(int size, const void* vertices)
 {
     Bind();
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);
 	glBufferData(GL_ARRAY_BUFFER, size, vertices, GL_STATIC_DRAW);
 }
 
-void GLBufferManager::UpdateVertexBuffer(unsigned int offset, unsigned int size, const void* vertices)
+void GLBufferManager::UpdateVertexBuffer(int offset, int size, const void* vertices)
 {
     Bind();
 	glBindBuffer(GL_ARRAY_BUFFER, vbo);

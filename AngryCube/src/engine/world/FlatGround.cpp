@@ -5,7 +5,7 @@
 #include <engine/components/mesh/DefaultMeshes.h>
 
 
-unsigned FlatGround::id = 0;
+int FlatGround::id = 0;
 
 FlatGround::FlatGround(Scene* parentScene, float height)
 	: GameObject(parentScene, 0.0f), height(height)

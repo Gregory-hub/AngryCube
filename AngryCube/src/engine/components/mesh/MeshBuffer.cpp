@@ -40,12 +40,12 @@ MeshBuffer& MeshBuffer::operator=(MeshBuffer&& other) noexcept
 	return *this;
 }
 
-unsigned int MeshBuffer::GetVertexCount() const
+int MeshBuffer::GetVertexCount() const
 {
 	return vertexCount;
 }
 
-unsigned int MeshBuffer::GetIndexCount() const
+int MeshBuffer::GetIndexCount() const
 {
 	return indexCount;
 }
@@ -100,7 +100,7 @@ void MeshBuffer::SetBufferOnGPU()
 	std::vector<unsigned int> indices;
 	indices.reserve(indexCount);
 
-	unsigned int offset = 0;
+	int offset = 0;
 	for (const auto& [mesh, _] : meshOffsets)
 	{
 		std::vector<glm::vec2> meshVertices = mesh->GetVertices();
@@ -123,7 +123,7 @@ void MeshBuffer::SetBufferOnGPU()
 	//Logger::Log(LogLevel::Info, "Buffers are being allocated on gpu");
 
 	bufferManager->SetVertexBuffer(vertexCount * sizeof(glm::vec2), vertices.data());
-	bufferManager->SetElementBuffer(indexCount * sizeof(unsigned int), indices.data());
+	bufferManager->SetElementBuffer(indexCount * sizeof(int), indices.data());
 	bufferManager->AddVertexAttribute(2);
 }
 

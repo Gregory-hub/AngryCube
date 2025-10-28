@@ -9,7 +9,9 @@
 class Brick : public Cube, public IDestructable, public std::enable_shared_from_this<Brick>
 {
 private:
-	static unsigned int id;
+	static int id;
+
+
 
 public:
 	Brick(Scene* parentScene, float mass = 1.0f);

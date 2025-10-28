@@ -49,8 +49,8 @@ public:
     void BindBuffers() const;
     void UnbindBuffers() const;
 
-    unsigned int GetVertexCount() const;
-    unsigned int GetIndexCount() const;
+    int GetVertexCount() const;
+    int GetIndexCount() const;
 
     void UpdateBuffers() const;
 };

@@ -54,6 +54,8 @@ void ProjectileCube::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 {
     if (std::dynamic_pointer_cast<Brick>(other))
         OnTargetHit(other);
+    else
+        GetCollision().ResolveCollision(other);
 }
 
 void ProjectileCube::Update(float deltaTime)
@@ -63,6 +65,10 @@ void ProjectileCube::Update(float deltaTime)
 void ProjectileCube::OnTargetHit(std::shared_ptr<GameObject> target)
 {
 	Logger::Log(LogLevel::Info, "Hit brick");
-    //GetPhysics().SetVelocity(GetPhysics().GetVelocity());
+    glm::vec2 v0 = GetPhysics().GetVelocity();
+    glm::vec2 v1 = target->GetPhysics().GetVelocity();
+    float m0 = GetPhysics().GetMass();
+    float m1 = target->GetPhysics().GetMass();
+    //GetPhysics().SetVelocity();
 }
 

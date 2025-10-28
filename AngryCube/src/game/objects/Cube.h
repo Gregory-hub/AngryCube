@@ -8,7 +8,7 @@
 class Cube : public GameObject
 {
 private:
-    static unsigned int id;
+    static int id;
 
 public:
     Cube(Scene* parentScene, float mass = 1.0f);

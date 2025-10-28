@@ -5,7 +5,7 @@
 class FlatGround : public GameObject
 {
 private:
-	static unsigned int id;
+	static int id;
 	float height = 0.0f;
 
 public:
