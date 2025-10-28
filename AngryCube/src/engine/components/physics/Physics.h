@@ -55,10 +55,13 @@ public:
 	void Stop();
 
 	void Update(float deltaTime);
+	void PostUpdate(float deltaTime);
 
 	void OnCollision(std::shared_ptr<GameObject> other, bool didHitSide);
 
 private:
+	void MoveDueToInertia(float deltaTime);
+	void MoveDueToForces(float deltaTime);
 	void ApplyGravity();
 	void ApplyAirDrag();
 	void ApplyDryFriction(std::shared_ptr<GameObject> other);

@@ -11,8 +11,6 @@ class Brick : public Cube, public IDestructable, public std::enable_shared_from_
 private:
 	static int id;
 
-
-
 public:
 	Brick(Scene* parentScene, float mass = 1.0f);
 

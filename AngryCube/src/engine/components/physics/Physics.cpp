@@ -92,6 +92,19 @@ void Physics::Stop()
 	velocity = { 0.0f, 0.0f };
 }
 
+void Physics::MoveDueToInertia(float deltaTime)
+{
+	parentObject->GetTransform().Move(CM_IN_METER * velocity * deltaTime);
+}
+
+void Physics::MoveDueToForces(float deltaTime)
+{
+	acceleration = netForce / mass;
+	glm::vec2 v = acceleration * deltaTime;
+	velocity += v;
+	parentObject->GetTransform().Move(CM_IN_METER * v * deltaTime);
+}
+
 void Physics::ApplyGravity()
 {
 	ApplyForce(glm::vec2({ 0.0f, -1.0f }) * G * mass);
@@ -131,6 +144,15 @@ void Physics::ApplyDryFriction(std::shared_ptr<GameObject> other)
 	}
 }
 
+void Physics::PostUpdate(float deltaTime)
+{
+	if (!enabled || !parentObject->GetCollisionMesh())
+		return;
+
+	MoveDueToForces(deltaTime);
+	RemoveForces();
+}
+
 void Physics::Update(float deltaTime)
 {
 	if (!enabled || !parentObject->GetCollisionMesh())
@@ -139,11 +161,9 @@ void Physics::Update(float deltaTime)
 	ApplyGravity();
 	ApplyAirDrag();
 
-	acceleration = netForce / mass;
-	velocity += acceleration * deltaTime;
-	parentObject->GetTransform().Move(CM_IN_METER * velocity * deltaTime);
-
-	netForce = { 0.0f, 0.0f };
+	MoveDueToInertia(deltaTime);
+	MoveDueToForces(deltaTime);
+	RemoveForces();
 }
 
 void Physics::OnCollision(std::shared_ptr<GameObject> other, bool applyDryFriction)

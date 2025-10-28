@@ -7,7 +7,7 @@
 FortificationOfLevel1::FortificationOfLevel1(Scene* parentScene)
     : Fortification(parentScene)
 {
-    auto brickTemplate = std::make_shared<Brick>(parentScene, 5.0f);
+    auto brickTemplate = std::make_shared<Brick>(parentScene, 50.0f);
     float scale = 0.5f;
     brickTemplate->GetTransform().SetScale(glm::vec2(scale, scale));
 

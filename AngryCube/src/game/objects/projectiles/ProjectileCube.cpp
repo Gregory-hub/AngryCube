@@ -66,9 +66,8 @@ void ProjectileCube::OnTargetHit(std::shared_ptr<GameObject> target)
 {
 	Logger::Log(LogLevel::Info, "Hit brick");
     glm::vec2 v0 = GetPhysics().GetVelocity();
-    glm::vec2 v1 = target->GetPhysics().GetVelocity();
     float m0 = GetPhysics().GetMass();
     float m1 = target->GetPhysics().GetMass();
-    //GetPhysics().SetVelocity();
+    GetPhysics().SetVelocity(v0 * glm::clamp(m0 / m1, 0.5f, 0.75f));
 }
 
