@@ -10,23 +10,15 @@
 #include "engine/core/Game.h"
 
 
-Renderer::Renderer(GLFWwindow* window, glm::vec2 resolution)
-	: window(window), projMatrix(glm::ortho(0.0f, resolution.x, 0.0f, resolution.y, -1.0f, 1.0f)) { }
-
-Renderer::Renderer(Renderer&& other) noexcept
+Renderer::Renderer(GLFWwindow* window, glm::vec2 windowResolution)
+	: window(window),
+	projMatrix(glm::perspective(glm::radians(90.0f), windowResolution.x / windowResolution.y, 0.1f, 10000.0f)),
+	viewMatrix(glm::mat4(1.0f))
 {
-	window = std::exchange(other.window, nullptr);
-	projMatrix = std::exchange(other.projMatrix, glm::mat4());
-}
-
-Renderer& Renderer::operator=(Renderer&& other) noexcept
-{
-	if (this != &other)
-	{
-		window = std::exchange(other.window, nullptr);
-		projMatrix = std::exchange(other.projMatrix, glm::mat4());
-	}
-	return *this;
+	float worldRatio = worldBounds.x / worldBounds.y;
+	float windowRatio = windowResolution.x / windowResolution.y;
+	float cameraMoveRatio = worldRatio / windowRatio;
+	viewMatrix = glm::translate(viewMatrix, glm::vec3(0.0f, -500.0f, -500.0f) * cameraMoveRatio);
 }
 
 void Renderer::Render(const Scene& scene) const
@@ -44,7 +36,7 @@ void Renderer::RenderObject(const std::shared_ptr<GameObject>& object) const
 		if (Shader* shader = mesh->GetShader().get())
 		{
 			shader->Bind();
-			shader->SetUniform("transform", projMatrix * object->GetTransform().GetMatrix());
+			shader->SetUniform("transform", projMatrix * viewMatrix * object->GetTransform().GetMatrix());
 			if (const Material* material = mesh->GetMaterial().get())
 				material->SetShaderUniforms(shader);
 	

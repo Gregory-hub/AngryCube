@@ -56,7 +56,10 @@
 
 
 static glm::ivec2 WINDOW_RESOLUTION = { 1280, 720 };
-// static glm::ivec2 WINDOW_RESOLUTION = { 1920, 1080 };
+ //static glm::ivec2 WINDOW_RESOLUTION = { 1920, 1080 };
+ //static glm::ivec2 WINDOW_RESOLUTION = { 720, 720 };
+ //static glm::ivec2 WINDOW_RESOLUTION = { 1280, 480 };
+ //static glm::ivec2 WINDOW_RESOLUTION = { 480, 1280 };
 
 static GLFWwindow* runSetup()
 {
