@@ -66,7 +66,7 @@ Catapult::Catapult(Scene* parentScene)
 	stopper->GetTransform().SetTranslation(glm::vec2(0.0f, -5.0f));
 
 	frameLeft->AttachChild(stopper);
-	
+
 	AttachChild(platform);
 	AttachChild(frameUp);
 	AttachChild(frameLeft);
@@ -75,9 +75,11 @@ Catapult::Catapult(Scene* parentScene)
 
 	SetMaterial(material);
 
-	std::shared_ptr<ProjectileCube> projectile = std::make_shared<ProjectileCube>(scene, 50.0f);
+	auto projectile = std::make_shared<ProjectileCube>(scene, 20.0f);
 	projectile->GetTransform().SetScale(glm::vec2(0.2f, 0.2f));
-	arm->LoadProjectile(projectile);
+
+	SetProjectileTemplate(projectile);
+	Load();
 
 	GetPhysics().Disable();
 	GetCollision().Disable();
@@ -93,6 +95,29 @@ std::shared_ptr<GameObject> Catapult::MoveClone()
     return std::make_shared<Catapult>(std::move(*this));
 }
 
+std::shared_ptr<IProjectile> Catapult::GetProjectileTemplate() const
+{
+	return projectileTemplate;
+}
+
+void Catapult::SetProjectileTemplate(std::shared_ptr<IProjectile> newTemplate)
+{
+	projectileTemplate = newTemplate;
+}
+
+void Catapult::Load(std::shared_ptr<IProjectile> projectile)
+{
+	if (!projectile && projectileTemplate)
+	{
+		if (std::shared_ptr<GameObject> tmp = std::dynamic_pointer_cast<GameObject>(projectileTemplate))
+			projectile = std::dynamic_pointer_cast<IProjectile>(tmp->Clone());
+	}
+
+	if (projectile)
+		arm->LoadProjectile(projectile);
+
+}
+
 void Catapult::Release()
 {
 	arm->Release();
@@ -105,6 +130,8 @@ void Catapult::Cock()
 
 void Catapult::Update(float deltaTime)
 {
+	if (arm->GetArmMode() == CatapultArmMode::Cocked && !arm->GetProjectile())
+		Load();
 }
 
 void Catapult::ShowDebugControls()

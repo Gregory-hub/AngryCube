@@ -60,6 +60,11 @@ void CatapultArm::AddProgress(float newProgress)
     SetProgress(progress + newProgress);
 }
 
+CatapultArmMode CatapultArm::GetArmMode() const
+{
+    return armMode;
+}
+
 float CatapultArm::GetMinAngle() const
 {
     return minAngle;
@@ -137,7 +142,6 @@ void CatapultArm::UpdateArmProgress(float deltaTime)
         {
             std::shared_ptr<ProjectileCube> newProjectile = std::make_shared<ProjectileCube>(scene, projectileMass);
             newProjectile->GetTransform().SetScale(glm::vec2(0.2f, 0.2f));
-            LoadProjectile(newProjectile);
         }
     }
 }
@@ -157,12 +161,17 @@ void CatapultArm::Cock()
         armMode = CatapultArmMode::Cocking;
 }
 
-void CatapultArm::LoadProjectile(const std::shared_ptr<GameObject>& newProjectile)
+std::shared_ptr<GameObject> CatapultArm::GetProjectile() const
+{
+    return projectile;
+}
+
+void CatapultArm::LoadProjectile(const std::shared_ptr<IProjectile>& newProjectile)
 {
     if (projectile)
         DetachProjectile(false);
 
-    projectile = newProjectile;
+    projectile = std::dynamic_pointer_cast<GameObject>(newProjectile);
     projectileSocket->AttachChild(projectile);
     projectile->GetTransform().SetTranslation(glm::vec2(0.0f, 5.0f));
 }

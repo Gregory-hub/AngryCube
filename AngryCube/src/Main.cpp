@@ -38,16 +38,18 @@
 // (skipped) component system with component checking
 // (done) physics
 // (done) collision
-// make CubeCollision subclass and use it for every cube in a game
+// (done) fix ground physics
 // make Collision abstract
+// use CubeCollision subclass
+// make Physics abstract
+// use CubePhysics subclass
+// separate world space from screen coordinates
 // move some interfaces to engine folder
-// fix ground physics
 // game logic
+// UI
 // saves
 // levels
 // textures
-// rename Collision to CubeCollision
-// rename Physics to CubePhysics
 
 // TO BE SOLVED:
 // components with references to parent must not copy reference in copy and move operations

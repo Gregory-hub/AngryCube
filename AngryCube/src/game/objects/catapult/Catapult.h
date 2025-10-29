@@ -10,6 +10,7 @@ private:
     static int id;
 
 	std::shared_ptr<CatapultArm> arm;
+	std::shared_ptr<IProjectile> projectileTemplate;
 
 public:
 	Catapult(Scene* parentScene);
@@ -24,6 +25,10 @@ public:
 	std::shared_ptr<GameObject> Clone() const override;
 	std::shared_ptr<GameObject> MoveClone() override;
 
+	std::shared_ptr<IProjectile> GetProjectileTemplate() const;
+	void SetProjectileTemplate(std::shared_ptr<IProjectile> newTemplate);
+
+	void Load(std::shared_ptr<IProjectile> projectile = nullptr);
 	void Release();
 	void Cock();
 

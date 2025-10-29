@@ -1,5 +1,6 @@
 #pragma once
 #include "engine/world/GameObject.h"
+#include "game/interfaces/IProjectile.h"
 
 
 class Cube;
@@ -36,7 +37,7 @@ private:
     float armMass = 15.0f;
     float socketMass = 5.0f;
     float k = 5000.0;
-    
+
     float timeFromRelease = 0.0f;
 
     float projectileMass = 50.0f;
@@ -50,6 +51,8 @@ public:
     float GetProgress() const;
     void SetProgress(float newProgress);
     void AddProgress(float newProgress);
+
+    CatapultArmMode GetArmMode() const;
 
     float GetMinAngle() const;
     float GetMaxAngle() const;
@@ -72,7 +75,8 @@ public:
     void Release();
     void Cock();
 
-    void LoadProjectile(const std::shared_ptr<GameObject>& newProjectile);
+    std::shared_ptr<GameObject> GetProjectile() const;
+    void LoadProjectile(const std::shared_ptr<IProjectile>& newProjectile);
     void DetachProjectile(bool shoot = true);
 
     void ShowDebugControls() override;
