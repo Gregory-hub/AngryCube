@@ -12,6 +12,7 @@
 #include <backends/imgui_impl_glfw.h>
 #include <backends/imgui_impl_opengl3.h>
 
+#include "Settings.h"
 #include "engine/core/Game.h"
 #include "engine/core/LevelManager.h"
 #include "engine/core/ShaderManager.h"
@@ -55,14 +56,6 @@
 // components with references to parent must not copy reference in copy and move operations
 
 
-// global quick settings
-static bool FULLSCREEN = true;
-static glm::ivec2 WINDOW_RESOLUTION = { 1280, 720 };
- //static glm::ivec2 WINDOW_RESOLUTION = { 1920, 1080 };
- //static glm::ivec2 WINDOW_RESOLUTION = { 720, 720 };
- //static glm::ivec2 WINDOW_RESOLUTION = { 1280, 480 };
- //static glm::ivec2 WINDOW_RESOLUTION = { 480, 1280 };
-
 static GLFWwindow* runSetup()
 {
     if (!glfwInit())
@@ -81,7 +74,7 @@ static GLFWwindow* runSetup()
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 
     GLFWwindow* window;
-    if (FULLSCREEN)
+    if (Settings::Fullscreen)
     {
         GLFWmonitor* monitor = glfwGetPrimaryMonitor();
         const GLFWvidmode* mode = glfwGetVideoMode(monitor);
@@ -90,11 +83,11 @@ static GLFWwindow* runSetup()
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
         window = glfwCreateWindow(mode->width, mode->height, "My Title", monitor, NULL);
-        glfwGetWindowSize(window, &WINDOW_RESOLUTION.x, &WINDOW_RESOLUTION.y);
+        glfwGetWindowSize(window, &Settings::WindowResolution.x, &Settings::WindowResolution.y);
     }
     else
     {
-        window = glfwCreateWindow(WINDOW_RESOLUTION.x, WINDOW_RESOLUTION.y, "Angry Cube", NULL, NULL);
+        window = glfwCreateWindow(Settings::WindowResolution.x, Settings::WindowResolution.y, "Angry Cube", NULL, NULL);
     }
 
     if (!window)
@@ -145,10 +138,13 @@ static GLFWwindow* runSetup()
 
 void ShowDebugTimeValues(float deltaTime, float framerate)
 {
+    if (!Settings::DebugUIEnabled)
+        return;
+
     static float time = 0.0f;
     time += deltaTime;
 
-    ImGui::SetNextWindowPos(ImVec2(WINDOW_RESOLUTION.x - 220.0f, 20.0f));
+    ImGui::SetNextWindowPos(ImVec2(Settings::WindowResolution.x - 220.0f, 20.0f));
     ImGui::Begin("Time", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::Text(("time from start: " + std::to_string(time)).c_str());
 	ImGui::Text(("deltaTime: " + std::to_string(deltaTime)).c_str());
@@ -164,7 +160,7 @@ int main()
     Clock clock;
     Timer timer;
 
-    Renderer renderer(window, WINDOW_RESOLUTION);
+    Renderer renderer(window, Settings::WindowResolution);
 
     auto cubeShader = std::make_shared<Shader>("cube");
 	ShaderManager::RegisterShaderFor<CubeMesh>(std::move(cubeShader));
@@ -186,7 +182,6 @@ int main()
 
         timer.Start();
         float deltaTime = clock.Tick();
-        //float deltaTime = 1.0f / 500.0f;
 
         game.GetActiveLevel()->Update(deltaTime);
         renderer.Render(game.GetActiveLevel()->GetScene());

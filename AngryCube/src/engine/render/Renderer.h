@@ -6,12 +6,15 @@
 
 #include "engine/world/Scene.h"
 #include "Shader.h"
+#include "engine/utility/DebugUIRenderer.h"
 
 
 class Renderer
 {
 private:
 	GLFWwindow* window;
+
+	DebugUIRenderer debugUIRenderer;
 
 	glm::vec2 worldBounds{ 2000.0f, 2000.0f / 1.777778f };
 
@@ -30,10 +33,5 @@ public:
 
 	void Render(const Scene& scene) const;
 	void RenderObject(const std::shared_ptr<GameObject>& object) const;
-	
-	void RenderDebugUI(const Scene& scene) const;
-	void RenderParentObjectDebugUI(const std::shared_ptr<GameObject>& object) const;
-	void RenderChildObjectDebugUI(const std::shared_ptr<GameObject>& object) const;
-	void RenderObjectDebugUI(const std::shared_ptr<GameObject>& object) const;
 };
 

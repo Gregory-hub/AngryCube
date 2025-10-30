@@ -3,7 +3,7 @@
 #include <memory>
 #include <unordered_set>
 
-#include "engine/components/collision/Collision.h"
+#include "engine/components/collision/CubeCollision.h"
 #include "engine/components/mesh/Mesh.h"
 #include "engine/components/collision/CollisionMesh.h"
 #include "engine/components/physics/Physics.h"
@@ -25,7 +25,7 @@ protected:
 	std::vector<std::shared_ptr<Mesh>> meshes;
 	Transform transform;
 	Physics physics;
-	Collision collision;
+	CubeCollision collision;
 	std::shared_ptr<CollisionMesh> collisionMesh = nullptr;
 
 public:
@@ -61,8 +61,8 @@ public:
 	Physics& GetPhysics();
 	const Physics& GetPhysics() const;
 	
-	Collision& GetCollision();
-	const Collision& GetCollision() const;
+	CubeCollision& GetCollision();
+	const CubeCollision& GetCollision() const;
 
 	virtual void Update(float deltaTime) = 0;
 

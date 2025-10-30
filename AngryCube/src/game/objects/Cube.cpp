@@ -51,4 +51,3 @@ void Cube::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 void Cube::Update(float deltaTime)
 {
 }
-

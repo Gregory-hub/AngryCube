@@ -8,7 +8,7 @@ GameObject::GameObject(Scene* parentScene, float mass, const std::shared_ptr<Col
 	:	scene(parentScene),
 		transform(Transform(this)),
 		physics(Physics(this, mass)),
-		collision(Collision(this)),
+		collision(CubeCollision(this)),
 		collisionMesh(collisionMesh)
 {
 }
@@ -163,7 +163,7 @@ const Physics& GameObject::GetPhysics() const
 	return physics;
 }
 
-const Collision& GameObject::GetCollision() const
+const CubeCollision& GameObject::GetCollision() const
 {
 	return collision;
 }
@@ -173,7 +173,7 @@ Physics& GameObject::GetPhysics()
 	return physics;
 }
 
-Collision& GameObject::GetCollision()
+CubeCollision& GameObject::GetCollision()
 {
 	return collision;
 }

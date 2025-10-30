@@ -34,7 +34,7 @@ private:
 
     float pullbackSpeed = 1.0f;
 
-    float armMass = 15.0f;
+    float armMass = 50.0f;
     float socketMass = 5.0f;
     float k = 5000.0;
 

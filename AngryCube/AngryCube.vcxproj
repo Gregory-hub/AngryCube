@@ -147,17 +147,19 @@
     <ClInclude Include="dependencies\compiled\imgui\imstb_rectpack.h" />
     <ClInclude Include="dependencies\compiled\imgui\imstb_textedit.h" />
     <ClInclude Include="dependencies\compiled\imgui\imstb_truetype.h" />
+    <ClInclude Include="src\engine\components\collision\Collision.h" />
     <ClInclude Include="src\engine\components\physics\PhysicsMaterial.h" />
     <ClInclude Include="src\engine\components\collision\CollisionMesh.h" />
     <ClInclude Include="src\engine\core\ShaderManager.h" />
     <ClInclude Include="src\engine\materials\Material.h" />
     <ClInclude Include="src\engine\materials\SolidColor.h" />
+    <ClInclude Include="src\engine\utility\DebugUIRenderer.h" />
     <ClInclude Include="src\engine\utility\FileReader.h" />
     <ClInclude Include="src\engine\core\LevelManager.h" />
     <ClInclude Include="src\engine\utility\ImGuiDragFloatWithSetter.h" />
     <ClInclude Include="src\engine\core\Game.h" />
     <ClInclude Include="src\engine\core\Level.h" />
-    <ClInclude Include="src\engine\components\collision\Collision.h" />
+    <ClInclude Include="src\engine\components\collision\CubeCollision.h" />
     <ClInclude Include="src\engine\components\GameObjectComponent.h" />
     <ClInclude Include="src\engine\components\mesh\DefaultMeshes.h" />
     <ClInclude Include="src\engine\components\mesh\Mesh.h" />
@@ -191,6 +193,7 @@
     <ClInclude Include="src\game\objects\fortifications\FortificationOfLevel1.h" />
     <ClInclude Include="src\game\objects\projectiles\ProjectileCube.h" />
     <ClInclude Include="src\pch.h" />
+    <ClInclude Include="src\Settings.h" />
   </ItemGroup>
   <ItemGroup>
     <None Include="dependencies\compiled\imgui\misc\debuggers\imgui.gdb" />
@@ -214,6 +217,7 @@
     <ClCompile Include="dependencies\compiled\imgui\imgui_widgets.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">NotUsing</PrecompiledHeader>
     </ClCompile>
+    <ClCompile Include="src\engine\components\collision\Collision.cpp" />
     <ClCompile Include="src\engine\components\physics\PhysicsMaterial.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
@@ -339,6 +343,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\engine\utility\DebugUIRenderer.cpp" />
     <ClCompile Include="src\engine\utility\FileReader.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
@@ -384,7 +389,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\engine\components\collision\Collision.cpp">
+    <ClCompile Include="src\engine\components\collision\CubeCollision.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
@@ -648,6 +653,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="dependencies\compiled\imgui\misc\debuggers\imgui.natvis" />
