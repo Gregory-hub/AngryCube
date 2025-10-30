@@ -40,20 +40,14 @@
 // (done) physics
 // (done) collision
 // (done) fix ground physics
-// make Collision abstract
-// use CubeCollision subclass
-// make Physics abstract
-// use CubePhysics subclass
-// separate world space from screen coordinates
-// move some interfaces to engine folder
+// (done) make Collision abstract
+// (done) use CubeCollision subclass
+// (done kinda) separate world space from screen coordinates
 // game logic
 // UI
 // saves
 // levels
 // textures
-
-// TO BE SOLVED:
-// components with references to parent must not copy reference in copy and move operations
 
 
 static GLFWwindow* runSetup()
