@@ -55,6 +55,8 @@
 // components with references to parent must not copy reference in copy and move operations
 
 
+// global quick settings
+static bool FULLSCREEN = true;
 static glm::ivec2 WINDOW_RESOLUTION = { 1280, 720 };
  //static glm::ivec2 WINDOW_RESOLUTION = { 1920, 1080 };
  //static glm::ivec2 WINDOW_RESOLUTION = { 720, 720 };
@@ -78,15 +80,22 @@ static GLFWwindow* runSetup()
     // disable when releasing
     glfwWindowHint(GLFW_OPENGL_DEBUG_CONTEXT, true);
 
-    //GLFWmonitor* monitor = glfwGetPrimaryMonitor();
-    //const GLFWvidmode* mode = glfwGetVideoMode(monitor);
-    //glfwWindowHint(GLFW_RED_BITS, mode->redBits);
-    //glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
-    //glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
-    //glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
-    //window = glfwCreateWindow(mode->width, mode->height, "My Title", monitor, NULL);
-
-    GLFWwindow* window = glfwCreateWindow(WINDOW_RESOLUTION.x, WINDOW_RESOLUTION.y, "Angry Cube", NULL, NULL);
+    GLFWwindow* window;
+    if (FULLSCREEN)
+    {
+        GLFWmonitor* monitor = glfwGetPrimaryMonitor();
+        const GLFWvidmode* mode = glfwGetVideoMode(monitor);
+        glfwWindowHint(GLFW_RED_BITS, mode->redBits);
+        glfwWindowHint(GLFW_GREEN_BITS, mode->greenBits);
+        glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
+        glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
+        window = glfwCreateWindow(mode->width, mode->height, "My Title", monitor, NULL);
+        glfwGetWindowSize(window, &WINDOW_RESOLUTION.x, &WINDOW_RESOLUTION.y);
+    }
+    else
+    {
+        window = glfwCreateWindow(WINDOW_RESOLUTION.x, WINDOW_RESOLUTION.y, "Angry Cube", NULL, NULL);
+    }
 
     if (!window)
     {
