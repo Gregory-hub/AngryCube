@@ -25,6 +25,7 @@
 #include "engine/components/mesh/DefaultMeshes.h"
 #include "engine/UI/HUD.h"
 #include "engine/UI/Widget.h"
+#include "game/CatapultController.h"
 
 #include "game/levels/Level1.h"
 #include "game/UI/GameplayHUD.h"
@@ -158,14 +159,17 @@ int main()
     Timer timer;
 
     Renderer renderer(window, Settings::WindowResolution);
-    GameplayHUD hud;
 
     auto cubeShader = std::make_shared<Shader>("cube");
 	ShaderManager::RegisterShaderFor<CubeMesh>(std::move(cubeShader));
 
     Game game;
-    std::shared_ptr<Level> level = std::make_shared<Level1>();
+    auto level = std::make_shared<Level1>();
     game.LoadLevel(level);
+
+    auto controller = std::make_shared<CatapultController>(level->GetCatapult());
+
+    GameplayHUD hud(controller);
 
 	glm::vec3 skyColor = glm::vec3(0.568f, 0.78f, 0.98f) * 0.9f;
     glClearColor(skyColor.r, skyColor.g, skyColor.b, 1.0f);

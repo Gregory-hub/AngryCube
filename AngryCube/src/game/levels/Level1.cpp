@@ -2,16 +2,16 @@
 #include "Level1.h"
 
 #include "game/objects/catapult/Catapult.h"
-#include "game/objects/Cube.h"
 #include "game/objects/fortifications/FortificationOfLevel1.h"
-#include <game/objects/projectiles/ProjectileCube.h>
+
+#include "game/CatapultController.h"
 
 
 Level1::Level1()
 {
     scene.SetGroundHeight(200.0f);
 
-    std::shared_ptr<Catapult> catapult = std::make_shared<Catapult>(&scene);
+    catapult = std::make_shared<Catapult>(&scene);
     catapult->GetTransform().Move(glm::vec2(-500.0f, scene.GetGround()->GetHeight()));
     scene.Add(catapult);
 
@@ -21,4 +21,9 @@ Level1::Level1()
         height = scene.GetGround()->GetHeight();
     fortification->GetTransform().SetTranslation(glm::vec2(500.0f, height));
     scene.Add(fortification);
+}
+
+std::shared_ptr<Catapult> Level1::GetCatapult() const
+{
+    return catapult;
 }

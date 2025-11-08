@@ -77,7 +77,6 @@ Catapult::Catapult(Scene* parentScene)
 
 	auto projectile = std::make_shared<ProjectileCube>(scene, 20.0f);
 	projectile->GetTransform().SetScale(glm::vec2(0.2f, 0.2f));
-
 	SetProjectileTemplate(projectile);
 	Load();
 
@@ -126,6 +125,11 @@ void Catapult::Release()
 void Catapult::Cock()
 {
 	arm->Cock();
+}
+
+bool Catapult::ReadyToRelease() const
+{
+	return arm->GetArmMode() == CatapultArmMode::Cocked && arm->GetProjectile();
 }
 
 void Catapult::Update(float deltaTime)

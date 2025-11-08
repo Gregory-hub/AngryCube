@@ -32,6 +32,8 @@ public:
 	void Release();
 	void Cock();
 
+	bool ReadyToRelease() const;
+
 	void Update(float deltaTime) override;
 
 	void ShowDebugControls() override;
