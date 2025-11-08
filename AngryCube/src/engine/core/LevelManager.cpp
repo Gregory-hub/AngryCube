@@ -26,19 +26,19 @@ int LevelManager::LevelCount() const
     return levelNames.size();
 }
 
-Level LevelManager::Load(const std::string& levelName) const
+std::unique_ptr<Level> LevelManager::Load(const std::string& levelName) const
 {
     return ReadLevelFile(levelName);
 }
 
-Level LevelManager::Load(int index) const
+std::unique_ptr<Level> LevelManager::Load(int index) const
 {
     return ReadLevelFile(levelNames[index]);
 }
 
-Level LevelManager::LoadNext() const
+std::unique_ptr<Level> LevelManager::LoadNext() const
 {
-    return Level();
+    return std::make_unique<Level>();
 }
 
 void LevelManager::Save(const std::shared_ptr<Level>& level, const std::string& levelName) const
@@ -46,14 +46,14 @@ void LevelManager::Save(const std::shared_ptr<Level>& level, const std::string& 
     WriteLevelToFile(level, levelName);
 }
 
-Level LevelManager::ReadLevelFile(const std::string& levelName) const
+std::unique_ptr<Level> LevelManager::ReadLevelFile(const std::string& levelName) const
 {
     std::string filename = levelName + fileExtension;
     std::ifstream file(filename, std::ios::binary);
     if (!file.is_open())
     {
         Logger::Log(LogLevel::Error, std::string("file not open (") + filename + ")");
-        return Level();
+        return std::make_unique<Level>();
     }
 
     char buffer[sizeof(float)];
@@ -62,6 +62,8 @@ Level LevelManager::ReadLevelFile(const std::string& levelName) const
     float groundHeight = *reinterpret_cast<float*>(buffer);
 
     file.close();
+    
+    return std::make_unique<Level>();
 }
 
 void LevelManager::WriteLevelToFile(const std::shared_ptr<Level>& level, const std::string& levelName) const

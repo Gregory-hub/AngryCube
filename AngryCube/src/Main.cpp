@@ -23,8 +23,11 @@
 #include "engine/render/Renderer.h"
 #include "engine/render/Shader.h"
 #include "engine/components/mesh/DefaultMeshes.h"
+#include "engine/UI/HUD.h"
+#include "engine/UI/Widget.h"
 
 #include "game/levels/Level1.h"
+#include "game/UI/GameplayHUD.h"
 
 
 // TODO:
@@ -155,6 +158,7 @@ int main()
     Timer timer;
 
     Renderer renderer(window, Settings::WindowResolution);
+    GameplayHUD hud;
 
     auto cubeShader = std::make_shared<Shader>("cube");
 	ShaderManager::RegisterShaderFor<CubeMesh>(std::move(cubeShader));
@@ -168,28 +172,29 @@ int main()
     while (!glfwWindowShouldClose(window))
     {
 		glClear(GL_COLOR_BUFFER_BIT);
-
+  
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-
-
+  
+  
         timer.Start();
         float deltaTime = clock.Tick();
-
+  
         game.GetActiveLevel()->Update(deltaTime);
         renderer.Render(game.GetActiveLevel()->GetScene());
-
+        hud.Render();
+  
         float frametime = timer.End();
         ShowDebugTimeValues(deltaTime, 1.0f / frametime);
 
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-
+  
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-
+  
         // Demonstrates physics instability when fps is not stable
         //std::this_thread::sleep_for(std::chrono::milliseconds((int)(std::rand() / (float)RAND_MAX * 40)));
     }

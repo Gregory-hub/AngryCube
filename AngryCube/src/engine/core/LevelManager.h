@@ -19,13 +19,13 @@ public:
 	int LevelCount() const;
 	int CurrentLevelIndex() const;
 
-	Level Load(const std::string& levelName) const;
-	Level Load(int index) const;
-	Level LoadNext() const;
+	std::unique_ptr<Level> Load(const std::string& levelName) const;
+	std::unique_ptr<Level> Load(int index) const;
+	std::unique_ptr<Level> LoadNext() const;
 	
 	void Save(const std::shared_ptr<Level>& level, const std::string& levelName) const;
 
 private:
-	Level ReadLevelFile(const std::string& levelName) const;
+	std::unique_ptr<Level> ReadLevelFile(const std::string& levelName) const;
 	void WriteLevelToFile(const std::shared_ptr<Level>& level, const std::string& levelName) const;
 };

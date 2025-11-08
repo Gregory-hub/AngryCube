@@ -153,6 +153,9 @@
     <ClInclude Include="src\engine\core\ShaderManager.h" />
     <ClInclude Include="src\engine\materials\Material.h" />
     <ClInclude Include="src\engine\materials\SolidColor.h" />
+    <ClInclude Include="src\engine\UI\Button.h" />
+    <ClInclude Include="src\engine\UI\HUD.h" />
+    <ClInclude Include="src\engine\UI\Widget.h" />
     <ClInclude Include="src\engine\utility\DebugUIRenderer.h" />
     <ClInclude Include="src\engine\utility\FileReader.h" />
     <ClInclude Include="src\engine\core\LevelManager.h" />
@@ -192,6 +195,7 @@
     <ClInclude Include="src\game\objects\fortifications\Fortification.h" />
     <ClInclude Include="src\game\objects\fortifications\FortificationOfLevel1.h" />
     <ClInclude Include="src\game\objects\projectiles\ProjectileCube.h" />
+    <ClInclude Include="src\game\UI\GameplayHUD.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Settings.h" />
   </ItemGroup>
@@ -343,6 +347,9 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\engine\UI\Button.cpp" />
+    <ClCompile Include="src\engine\UI\HUD.cpp" />
+    <ClCompile Include="src\engine\UI\Widget.cpp" />
     <ClCompile Include="src\engine\utility\DebugUIRenderer.cpp" />
     <ClCompile Include="src\engine\utility\FileReader.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
@@ -626,6 +633,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\game\UI\GameplayHUD.cpp" />
     <ClCompile Include="src\Main.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
@@ -653,7 +661,6 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\Settings.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Natvis Include="dependencies\compiled\imgui\misc\debuggers\imgui.natvis" />
