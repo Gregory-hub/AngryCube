@@ -55,7 +55,9 @@ public:
     CatapultArmMode GetArmMode() const;
 
     float GetMinAngle() const;
+    
     float GetMaxAngle() const;
+    void SetMaxAngle(float newMaxAngle);
 
     float GetArmLength() const;
     void SetArmScale(const glm::vec2& scale);

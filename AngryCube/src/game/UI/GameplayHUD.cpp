@@ -3,11 +3,19 @@
 
 #include <utility>
 
+#include "engine/UI/Slider.h"
 #include "engine/utility/Logger.h"
 
+
 GameplayHUD::GameplayHUD(std::shared_ptr<CatapultController> catapultController)
-    : releaseOrCockButton(std::make_unique<Button>("Release|Cock", [this] { OnButtonReleaseCockPressed(); })),
-    controller(std::move(catapultController))
+    : controller(std::move(catapultController)),
+    releaseOrCockButton(std::make_unique<Button>("Release|Cock", [this] { OnButtonReleaseCockPressed(); })),
+    tensionSlider(std::make_unique<Slider<float>>("Tension",
+        [this] { return GetTension(); },
+        [this] (float value) { SetTension(value); })),
+    angleSlider(std::make_unique<Slider<float>>("Angle",
+        [this] { return GetAngle(); },
+        [this] (float value) { SetAngle(value); }))
 {
 }
 
@@ -15,11 +23,39 @@ void GameplayHUD::Render() const
 {
     ImGui::Begin("HUD");
     releaseOrCockButton->Render();
+    tensionSlider->Render();
+    angleSlider->Render();
     ImGui::End();
 }
 
-void GameplayHUD::OnButtonReleaseCockPressed()
+void GameplayHUD::OnButtonReleaseCockPressed() const
 {
-    controller->ReleaseOrCock();
-    Logger::Log(LogLevel::Info, "ReleaseCock pressed");
+    if (controller)
+        controller->ReleaseOrCock();
+}
+
+float GameplayHUD::GetTension() const
+{
+    if (controller)
+        return controller->GetTension();
+    return 0.0f;
+}
+
+void GameplayHUD::SetTension(float newTension) const
+{
+    if (controller)
+        controller->SetTension(newTension);
+}
+
+float GameplayHUD::GetAngle() const
+{
+    if (controller)
+        return controller->GetAngle();
+    return 0.0f;
+}
+
+void GameplayHUD::SetAngle(float newAngle) const
+{
+    if (controller)
+        controller->SetAngle(newAngle);
 }

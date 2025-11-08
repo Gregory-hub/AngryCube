@@ -75,6 +75,11 @@ float CatapultArm::GetMaxAngle() const
     return maxAngle;
 }
 
+void CatapultArm::SetMaxAngle(float newMaxAngle)
+{
+    maxAngle = newMaxAngle;
+}
+
 float CatapultArm::GetArmLength() const
 {
     return arm->GetCollisionMesh()->GetWidth();

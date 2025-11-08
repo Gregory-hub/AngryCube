@@ -156,6 +156,7 @@
     <ClInclude Include="src\engine\materials\SolidColor.h" />
     <ClInclude Include="src\engine\UI\Button.h" />
     <ClInclude Include="src\engine\UI\HUD.h" />
+    <ClInclude Include="src\engine\UI\Slider.h" />
     <ClInclude Include="src\engine\UI\Widget.h" />
     <ClInclude Include="src\engine\utility\DebugUIRenderer.h" />
     <ClInclude Include="src\engine\utility\FileReader.h" />
@@ -352,6 +353,7 @@
     </ClCompile>
     <ClCompile Include="src\engine\UI\Button.cpp" />
     <ClCompile Include="src\engine\UI\HUD.cpp" />
+    <ClCompile Include="src\engine\UI\Slider.cpp" />
     <ClCompile Include="src\engine\UI\Widget.cpp" />
     <ClCompile Include="src\engine\utility\DebugUIRenderer.cpp" />
     <ClCompile Include="src\engine\utility\FileReader.cpp">

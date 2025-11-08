@@ -11,4 +11,10 @@ public:
     CatapultController(const std::weak_ptr<Catapult>& controlledCatapult);
 
     void ReleaseOrCock() const;
+    
+    float GetTension() const;
+    void SetTension(float newTension) const;
+    
+    float GetAngle() const;
+    void SetAngle(float newAngle) const;
 };

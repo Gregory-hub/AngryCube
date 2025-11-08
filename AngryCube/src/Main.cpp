@@ -48,6 +48,7 @@
 // (done) use CubeCollision subclass
 // (done kinda) separate world space from screen coordinates
 // game logic
+// catapult release angle controls
 // UI
 // saves
 // levels

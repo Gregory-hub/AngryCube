@@ -28,6 +28,12 @@ public:
 	std::shared_ptr<IProjectile> GetProjectileTemplate() const;
 	void SetProjectileTemplate(std::shared_ptr<IProjectile> newTemplate);
 
+	float GetSpringTension() const;
+	void SetSpringTension(float newTension) const;
+
+	float GetAngle() const;
+	void SetAngle(float newAngle) const;
+
 	void Load(std::shared_ptr<IProjectile> projectile = nullptr);
 	void Release();
 	void Cock();

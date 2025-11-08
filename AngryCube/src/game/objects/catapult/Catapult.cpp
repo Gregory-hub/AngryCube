@@ -104,6 +104,26 @@ void Catapult::SetProjectileTemplate(std::shared_ptr<IProjectile> newTemplate)
 	projectileTemplate = newTemplate;
 }
 
+float Catapult::GetSpringTension() const
+{
+	return arm->GetK();
+}
+
+void Catapult::SetSpringTension(float newTension) const
+{
+	arm->SetK(newTension);
+}
+
+float Catapult::GetAngle() const
+{
+	return arm->GetMaxAngle();
+}
+
+void Catapult::SetAngle(float newAngle) const
+{
+	arm->SetMaxAngle(newAngle);
+}
+
 void Catapult::Load(std::shared_ptr<IProjectile> projectile)
 {
 	if (!projectile && projectileTemplate)
@@ -141,9 +161,22 @@ void Catapult::Update(float deltaTime)
 void Catapult::ShowDebugControls()
 {
     GameObject::ShowDebugControls();
-    ImGui::DragFloatWithSetter("Progress", this->arm.get(), &CatapultArm::GetProgress, &CatapultArm::SetProgress, 0.01f, 0.0f, 1.0f);
-    ImGui::DragFloatWithSetter("Arm mass", this->arm.get(), &CatapultArm::GetArmMass, &CatapultArm::SetArmMass, 0.1f, 0.0f, 1000.0f);
-	ImGui::DragFloatWithSetter("Spring k", this->arm.get(), &CatapultArm::GetK, &CatapultArm::SetK, 1.0f, 0.0f, 10000.0f);
+	
+    ImGui::DragFloatWithSetter("Progress",
+    	[this]() { return arm->GetProgress(); },
+    	[this](float value) { arm->SetProgress(value); },
+    	0.01f, 0.0f, 1.0f);
+	
+    ImGui::DragFloatWithSetter("Arm mass",
+    	[this]() { return arm->GetArmMass(); },
+    	[this](float value) { arm->SetArmMass(value); },
+    	0.1f, 0.0f, 1000.0f);
+	
+	ImGui::DragFloatWithSetter("Spring k",
+    	[this]() { return arm->GetK(); },
+    	[this](float value) { arm->SetK(value); },
+		1.0f, 0.0f, 10000.0f);
+	
     if (ImGui::Button("Release"))
         Release();
 	ImGui::SameLine(0);
