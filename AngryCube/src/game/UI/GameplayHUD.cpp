@@ -12,25 +12,28 @@ GameplayHUD::GameplayHUD(std::shared_ptr<CatapultController> catapultController)
     tensionSlider(std::make_unique<Slider<float>>("Tension",
         [this] { return GetTension(); },
         [this] (float value) { SetTension(value); },
-        1.0f, 0.0f, 10000.0f)),
+        3.0f, 1000.0f, 10000.0f)),
     angleSlider(std::make_unique<Slider<float>>("Angle",
         [this] { return GetAngle(); },
         [this] (float value) { SetAngle(value); },
-        1.0f))
+        0.05f))
 {
     if (controller)
     {
         angleSlider->SetMinValue(controller->GetMaxAngleLowerBound());
         angleSlider->SetMaxValue(controller->GetMaxAngleUpperBound());
     }
+
+    position = glm::ivec2(0, Settings::GetWindowResolution().y / 2);
 }
 
 void GameplayHUD::Render() const
 {
-    ImGui::Begin("HUD");
-    releaseOrCockButton->Render();
+    ImGui::SetNextWindowPos(ImVec2(position.x + shift.x, position.y + shift.y), ImGuiCond_Once);
+    ImGui::Begin("Catapult", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
     tensionSlider->Render();
     angleSlider->Render();
+    releaseOrCockButton->Render();
     ImGui::End();
 }
 

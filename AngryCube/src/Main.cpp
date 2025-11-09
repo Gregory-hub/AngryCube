@@ -82,12 +82,13 @@ static GLFWwindow* runSetup()
         glfwWindowHint(GLFW_BLUE_BITS, mode->blueBits);
         glfwWindowHint(GLFW_REFRESH_RATE, mode->refreshRate);
         window = glfwCreateWindow(mode->width, mode->height, "My Title", monitor, NULL);
-        glfwGetWindowSize(window, &Settings::WindowResolution.x, &Settings::WindowResolution.y);
+        glfwGetWindowSize(window, &Settings::NoFullscreenWindowResolution.x, &Settings::NoFullscreenWindowResolution.y);
     }
     else
     {
-        window = glfwCreateWindow(Settings::WindowResolution.x, Settings::WindowResolution.y, "Angry Cube", NULL, NULL);
+        window = glfwCreateWindow(Settings::NoFullscreenWindowResolution.x, Settings::NoFullscreenWindowResolution.y, "Angry Cube", NULL, NULL);
     }
+    Settings::SetWindow(window);
 
     if (!window)
     {
@@ -143,7 +144,7 @@ void ShowDebugTimeValues(float deltaTime, float framerate)
     static float time = 0.0f;
     time += deltaTime;
 
-    ImGui::SetNextWindowPos(ImVec2(Settings::WindowResolution.x - 220.0f, 20.0f));
+    ImGui::SetNextWindowPos(ImVec2(Settings::NoFullscreenWindowResolution.x - 220.0f, 20.0f));
     ImGui::Begin("Time", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::Text(("time from start: " + std::to_string(time)).c_str());
 	ImGui::Text(("deltaTime: " + std::to_string(deltaTime)).c_str());
@@ -159,7 +160,7 @@ int main()
     Clock clock;
     Timer timer;
 
-    Renderer renderer(window, Settings::WindowResolution);
+    Renderer renderer(window, Settings::NoFullscreenWindowResolution);
 
     auto cubeShader = std::make_shared<Shader>("cube");
 	ShaderManager::RegisterShaderFor<CubeMesh>(std::move(cubeShader));

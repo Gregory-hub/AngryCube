@@ -1,8 +1,10 @@
 #pragma once
+#include "Settings.h"
 #include "engine/UI/Button.h"
 #include "engine/UI/HUD.h"
 #include "engine/UI/Slider.h"
 #include "game/CatapultController.h"
+
 
 class GameplayHUD : public HUD
 {
@@ -11,6 +13,9 @@ private:
     std::unique_ptr<Button> releaseOrCockButton;
     std::unique_ptr<Slider<float>> tensionSlider;
     std::unique_ptr<Slider<float>> angleSlider;
+
+    glm::ivec2 position;
+    glm::ivec2 shift = { 70, -40 };
  
 public:
     GameplayHUD(std::shared_ptr<CatapultController> catapultController);
