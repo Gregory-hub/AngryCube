@@ -6,11 +6,18 @@
 
 class Catapult : public GameObject
 {
+public:
+	float GetMaxAngleUpperBound() const;
+	float GetMaxAngleLowerBound() const;
+
 private:
     static int id;
 
 	std::shared_ptr<CatapultArm> arm;
 	std::shared_ptr<IProjectile> projectileTemplate;
+
+	float maxAngleUpperBound = 80.0f;
+	float maxAngleLowerBound = 30.0f;
 
 public:
 	Catapult(Scene* parentScene);

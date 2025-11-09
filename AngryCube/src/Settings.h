@@ -8,7 +8,7 @@ class Settings
 {
 public:
      inline static bool Fullscreen = false;
-     inline static bool DebugUIEnabled = true;
+     inline static bool DebugUIEnabled = false;
      inline static glm::ivec2 WindowResolution = { 1280, 720 };
      //inline static glm::ivec2 WindowResolution = { 1920, 1080 };
      //inline static glm::ivec2 WindowResolution = { 720, 720 };

@@ -16,6 +16,16 @@
 
 int Catapult::id = 0;
 
+float Catapult::GetMaxAngleUpperBound() const
+{
+	return maxAngleUpperBound;
+}
+
+float Catapult::GetMaxAngleLowerBound() const
+{
+	return maxAngleLowerBound;
+}
+
 Catapult::Catapult(Scene* parentScene)
 	: GameObject(parentScene, 100.0f)
 {
@@ -121,7 +131,7 @@ float Catapult::GetAngle() const
 
 void Catapult::SetAngle(float newAngle) const
 {
-	arm->SetMaxAngle(newAngle);
+	arm->SetMaxAngle(glm::clamp(newAngle, maxAngleLowerBound, maxAngleUpperBound));
 }
 
 void Catapult::Load(std::shared_ptr<IProjectile> projectile)

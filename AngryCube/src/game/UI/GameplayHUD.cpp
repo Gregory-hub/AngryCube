@@ -4,7 +4,6 @@
 #include <utility>
 
 #include "engine/UI/Slider.h"
-#include "engine/utility/Logger.h"
 
 
 GameplayHUD::GameplayHUD(std::shared_ptr<CatapultController> catapultController)
@@ -12,11 +11,18 @@ GameplayHUD::GameplayHUD(std::shared_ptr<CatapultController> catapultController)
     releaseOrCockButton(std::make_unique<Button>("Release|Cock", [this] { OnButtonReleaseCockPressed(); })),
     tensionSlider(std::make_unique<Slider<float>>("Tension",
         [this] { return GetTension(); },
-        [this] (float value) { SetTension(value); })),
+        [this] (float value) { SetTension(value); },
+        1.0f, 0.0f, 10000.0f)),
     angleSlider(std::make_unique<Slider<float>>("Angle",
         [this] { return GetAngle(); },
-        [this] (float value) { SetAngle(value); }))
+        [this] (float value) { SetAngle(value); },
+        1.0f))
 {
+    if (controller)
+    {
+        angleSlider->SetMinValue(controller->GetMaxAngleLowerBound());
+        angleSlider->SetMaxValue(controller->GetMaxAngleUpperBound());
+    }
 }
 
 void GameplayHUD::Render() const

@@ -17,4 +17,7 @@ public:
     
     float GetAngle() const;
     void SetAngle(float newAngle) const;
+
+    float GetMaxAngleLowerBound() const;
+    float GetMaxAngleUpperBound() const;
 };
