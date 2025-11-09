@@ -33,14 +33,14 @@ void CatapultController::SetTension(float newTension) const
 float CatapultController::GetAngle() const
 {
     if (auto catapult = catapultPtr.lock())
-        return catapult->GetAngle();
+        return catapult->GetMaxAngle();
     return 0.0f;
 }
 
 void CatapultController::SetAngle(float newAngle) const
 {
     if (auto catapult = catapultPtr.lock())
-        catapult->SetAngle(newAngle);
+        catapult->SetMaxAngle(newAngle);
 }
 
 float CatapultController::GetMaxAngleLowerBound() const

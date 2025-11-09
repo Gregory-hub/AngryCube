@@ -32,6 +32,8 @@ private:
     float maxAngle = 60.0f;
     float progress = 0.0f;  // 0 to 1
 
+    float targetMaxAngle = maxAngle;
+
     float pullbackSpeed = 1.0f;
 
     float armMass = 50.0f;

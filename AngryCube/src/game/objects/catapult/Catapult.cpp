@@ -124,12 +124,12 @@ void Catapult::SetSpringTension(float newTension) const
 	arm->SetK(newTension);
 }
 
-float Catapult::GetAngle() const
+float Catapult::GetMaxAngle() const
 {
 	return arm->GetMaxAngle();
 }
 
-void Catapult::SetAngle(float newAngle) const
+void Catapult::SetMaxAngle(float newAngle) const
 {
 	arm->SetMaxAngle(glm::clamp(newAngle, maxAngleLowerBound, maxAngleUpperBound));
 }

@@ -72,12 +72,12 @@ float CatapultArm::GetMinAngle() const
 
 float CatapultArm::GetMaxAngle() const
 {
-    return maxAngle;
+    return targetMaxAngle;
 }
 
 void CatapultArm::SetMaxAngle(float newMaxAngle)
 {
-    maxAngle = newMaxAngle;
+    targetMaxAngle = newMaxAngle;
 }
 
 float CatapultArm::GetArmLength() const
@@ -155,6 +155,7 @@ void CatapultArm::Release()
 {
     if (armMode == CatapultArmMode::Cocked)
     {
+        maxAngle = targetMaxAngle;
         armMode = CatapultArmMode::Released;
         timeFromRelease = 0.0f;
     }

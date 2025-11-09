@@ -38,8 +38,8 @@ public:
 	float GetSpringTension() const;
 	void SetSpringTension(float newTension) const;
 
-	float GetAngle() const;
-	void SetAngle(float newAngle) const;
+	float GetMaxAngle() const;
+	void SetMaxAngle(float newAngle) const;
 
 	void Load(std::shared_ptr<IProjectile> projectile = nullptr);
 	void Release();
