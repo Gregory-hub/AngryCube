@@ -23,6 +23,7 @@
 #include "engine/render/Renderer.h"
 #include "engine/render/Shader.h"
 #include "engine/components/mesh/DefaultMeshes.h"
+#include "engine/saving/LevelSaveManager.h"
 #include "engine/UI/HUD.h"
 #include "engine/UI/Widget.h"
 #include "game/CatapultController.h"
@@ -168,6 +169,10 @@ int main()
     Game game;
     auto level = std::make_shared<Level1>();
     game.LoadLevel(level);
+
+
+    LevelSaveManager::Save(level);
+
 
     auto controller = std::make_shared<CatapultController>(level->GetCatapult());
 

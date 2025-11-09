@@ -24,12 +24,12 @@ GameplayHUD::GameplayHUD(std::shared_ptr<CatapultController> catapultController)
         angleSlider->SetMaxValue(controller->GetMaxAngleUpperBound());
     }
 
-    position = glm::ivec2(0, Settings::GetWindowResolution().y / 2);
+    controlsPosition = glm::ivec2(0, Settings::GetWindowResolution().y / 2);
 }
 
 void GameplayHUD::Render() const
 {
-    ImGui::SetNextWindowPos(ImVec2(position.x + shift.x, position.y + shift.y), ImGuiCond_Once);
+    ImGui::SetNextWindowPos(ImVec2(controlsPosition.x + controlsPositionShift.x, controlsPosition.y + controlsPositionShift.y), ImGuiCond_Once);
     ImGui::Begin("Catapult", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
     tensionSlider->Render();
     angleSlider->Render();

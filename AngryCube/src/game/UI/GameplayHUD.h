@@ -14,8 +14,8 @@ private:
     std::unique_ptr<Slider<float>> tensionSlider;
     std::unique_ptr<Slider<float>> angleSlider;
 
-    glm::ivec2 position;
-    glm::ivec2 shift = { 70, -40 };
+    glm::ivec2 controlsPosition;
+    glm::ivec2 controlsPositionShift = { 70, -40 };
  
 public:
     GameplayHUD(std::shared_ptr<CatapultController> catapultController);

@@ -70,13 +70,16 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">
+    <OutDir>$(SolutionDir)$(Platform)\$(Configuration)\</OutDir>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;$(ProjectDir)Dependencies\nlohmann-json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -94,7 +97,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;$(ProjectDir)Dependencies\nlohmann-json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -110,7 +113,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;%($(ProjectDir)src;$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;$(ProjectDir)Dependencies\nlohmann-json;%(AdditionalIncludeDirectories))</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
       <PrecompiledHeader>Create</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
@@ -131,7 +134,7 @@
       <SDLCheck>true</SDLCheck>
       <PreprocessorDefinitions>GLEW_STATIC</PreprocessorDefinitions>
       <ConformanceMode>true</ConformanceMode>
-      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>$(ProjectDir)src;$(ProjectDir)Dependencies\header-only;$(ProjectDir)Dependencies\compiled;$(ProjectDir)Dependencies\glew\include;$(ProjectDir)Dependencies\glfw\include;$(ProjectDir)Dependencies\compiled\imgui;$(ProjectDir)Dependencies\nlohmann-json;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard>stdcpp20</LanguageStandard>
     </ClCompile>
     <Link>
@@ -154,6 +157,7 @@
     <ClInclude Include="src\engine\core\ShaderManager.h" />
     <ClInclude Include="src\engine\materials\Material.h" />
     <ClInclude Include="src\engine\materials\SolidColor.h" />
+    <ClInclude Include="src\engine\saving\LevelSaveManager.h" />
     <ClInclude Include="src\engine\UI\Button.h" />
     <ClInclude Include="src\engine\UI\HUD.h" />
     <ClInclude Include="src\engine\UI\Slider.h" />
@@ -351,6 +355,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\engine\saving\LevelSaveManager.cpp" />
     <ClCompile Include="src\engine\UI\Button.cpp" />
     <ClCompile Include="src\engine\UI\HUD.cpp" />
     <ClCompile Include="src\engine\UI\Slider.cpp" />

@@ -9,4 +9,3 @@ public:
 
 	static std::string ReadFile(const std::string& filename);
 };
-
