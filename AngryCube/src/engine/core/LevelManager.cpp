@@ -38,7 +38,7 @@ std::unique_ptr<Level> LevelManager::Load(int index) const
 
 std::unique_ptr<Level> LevelManager::LoadNext() const
 {
-    return std::make_unique<Level>();
+    return std::make_unique<Level>("");
 }
 
 void LevelManager::Save(const std::shared_ptr<Level>& level, const std::string& levelName) const
@@ -53,7 +53,7 @@ std::unique_ptr<Level> LevelManager::ReadLevelFile(const std::string& levelName)
     if (!file.is_open())
     {
         Logger::Log(LogLevel::Error, std::string("file not open (") + filename + ")");
-        return std::make_unique<Level>();
+        return std::make_unique<Level>("");
     }
 
     char buffer[sizeof(float)];
@@ -63,7 +63,7 @@ std::unique_ptr<Level> LevelManager::ReadLevelFile(const std::string& levelName)
 
     file.close();
     
-    return std::make_unique<Level>();
+    return std::make_unique<Level>("");
 }
 
 void LevelManager::WriteLevelToFile(const std::shared_ptr<Level>& level, const std::string& levelName) const

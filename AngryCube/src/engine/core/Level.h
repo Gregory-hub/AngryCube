@@ -6,10 +6,16 @@
 class Level
 {
 protected:
+	std::string name;
+
+public:
+	const std::string& GetName() const;
+
+protected:
 	Scene scene;
 
 public:
-	Level() = default;
+	Level(std::string levelName);
 	virtual ~Level() = default;
 
 	Level(const Level&) = default;
@@ -22,4 +28,3 @@ public:
 
 	virtual void Update(float deltaTime);
 };
-
