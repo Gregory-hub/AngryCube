@@ -23,12 +23,12 @@
 #include "engine/render/Renderer.h"
 #include "engine/render/Shader.h"
 #include "engine/components/mesh/DefaultMeshes.h"
-#include "engine/saving/LevelSaveManager.h"
 #include "engine/UI/HUD.h"
 #include "engine/UI/Widget.h"
-#include "game/CatapultController.h"
 
-#include "game/levels/Level1.h"
+#include "game/CatapultController.h"
+#include "game/levels/AngryCubeLevel.h"
+#include "game/levels/LevelSaveManager.h"
 #include "game/UI/GameplayHUD.h"
 
 
@@ -167,12 +167,13 @@ int main()
 	ShaderManager::RegisterShaderFor<CubeMesh>(std::move(cubeShader));
 
     Game game;
-    auto level = std::make_shared<Level1>();
+    auto level = std::make_shared<AngryCubeLevel>("default");
     game.LoadLevel(level);
 
 
-    LevelSaveManager::Save(level);
+    LevelSaveManager::SaveLevel(level);
 
+    return 0;
 
     auto controller = std::make_shared<CatapultController>(level->GetCatapult());
 
