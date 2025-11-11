@@ -10,9 +10,10 @@ const std::string& Level::GetName() const
 Level::Level(std::string levelName)
 	: name(std::move(levelName))
 {
+	scene.SetGroundHeight(200.0f);
 }
 
-const Scene& Level::GetScene() const
+Scene& Level::GetScene()
 {
 	return scene;
 }

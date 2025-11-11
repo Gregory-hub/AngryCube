@@ -12,6 +12,16 @@ Fortification::Fortification(Scene* parentScene)
     name = "Fortification " + std::to_string(id++);
 }
 
+std::shared_ptr<GameObject> Fortification::Clone() const
+{
+    return std::make_shared<Fortification>(*this);
+}
+
+std::shared_ptr<GameObject> Fortification::MoveClone()
+{
+    return std::make_shared<Fortification>(std::move(*this));
+}
+
 void Fortification::Update(float deltaTime)
 {
     DestroyObjectsInQueue();

@@ -167,13 +167,10 @@ int main()
 	ShaderManager::RegisterShaderFor<CubeMesh>(std::move(cubeShader));
 
     Game game;
-    auto level = std::make_shared<AngryCubeLevel>("default");
+
+    auto level = LevelSaveManager::LoadLevel("default");
+
     game.LoadLevel(level);
-
-
-    LevelSaveManager::SaveLevel(level);
-
-    return 0;
 
     auto controller = std::make_shared<CatapultController>(level->GetCatapult());
 

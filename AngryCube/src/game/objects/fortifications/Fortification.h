@@ -18,6 +18,9 @@ protected:
 public:
     Fortification(Scene* parentScene);
 
+    std::shared_ptr<GameObject> Clone() const override;
+    std::shared_ptr<GameObject> MoveClone() override;
+
     void Update(float deltaTime) override;
 
     void AddToDestructionQueue(std::shared_ptr<IDestructable> destroyed) override;

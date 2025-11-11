@@ -24,7 +24,7 @@ public:
 	Level(Level&&) = default;
 	Level& operator= (Level&&) = default;
 
-	const Scene& GetScene() const;
+	Scene& GetScene();
 
 	virtual void Update(float deltaTime);
 };

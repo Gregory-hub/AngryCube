@@ -21,4 +21,8 @@ public:
     LevelSaveManager& operator= (LevelSaveManager&&) = delete;
 
     static void SaveLevel(std::shared_ptr<AngryCubeLevel> level);
+    static std::shared_ptr<AngryCubeLevel> LoadLevel(const std::string& levelName);
+
+private:
+    static glm::vec2 JsonVec2ToVec2(const json& jsonVec2);
 };
