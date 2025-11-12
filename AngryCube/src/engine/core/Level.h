@@ -10,6 +10,7 @@ protected:
 
 public:
 	const std::string& GetName() const;
+	void SetName(const std::string& newName);
 
 protected:
 	Scene scene;

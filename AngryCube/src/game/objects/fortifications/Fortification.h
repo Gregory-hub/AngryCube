@@ -32,6 +32,10 @@ public:
     nlohmann::json Serialize() override;
     void Deserialize(const nlohmann::json& json) override;
 
+    void ToggleBricksPhysics();
+
+    void ShowDebugControls() override;
+
 private:
     void DestroyObjectsInQueue() override;
 };

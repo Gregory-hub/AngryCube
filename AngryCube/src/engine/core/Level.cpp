@@ -7,6 +7,11 @@ const std::string& Level::GetName() const
 	return name;
 }
 
+void Level::SetName(const std::string& newName)
+{
+	name = newName;
+}
+
 Level::Level(std::string levelName)
 	: name(std::move(levelName))
 {

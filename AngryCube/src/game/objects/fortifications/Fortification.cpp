@@ -81,6 +81,36 @@ void Fortification::Deserialize(const nlohmann::json& jsonFortification)
          throw std::invalid_argument("Fortification deserialization failed");
 }
 
+void Fortification::ToggleBricksPhysics()
+{
+    for (std::shared_ptr<GameObject> child : GetChildren())
+    {
+        if (auto brick = std::dynamic_pointer_cast<Brick>(child))
+        {
+            if (brick->GetPhysics().Enabled())
+                brick->GetPhysics().Disable();
+            else
+                brick->GetPhysics().Enable();
+        }
+    }
+}
+
+void Fortification::ShowDebugControls()
+{
+    GameObject::ShowDebugControls();
+
+    if (ImGui::Button("Add brick"))
+    {
+        auto brick = std::make_shared<Brick>(scene);
+        AttachChild(brick, true);
+    }
+    ImGui::SameLine();
+    if (ImGui::Button("Toggle bricks' physics"))
+    {
+        ToggleBricksPhysics();
+    }
+}
+
 void Fortification::DestroyObjectsInQueue()
 {
     while (!destructionQueue.empty())

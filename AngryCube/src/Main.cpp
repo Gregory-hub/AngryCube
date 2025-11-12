@@ -153,6 +153,28 @@ void ShowDebugTimeValues(float deltaTime, float framerate)
 	ImGui::End();
 }
 
+void ShowDebugLevelSaveWindow(std::shared_ptr<AngryCubeLevel> level)
+{
+    if (!Settings::DebugUIEnabled)
+        return;
+
+    static char levelName[128] = "levelName";
+
+    ImGui::SetNextWindowPos(ImVec2(Settings::NoFullscreenWindowResolution.x - 330.0f, 140.0f));
+    ImGui::Begin("Level", nullptr);
+    ImGui::InputText("Level name", levelName, IM_ARRAYSIZE(levelName));
+    if (ImGui::Button("Save level"))
+    {
+        if (levelName[0] != '\0')
+        {
+            auto levelCopy = std::make_shared<AngryCubeLevel>(*level);
+            levelCopy->SetName(levelName);
+            LevelSaveManager::SaveLevel(levelCopy);
+        }
+    }
+	ImGui::End();
+}
+
 
 int main()
 {
@@ -168,7 +190,7 @@ int main()
 
     Game game;
 
-    auto level = LevelSaveManager::LoadLevel("default");
+    auto level = LevelSaveManager::LoadLevel("levelFiveBricks");
 
     game.LoadLevel(level);
 
@@ -197,15 +219,14 @@ int main()
         float frametime = timer.End();
         ShowDebugTimeValues(deltaTime, 1.0f / frametime);
 
+        ShowDebugLevelSaveWindow(level);
+
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
   
 		glfwSwapBuffers(window);
 		glfwPollEvents();
-  
-        // Demonstrates physics instability when fps is not stable
-        //std::this_thread::sleep_for(std::chrono::milliseconds((int)(std::rand() / (float)RAND_MAX * 40)));
     }
 
     ImGui_ImplOpenGL3_Shutdown();
