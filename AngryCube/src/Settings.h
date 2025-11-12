@@ -15,6 +15,8 @@ public:
      //inline static glm::ivec2 NoFullscreenWindowResolution = { 1280, 480 };
      //inline static glm::ivec2 NoFullscreenWindowResolution = { 480, 1280 };
 
+     inline static float killY = -100.0f;
+
      inline static GLFWwindow* Window;
 
      static void SetWindow(GLFWwindow* window)

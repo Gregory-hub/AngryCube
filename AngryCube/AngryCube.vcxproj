@@ -157,7 +157,7 @@
     <ClInclude Include="src\engine\core\ShaderManager.h" />
     <ClInclude Include="src\engine\materials\Material.h" />
     <ClInclude Include="src\engine\materials\SolidColor.h" />
-    <ClInclude Include="src\engine\Saving\ISerializable.h" />
+    <ClInclude Include="src\engine\saving\ISerializable.h" />
     <ClInclude Include="src\engine\UI\Button.h" />
     <ClInclude Include="src\engine\UI\HUD.h" />
     <ClInclude Include="src\engine\UI\Slider.h" />
@@ -200,8 +200,8 @@
     <ClInclude Include="src\game\objects\catapult\Catapult.h" />
     <ClInclude Include="src\game\objects\catapult\CatapultArm.h" />
     <ClInclude Include="src\game\objects\Cube.h" />
-    <ClInclude Include="src\game\objects\fortifications\Brick.h" />
-    <ClInclude Include="src\game\objects\fortifications\Fortification.h" />
+    <ClInclude Include="src\game\objects\fortification\Brick.h" />
+    <ClInclude Include="src\game\objects\fortification\Fortification.h" />
     <ClInclude Include="src\game\objects\projectiles\ProjectileCube.h" />
     <ClInclude Include="src\game\UI\GameplayHUD.h" />
     <ClInclude Include="src\pch.h" />
@@ -372,7 +372,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\engine\Saving\ISerializable.cpp" />
+    <ClCompile Include="src\engine\saving\ISerializable.cpp" />
     <ClCompile Include="src\engine\UI\Button.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>
@@ -750,7 +750,7 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\game\objects\fortifications\Brick.cpp">
+    <ClCompile Include="src\game\objects\fortification\Brick.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
@@ -759,7 +759,7 @@
       <PrecompiledHeaderOutputFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">$(IntDir)$(TargetName).pch</PrecompiledHeaderOutputFile>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
-    <ClCompile Include="src\game\objects\fortifications\Fortification.cpp">
+    <ClCompile Include="src\game\objects\fortification\Fortification.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>

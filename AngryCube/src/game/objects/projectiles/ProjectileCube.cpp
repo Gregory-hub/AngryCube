@@ -3,7 +3,7 @@
 
 #include "engine/components/mesh/DefaultMeshes.h"
 #include "engine/materials/SolidColor.h"
-#include "game/objects/fortifications/Brick.h"
+#include "game/objects/fortification/Brick.h"
 #include <game/interfaces/IDestructableContainer.h>
 
 

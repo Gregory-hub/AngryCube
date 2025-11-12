@@ -87,12 +87,17 @@ void Fortification::ToggleBricksPhysics()
     {
         if (auto brick = std::dynamic_pointer_cast<Brick>(child))
         {
-            if (brick->GetPhysics().Enabled())
+            if (physicsEnabled)
+            {
                 brick->GetPhysics().Disable();
+            }
             else
+            {
                 brick->GetPhysics().Enable();
+            }
         }
     }
+    physicsEnabled = !physicsEnabled;
 }
 
 void Fortification::ShowDebugControls()

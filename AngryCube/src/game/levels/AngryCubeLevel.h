@@ -1,7 +1,7 @@
 #pragma once
 #include "engine/core/Level.h"
 #include "game/objects/catapult/Catapult.h"
-#include "game/objects/fortifications/Fortification.h"
+#include "game/objects/fortification/Fortification.h"
 
 
 class AngryCubeLevel : public Level

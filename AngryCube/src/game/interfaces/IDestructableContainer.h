@@ -10,4 +10,3 @@ public:
 private:
     virtual void DestroyObjectsInQueue() = 0;
 };
-

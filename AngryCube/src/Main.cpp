@@ -158,18 +158,24 @@ void ShowDebugLevelSaveWindow(std::shared_ptr<AngryCubeLevel> level)
     if (!Settings::DebugUIEnabled)
         return;
 
-    static char levelName[128] = "levelName";
+    static std::string levelName;
+    levelName.reserve(64);
 
     ImGui::SetNextWindowPos(ImVec2(Settings::NoFullscreenWindowResolution.x - 330.0f, 140.0f));
     ImGui::Begin("Level", nullptr);
-    ImGui::InputText("Level name", levelName, IM_ARRAYSIZE(levelName));
+
+    bool changed = ImGui::InputText("Level name", levelName.data(), levelName.capacity());
+    if (changed)
+        levelName.resize(strlen(levelName.data()));
+
     if (ImGui::Button("Save level"))
     {
-        if (levelName[0] != '\0')
+        if (!levelName.empty())
         {
             auto levelCopy = std::make_shared<AngryCubeLevel>(*level);
             levelCopy->SetName(levelName);
             LevelSaveManager::SaveLevel(levelCopy);
+            levelName.clear();
         }
     }
 	ImGui::End();

@@ -6,13 +6,15 @@
 #include <game/interfaces/IDestructable.h>
 #include <game/interfaces/IDestructableContainer.h>
 
-#include "engine/Saving/ISerializable.h"
+#include "engine/saving/ISerializable.h"
 
 
 class Fortification : public GameObject, public IDestructableContainer, public ISerializable
 {
 private:
     static int id;
+
+    bool physicsEnabled = true;
 
 protected:
     std::queue<std::shared_ptr<IDestructable>> destructionQueue;
