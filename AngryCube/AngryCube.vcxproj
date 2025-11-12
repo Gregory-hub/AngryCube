@@ -157,6 +157,7 @@
     <ClInclude Include="src\engine\core\ShaderManager.h" />
     <ClInclude Include="src\engine\materials\Material.h" />
     <ClInclude Include="src\engine\materials\SolidColor.h" />
+    <ClInclude Include="src\engine\Saving\ISerializable.h" />
     <ClInclude Include="src\engine\UI\Button.h" />
     <ClInclude Include="src\engine\UI\HUD.h" />
     <ClInclude Include="src\engine\UI\Slider.h" />
@@ -183,6 +184,7 @@
     <ClInclude Include="dependencies\compiled\imgui\imgui.h" />
     <ClInclude Include="dependencies\compiled\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="src\engine\render\Renderer.h" />
+    <ClInclude Include="src\engine\utility\jsonSerialization.h" />
     <ClInclude Include="src\engine\utility\Logger.h" />
     <ClInclude Include="src\engine\render\Shader.h" />
     <ClInclude Include="src\engine\utility\Timer.h" />
@@ -370,6 +372,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\engine\Saving\ISerializable.cpp" />
     <ClCompile Include="src\engine\UI\Button.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>

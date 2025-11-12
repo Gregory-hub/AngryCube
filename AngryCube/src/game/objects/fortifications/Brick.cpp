@@ -2,6 +2,7 @@
 #include "Brick.h"
 
 #include "Fortification.h"
+#include "engine/utility/jsonSerialization.h"
 #include "game/interfaces/IProjectile.h"
 
 
@@ -29,6 +30,31 @@ void Brick::Destroy()
 {
 	if (auto parentFortification = dynamic_cast<IDestructableContainer*>(parent))
 		parentFortification->AddToDestructionQueue(shared_from_this());
+}
+
+nlohmann::json Brick::Serialize()
+{
+	using nlohmann::json;
+
+	json jsonBrick;
+	glm::vec2 pos = GetTransform().GetTranslation();
+	glm::vec2 scale = GetTransform().GetScale();
+	jsonBrick["pos"] = { pos.x, pos.y };
+	jsonBrick["scale"] = { scale.x, scale.y };
+	return jsonBrick;
+}
+
+void Brick::Deserialize(const nlohmann::json& jsonBrick)
+{
+    if (!jsonBrick.is_null() && !jsonBrick["pos"].is_null())
+    {
+	    glm::vec2 brickPos = jsonVec2ToVec2(jsonBrick["pos"]);
+    	glm::vec2 brickScale = jsonVec2ToVec2(jsonBrick["scale"]);
+    	GetTransform().SetTranslation(brickPos);
+    	GetTransform().SetScale(brickScale);
+    }
+	else
+		throw std::invalid_argument("Brick deserialization failed");
 }
 
 void Brick::OnCollisionStart(const std::shared_ptr<GameObject>& other)

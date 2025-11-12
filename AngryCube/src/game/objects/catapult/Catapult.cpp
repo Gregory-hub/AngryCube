@@ -13,6 +13,9 @@
 #include "game/objects/Cube.h"
 #include <game/objects/projectiles/ProjectileCube.h>
 
+#include "engine/utility/jsonSerialization.h"
+#include "game/levels/LevelSaveManager.h"
+
 
 int Catapult::id = 0;
 
@@ -192,6 +195,27 @@ void Catapult::ShowDebugControls()
 	ImGui::SameLine(0);
     if (ImGui::Button("Cock"))
         Cock();
+}
+
+nlohmann::json Catapult::Serialize()
+{
+    using nlohmann::json;
+
+    json jsonCatapult;
+    glm::vec2 posCat = GetTransform().GetTranslation();
+    jsonCatapult["pos"] = { posCat.x, posCat.y };
+	return jsonCatapult;
+}
+
+void Catapult::Deserialize(const nlohmann::json& jsonCatapult)
+{
+    if (!jsonCatapult.is_null() && !jsonCatapult["pos"].is_null())
+    {
+        glm::vec2 pos = jsonVec2ToVec2(jsonCatapult["pos"]);
+        GetTransform().SetTranslation(pos);
+    }
+    else
+        throw std::invalid_argument("Catapult deserialization failed");
 }
 
 void Catapult::SetMaterial(const std::shared_ptr<Material>& material)

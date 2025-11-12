@@ -2,14 +2,11 @@
 #include "engine/world/GameObject.h"
 
 #include "CatapultArm.h"
+#include "engine/Saving/ISerializable.h"
 
 
-class Catapult : public GameObject
+class Catapult : public GameObject, public ISerializable
 {
-public:
-	float GetMaxAngleUpperBound() const;
-	float GetMaxAngleLowerBound() const;
-
 private:
     static int id;
 
@@ -40,16 +37,20 @@ public:
 
 	float GetMaxAngle() const;
 	void SetMaxAngle(float newAngle) const;
+	float GetMaxAngleUpperBound() const;
+	float GetMaxAngleLowerBound() const;
 
 	void Load(std::shared_ptr<IProjectile> projectile = nullptr);
 	void Release();
 	void Cock();
-
 	bool ReadyToRelease() const;
 
 	void Update(float deltaTime) override;
 
 	void ShowDebugControls() override;
+
+    nlohmann::json Serialize() override;
+    void Deserialize(const nlohmann::json& json) override;
 
 private:
 	void SetMaterial(const std::shared_ptr<Material>& material);

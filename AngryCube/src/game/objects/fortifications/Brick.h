@@ -1,12 +1,13 @@
 #pragma once
 #include <memory>
 
+#include "engine/Saving/ISerializable.h"
 #include "game/interfaces/IDestructable.h"
 
 #include "game/objects/Cube.h"
 
 
-class Brick : public Cube, public IDestructable, public std::enable_shared_from_this<Brick>
+class Brick : public Cube, public IDestructable, public std::enable_shared_from_this<Brick>, public ISerializable
 {
 private:
 	static int id;
@@ -18,6 +19,9 @@ public:
     std::shared_ptr<GameObject> MoveClone() override;
 
 	void Destroy();
+	
+	nlohmann::json Serialize() override;
+	void Deserialize(const nlohmann::json& json) override;
 
 	void OnCollisionStart(const std::shared_ptr<GameObject>& other) override;
 };

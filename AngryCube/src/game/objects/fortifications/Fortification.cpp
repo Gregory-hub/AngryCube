@@ -1,6 +1,8 @@
 #include "pch.h"
 #include "Fortification.h"
 
+#include "Brick.h"
+#include "engine/utility/jsonSerialization.h"
 #include "engine/world/Scene.h"
 
 
@@ -34,6 +36,49 @@ void Fortification::AddToDestructionQueue(std::shared_ptr<IDestructable> destroy
 
 void Fortification::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 {
+}
+
+nlohmann::json Fortification::Serialize()
+{
+    using nlohmann::json;
+
+    json jsonFortification;
+    glm::vec2 posFort = GetTransform().GetTranslation();
+
+    json jsonFortBricks;
+    for (const auto& child : GetChildren())
+    {
+        if (const auto& brick = std::dynamic_pointer_cast<Brick>(child))
+        {
+            json jsonBrick = brick->Serialize();
+            jsonFortBricks.push_back(jsonBrick);
+        }
+    }
+
+    jsonFortification["pos"] = { posFort.x, posFort.y };
+    jsonFortification["bricks"] = jsonFortBricks;
+    return jsonFortification;
+}
+
+void Fortification::Deserialize(const nlohmann::json& jsonFortification)
+{
+    using nlohmann::json;
+
+    if (!jsonFortification.is_null() && !jsonFortification["pos"].is_null())
+     {
+         glm::vec2 pos = jsonVec2ToVec2(jsonFortification["pos"]);
+         GetTransform().SetTranslation(pos);
+
+         json jsonFortBricks = jsonFortification["bricks"];
+         for (const auto& jsonBrick : jsonFortBricks)
+         {
+             auto brick = std::make_shared<Brick>(scene);
+             brick->Deserialize(jsonBrick);
+             AttachChild(brick, false);
+         }
+     }
+     else
+         throw std::invalid_argument("Fortification deserialization failed");
 }
 
 void Fortification::DestroyObjectsInQueue()
