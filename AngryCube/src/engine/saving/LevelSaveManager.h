@@ -12,4 +12,5 @@ public:
     virtual std::shared_ptr<Level> LoadLevel(const std::string& levelName) const = 0;
     virtual std::shared_ptr<Level> LoadLevel(int index) const = 0;
     virtual int GetLevelCount() const = 0;
+    virtual int GetLevelIndex(const std::string& levelName) const = 0;
 };

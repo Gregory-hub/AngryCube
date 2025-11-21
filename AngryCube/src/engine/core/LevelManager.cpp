@@ -23,26 +23,48 @@ int LevelManager::GetLevelCount() const
     return levelSaveManager->GetLevelCount();
 }
 
-std::shared_ptr<Level> LevelManager::Load(const std::string& levelName)
+std::shared_ptr<Level> LevelManager::LoadFirstLevel()
 {
-    return levelSaveManager->LoadLevel(levelName);
+    currentLevelIndex = 0;
+    return Load(currentLevelIndex);
 }
 
 std::shared_ptr<Level> LevelManager::Load(int index)
 {
     if (index >= 0 && index < levelSaveManager->GetLevelCount())
+    {
         currentLevelIndex = index;
+    }
+    else
+    {
+        Logger::Log(LogLevel::Warning, "Level manager load failed");
+        currentLevelIndex = -1;
+        return nullptr;
+    }
 
-    return levelSaveManager->LoadLevel(index);
+    std::shared_ptr<Level> level = levelSaveManager->LoadLevel(currentLevelIndex);
+    if (level)
+    {
+        SetActiveLevel(level);
+        currentLevelIndex = levelSaveManager->GetLevelIndex(level->GetName());
+        return activeLevel;
+    }
+    else
+    {
+        Logger::Log(LogLevel::Error, "Level manager load failed");
+        currentLevelIndex = -1;
+        return nullptr;
+    }
+}
+
+std::shared_ptr<Level> LevelManager::Load(const std::string& levelName)
+{
+    return Load(levelSaveManager->GetLevelIndex(levelName));
 }
 
 std::shared_ptr<Level> LevelManager::LoadNext()
 {
-    int index = currentLevelIndex;
-    if (currentLevelIndex + 1 >= 0 && currentLevelIndex + 1 < levelSaveManager->GetLevelCount())
-        currentLevelIndex++;
-
-    return levelSaveManager->LoadLevel(index + 1);
+    return Load(++currentLevelIndex);
 }
 
 void LevelManager::Save(const std::shared_ptr<Level>& level, int index) const
@@ -52,5 +74,15 @@ void LevelManager::Save(const std::shared_ptr<Level>& level, int index) const
 
 void LevelManager::SaveAsLast(const std::shared_ptr<Level>& level) const
 {
-    levelSaveManager->SaveLevel(level);
+    Save(level);
+}
+
+const std::shared_ptr<Level>& LevelManager::GetActiveLevel()
+{
+    return activeLevel;
+}
+
+void LevelManager::SetActiveLevel(const std::shared_ptr<Level>& level)
+{
+    activeLevel = level;
 }

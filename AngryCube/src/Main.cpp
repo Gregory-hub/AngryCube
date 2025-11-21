@@ -194,13 +194,9 @@ int main()
     auto cubeShader = std::make_shared<Shader>("cube");
 	ShaderManager::RegisterShaderFor<CubeMesh>(std::move(cubeShader));
 
-    Game game;
-
     auto levelManager = std::make_shared<LevelManager>(std::make_shared<AngryCubeLevelSaveManager>());
-
-    auto level = std::dynamic_pointer_cast<AngryCubeLevel>(levelManager->Load("4"));
-
-    game.LoadLevel(level);
+    levelManager->LoadFirstLevel();
+    auto level = std::dynamic_pointer_cast<AngryCubeLevel>(levelManager->GetActiveLevel());
 
     auto controller = std::make_shared<CatapultController>(level->GetCatapult());
 
@@ -211,19 +207,19 @@ int main()
     while (!glfwWindowShouldClose(window))
     {
 		glClear(GL_COLOR_BUFFER_BIT);
-  
+
 		ImGui_ImplOpenGL3_NewFrame();
 		ImGui_ImplGlfw_NewFrame();
 		ImGui::NewFrame();
-  
-  
+
+
         timer.Start();
         float deltaTime = clock.Tick();
-  
-        game.GetActiveLevel()->Update(deltaTime);
-        renderer.Render(game.GetActiveLevel()->GetScene());
+
+        levelManager->GetActiveLevel()->Update(deltaTime);
+        renderer.Render(levelManager->GetActiveLevel()->GetScene());
         hud.Render();
-  
+
         float frametime = timer.End();
         ShowDebugTimeValues(deltaTime, 1.0f / frametime);
 
@@ -232,7 +228,7 @@ int main()
 
 		ImGui::Render();
 		ImGui_ImplOpenGL3_RenderDrawData(ImGui::GetDrawData());
-  
+
 		glfwSwapBuffers(window);
 		glfwPollEvents();
     }

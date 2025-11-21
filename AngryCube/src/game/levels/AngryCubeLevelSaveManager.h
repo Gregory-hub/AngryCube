@@ -18,6 +18,8 @@ public:
     std::shared_ptr<Level> LoadLevel(int index) const override;
 
     int GetLevelCount() const override;
+    int GetLevelIndex(const std::string& levelName) const override;
+
     std::string GetPath(const std::string& levelName) const;
 
 private:

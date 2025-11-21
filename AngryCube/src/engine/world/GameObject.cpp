@@ -1,7 +1,7 @@
 #include "pch.h"
 #include "GameObject.h"
 
-#include "engine/core/Game.h"
+#include "engine/world/Scene.h"
 
 
 GameObject::GameObject(Scene* parentScene, float mass, const std::shared_ptr<CollisionMesh>& collisionMesh)
