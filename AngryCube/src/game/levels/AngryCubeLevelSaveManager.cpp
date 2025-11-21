@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "AngryCubeLevelSaveManager.h"
 
+#include "AngryCubeLevel.h"
 #include "engine/utility/jsonSerialization.h"
 #include "engine/utility/Logger.h"
 

@@ -1,9 +1,8 @@
 #pragma once
-#include "json.hpp"
-
-#include "game/levels/AngryCubeLevel.h"
+#include "engine/core/Level.h"
 
 
+// You should use subclass of this class to be able to save and load levels with default LevelManager 
 class LevelSaveManager
 {
 public:
