@@ -14,7 +14,7 @@
 #include <game/objects/projectiles/ProjectileCube.h>
 
 #include "engine/utility/jsonSerialization.h"
-#include "game/levels/LevelSaveManager.h"
+#include "game/levels/AngryCubeLevelSaveManager.h"
 
 
 int Catapult::id = 0;
