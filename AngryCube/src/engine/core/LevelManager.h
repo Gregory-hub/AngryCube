@@ -1,31 +1,25 @@
 #pragma once
 
 #include "Level.h"
+#include "engine/saving/LevelSaveManager.h"
 
 
 class LevelManager
 {
 private:
-	const std::string fileExtension = ".lvl";
-	
-	std::vector<std::string> levelNames;
+	std::shared_ptr<LevelSaveManager> levelSaveManager;
 	int currentLevelIndex = -1;
 
 public:
-	void AppendLevelName(const std::string& levelName);
-	void InsertLevelName(int index, const std::string& levelName);
-	void RemoveLevelName(int index);
+	LevelManager(std::shared_ptr<LevelSaveManager> saveManager);
 
-	int LevelCount() const;
-	int CurrentLevelIndex() const;
+	int GetCurrentLevelIndex() const;
+	int GetLevelCount() const;
 
-	std::unique_ptr<Level> Load(const std::string& levelName) const;
-	std::unique_ptr<Level> Load(int index) const;
-	std::unique_ptr<Level> LoadNext() const;
-	
-	void Save(const std::shared_ptr<Level>& level, const std::string& levelName) const;
+	std::shared_ptr<Level> Load(const std::string& levelName);
+	std::shared_ptr<Level> Load(int index);
+	std::shared_ptr<Level> LoadNext();
 
-private:
-	std::unique_ptr<Level> ReadLevelFile(const std::string& levelName) const;
-	void WriteLevelToFile(const std::shared_ptr<Level>& level, const std::string& levelName) const;
+	void Save(const std::shared_ptr<Level>& level, int index = -1) const;
+	void SaveAsLast(const std::shared_ptr<Level>& level) const;
 };

@@ -153,7 +153,7 @@ void ShowDebugTimeValues(float deltaTime, float framerate)
 	ImGui::End();
 }
 
-void ShowDebugLevelSaveWindow(std::shared_ptr<AngryCubeLevel> level, std::shared_ptr<AngryCubeLevelSaveManager> levelManager)
+void ShowDebugLevelSaveWindow(std::shared_ptr<AngryCubeLevel> level, std::shared_ptr<LevelManager> levelManager)
 {
     if (!Settings::DebugUIEnabled)
         return;
@@ -174,7 +174,7 @@ void ShowDebugLevelSaveWindow(std::shared_ptr<AngryCubeLevel> level, std::shared
         {
             auto levelCopy = std::make_shared<AngryCubeLevel>(*level);
             levelCopy->SetName(levelName);
-            levelManager->SaveLevel(levelCopy);
+            levelManager->SaveAsLast(levelCopy);
             levelName.clear();
         }
     }
@@ -196,9 +196,9 @@ int main()
 
     Game game;
 
-    auto levelManager = std::make_shared<AngryCubeLevelSaveManager>();
+    auto levelManager = std::make_shared<LevelManager>(std::make_shared<AngryCubeLevelSaveManager>());
 
-    auto level = std::dynamic_pointer_cast<AngryCubeLevel>(levelManager->LoadLevel("1"));
+    auto level = std::dynamic_pointer_cast<AngryCubeLevel>(levelManager->Load("4"));
 
     game.LoadLevel(level);
 

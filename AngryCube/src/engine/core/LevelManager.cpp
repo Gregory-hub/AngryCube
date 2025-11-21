@@ -1,85 +1,56 @@
 #include "pch.h"
 #include "LevelManager.h"
 
-#include <fstream>
+#include <utility>
 
 #include "engine/utility/Logger.h"
 
 
-void LevelManager::AppendLevelName(const std::string& levelName)
+LevelManager::LevelManager(std::shared_ptr<LevelSaveManager> saveManager)
+    : levelSaveManager(std::move(saveManager))
 {
-    levelNames.push_back(levelName);
+    if (levelSaveManager == nullptr)
+        Logger::Log(LogLevel::Error, "Level save manager cannot be nullptr");
 }
 
-void LevelManager::InsertLevelName(int index, const std::string& levelName)
+int LevelManager::GetCurrentLevelIndex() const
 {
-    levelNames.insert(levelNames.begin() + index, levelName);
+    return currentLevelIndex;
 }
 
-void LevelManager::RemoveLevelName(int index)
+int LevelManager::GetLevelCount() const
 {
-    levelNames.erase(levelNames.begin() + index);
+    return levelSaveManager->GetLevelCount();
 }
 
-int LevelManager::LevelCount() const
+std::shared_ptr<Level> LevelManager::Load(const std::string& levelName)
 {
-    return levelNames.size();
+    return levelSaveManager->LoadLevel(levelName);
 }
 
-std::unique_ptr<Level> LevelManager::Load(const std::string& levelName) const
+std::shared_ptr<Level> LevelManager::Load(int index)
 {
-    return ReadLevelFile(levelName);
+    if (index >= 0 && index < levelSaveManager->GetLevelCount())
+        currentLevelIndex = index;
+
+    return levelSaveManager->LoadLevel(index);
 }
 
-std::unique_ptr<Level> LevelManager::Load(int index) const
+std::shared_ptr<Level> LevelManager::LoadNext()
 {
-    return ReadLevelFile(levelNames[index]);
+    int index = currentLevelIndex;
+    if (currentLevelIndex + 1 >= 0 && currentLevelIndex + 1 < levelSaveManager->GetLevelCount())
+        currentLevelIndex++;
+
+    return levelSaveManager->LoadLevel(index + 1);
 }
 
-std::unique_ptr<Level> LevelManager::LoadNext() const
+void LevelManager::Save(const std::shared_ptr<Level>& level, int index) const
 {
-    return std::make_unique<Level>("");
+    levelSaveManager->SaveLevel(level, index);
 }
 
-void LevelManager::Save(const std::shared_ptr<Level>& level, const std::string& levelName) const
+void LevelManager::SaveAsLast(const std::shared_ptr<Level>& level) const
 {
-    WriteLevelToFile(level, levelName);
-}
-
-std::unique_ptr<Level> LevelManager::ReadLevelFile(const std::string& levelName) const
-{
-    std::string filename = levelName + fileExtension;
-    std::ifstream file(filename, std::ios::binary);
-    if (!file.is_open())
-    {
-        Logger::Log(LogLevel::Error, std::string("file not open (") + filename + ")");
-        return std::make_unique<Level>("");
-    }
-
-    char buffer[sizeof(float)];
-    file.read(buffer, sizeof(float));
-    
-    float groundHeight = *reinterpret_cast<float*>(buffer);
-
-    file.close();
-    
-    return std::make_unique<Level>("");
-}
-
-void LevelManager::WriteLevelToFile(const std::shared_ptr<Level>& level, const std::string& levelName) const
-{
-    std::string filename = levelName + fileExtension;
-    std::ofstream file(filename, std::ios::binary);
-    if (!file.is_open())
-    {
-        Logger::Log(LogLevel::Error, std::string("file not open (") + filename + ")");
-        return;
-    }
-
-    const Scene& scene = level->GetScene();
-
-    float groundHeight = scene.GetGround()->GetHeight();
-    file.write(reinterpret_cast<const char*>(&groundHeight), sizeof(float));
-
-    file.close();
+    levelSaveManager->SaveLevel(level);
 }
