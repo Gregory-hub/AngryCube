@@ -2,7 +2,7 @@
 #include <json.hpp>
 
 
-// Use this interface for all savable objects. What and how gets saved is up to game developer
+// Use this interface for all savable objects. What and how gets saved is unfortunately up to game developer
 class ISerializable
 {
 public:

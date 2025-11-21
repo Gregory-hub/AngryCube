@@ -22,7 +22,6 @@ private:
     T maxValue;
 
 public:
-    // template<typename T>
     Slider(std::string sliderText, std::function<T()> valueGetter, std::function<void(T)> valueSetter, float valueSpeed = 1.0f, T minVal = 0.0f, T maxVal = 1.0f)
         : text(std::move(sliderText)), getter(std::move(valueGetter)), setter(std::move(valueSetter)), speed(valueSpeed), minValue(minVal), maxValue(maxVal)
     {
@@ -67,7 +66,6 @@ void Slider<T>::SetMaxValue(const T& maxValue)
     this->maxValue = maxValue;
 }
 
-// template<typename T>
 inline void Slider<float>::Render() const
 {
     ImGui::DragFloatWithSetter(text.c_str(), getter, setter, speed, minValue, maxValue);

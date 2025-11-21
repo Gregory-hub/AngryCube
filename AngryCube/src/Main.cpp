@@ -196,7 +196,9 @@ int main()
 
     Game game;
 
-    auto level = LevelSaveManager::LoadLevel("levelFiveBricks");
+    auto level = LevelSaveManager::LoadLevel("1");
+
+    int count = LevelSaveManager::GetLevelCount();
 
     game.LoadLevel(level);
 
