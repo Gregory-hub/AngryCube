@@ -13,18 +13,30 @@ class Fortification : public GameObject, public IDestructableContainer, public I
 {
 private:
     static int id;
-
+    
     bool physicsEnabled = true;
+
+    int brickCount = 0;
 
 protected:
     std::queue<std::shared_ptr<IDestructable>> destructionQueue;
 
 public:
     Fortification(Scene* parentScene);
+    ~Fortification() override = default;
+
+    Fortification(const Fortification& other);
+    Fortification& operator=(const Fortification& other);
+    
+    Fortification(Fortification&& other) noexcept;
+    Fortification& operator=(Fortification&& other) noexcept;
 
     std::shared_ptr<GameObject> Clone() const override;
     std::shared_ptr<GameObject> MoveClone() override;
-
+    
+    void AttachChild(const std::shared_ptr<GameObject>& child, bool disablePhysics) override;
+    void RemoveChild(const std::shared_ptr<GameObject>& child) override;
+    
     void Update(float deltaTime) override;
 
     void AddToDestructionQueue(std::shared_ptr<IDestructable> destroyed) override;
@@ -34,9 +46,11 @@ public:
     nlohmann::json Serialize() override;
     void Deserialize(const nlohmann::json& json) override;
 
+    void ShowDebugControls() override;
+
     void ToggleBricksPhysics();
 
-    void ShowDebugControls() override;
+    int GetBrickCount() const;
 
 private:
     void DestroyObjectsInQueue() override;

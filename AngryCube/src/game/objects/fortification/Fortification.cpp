@@ -14,6 +14,47 @@ Fortification::Fortification(Scene* parentScene)
     name = "Fortification " + std::to_string(id++);
 }
 
+Fortification::Fortification(const Fortification& other)
+    : GameObject(other), physicsEnabled(other.physicsEnabled)
+{
+    name = "Fortification " + std::to_string(id++);
+}
+
+Fortification& Fortification::operator=(const Fortification& other)
+{
+    if (this != &other)
+    {
+        GameObject::operator=(other);
+        name = "Fortification " + std::to_string(id++);
+        physicsEnabled = other.physicsEnabled;
+    }
+    return *this;
+}
+
+Fortification::Fortification(Fortification&& other) noexcept
+    : GameObject(std::move(other)),
+    physicsEnabled(std::move(other.physicsEnabled)),
+    brickCount(std::move(other.brickCount)),
+    destructionQueue(std::move(other.destructionQueue))
+{
+    name = "Fortification " + std::to_string(id++);
+}
+
+Fortification& Fortification::operator=(Fortification&& other) noexcept
+{
+    if (this != &other)
+    {
+        GameObject::operator=(std::move(other));
+
+        name = "Fortification " + std::to_string(id++);
+        std::swap(physicsEnabled, other.physicsEnabled);
+        std::swap(brickCount, other.brickCount);
+        std::swap(destructionQueue, other.destructionQueue);
+    }
+
+    return *this;
+}
+
 std::shared_ptr<GameObject> Fortification::Clone() const
 {
     return std::make_shared<Fortification>(*this);
@@ -22,6 +63,20 @@ std::shared_ptr<GameObject> Fortification::Clone() const
 std::shared_ptr<GameObject> Fortification::MoveClone()
 {
     return std::make_shared<Fortification>(std::move(*this));
+}
+
+void Fortification::AttachChild(const std::shared_ptr<GameObject>& child, bool disablePhysics)
+{
+    if (auto brick = std::dynamic_pointer_cast<Brick>(child))
+        brickCount++;
+    GameObject::AttachChild(child, disablePhysics);
+}
+
+void Fortification::RemoveChild(const std::shared_ptr<GameObject>& child)
+{
+    if (auto brick = std::dynamic_pointer_cast<Brick>(child))
+        brickCount--;
+    GameObject::RemoveChild(child);
 }
 
 void Fortification::Update(float deltaTime)
@@ -114,6 +169,11 @@ void Fortification::ShowDebugControls()
     {
         ToggleBricksPhysics();
     }
+}
+
+int Fortification::GetBrickCount() const
+{
+    return brickCount;
 }
 
 void Fortification::DestroyObjectsInQueue()
