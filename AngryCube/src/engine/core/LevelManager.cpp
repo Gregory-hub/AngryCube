@@ -3,6 +3,7 @@
 
 #include <utility>
 
+#include "Game.h"
 #include "engine/utility/Logger.h"
 
 
@@ -23,12 +24,6 @@ int LevelManager::GetLevelCount() const
     return levelSaveManager->GetLevelCount();
 }
 
-std::shared_ptr<Level> LevelManager::LoadFirstLevel()
-{
-    currentLevelIndex = 0;
-    return Load(currentLevelIndex);
-}
-
 std::shared_ptr<Level> LevelManager::Load(int index)
 {
     if (index >= 0 && index < levelSaveManager->GetLevelCount())
@@ -42,10 +37,9 @@ std::shared_ptr<Level> LevelManager::Load(int index)
         return nullptr;
     }
 
-    std::shared_ptr<Level> level = levelSaveManager->LoadLevel(currentLevelIndex);
-    if (level)
+    if (std::shared_ptr<Level> level = levelSaveManager->LoadLevel(currentLevelIndex))
     {
-        SetActiveLevel(level);
+        LoadNextFrame(level);
         currentLevelIndex = levelSaveManager->GetLevelIndex(level->GetName());
         return activeLevel;
     }
@@ -62,9 +56,24 @@ std::shared_ptr<Level> LevelManager::Load(const std::string& levelName)
     return Load(levelSaveManager->GetLevelIndex(levelName));
 }
 
+std::shared_ptr<Level> LevelManager::LoadFirstLevel()
+{
+    currentLevelIndex = 0;
+    return Load(currentLevelIndex);
+}
+
 std::shared_ptr<Level> LevelManager::LoadNext()
 {
     return Load(++currentLevelIndex);
+}
+
+void LevelManager::Update()
+{
+    if (levelToLoad)
+    {
+        SetActiveLevel(levelToLoad);
+        levelToLoad = nullptr;
+    }
 }
 
 void LevelManager::Save(const std::shared_ptr<Level>& level, int index) const
@@ -85,4 +94,9 @@ const std::shared_ptr<Level>& LevelManager::GetActiveLevel()
 void LevelManager::SetActiveLevel(const std::shared_ptr<Level>& level)
 {
     activeLevel = level;
+}
+
+void LevelManager::LoadNextFrame(std::shared_ptr<Level> level)
+{
+    levelToLoad = std::move(level);
 }

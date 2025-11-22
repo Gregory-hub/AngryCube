@@ -153,7 +153,7 @@ void ShowDebugTimeValues(float deltaTime, float framerate)
 	ImGui::End();
 }
 
-void ShowDebugLevelSaveWindow(std::shared_ptr<AngryCubeLevel> level)
+void ShowDebugLevelSaveWindow(std::shared_ptr<Level> level)
 {
     if (!Settings::DebugUIEnabled)
         return;
@@ -162,7 +162,7 @@ void ShowDebugLevelSaveWindow(std::shared_ptr<AngryCubeLevel> level)
     levelName.reserve(64);
 
     ImGui::SetNextWindowPos(ImVec2(Settings::NoFullscreenWindowResolution.x - 330.0f, 140.0f));
-    ImGui::Begin("Level", nullptr);
+    ImGui::Begin(level->GetName().c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 
     bool changed = ImGui::InputText("Level name", levelName.data(), levelName.capacity());
     if (changed)
@@ -172,7 +172,7 @@ void ShowDebugLevelSaveWindow(std::shared_ptr<AngryCubeLevel> level)
     {
         if (!levelName.empty())
         {
-            auto levelCopy = std::make_shared<AngryCubeLevel>(*level);
+            auto levelCopy = std::make_shared<Level>(*level);
             levelCopy->SetName(levelName);
             Game::GameLevelManager->SaveAsLast(levelCopy);
             levelName.clear();
@@ -196,9 +196,8 @@ int main()
 
     Game::GameLevelManager = std::make_unique<LevelManager>(std::make_unique<AngryCubeLevelSaveManager>());
     Game::GameLevelManager->LoadFirstLevel();
-    auto level = std::dynamic_pointer_cast<AngryCubeLevel>(Game::GameLevelManager->GetActiveLevel());
-
-    Game::GameController = std::make_unique<CatapultController>(level->GetCatapult());
+    if (auto level = std::dynamic_pointer_cast<AngryCubeLevel>(Game::GameLevelManager->GetActiveLevel()))
+        Game::GameController = std::make_unique<CatapultController>(level->GetCatapult());
     Game::GameHUD = std::make_unique<GameplayHUD>();
 
 	glm::vec3 skyColor = glm::vec3(0.568f, 0.78f, 0.98f) * 0.9f;
@@ -215,14 +214,19 @@ int main()
         Game::GameTimer->Start();
         float deltaTime = Game::GameClock->Tick();
 
-        Game::GameLevelManager->GetActiveLevel()->Update(deltaTime);
-        Game::GameRenderer->Render(Game::GameLevelManager->GetActiveLevel()->GetScene());
-        Game::GameHUD->Render();
+        if (auto level = Game::GameLevelManager->GetActiveLevel())
+        {
+            level->Update(deltaTime);
+            Game::GameRenderer->Render(level->GetScene());
+            Game::GameHUD->Render();
+        }
+
+        Game::GameLevelManager->Update();
 
         float frametime = Game::GameTimer->End();
         ShowDebugTimeValues(deltaTime, 1.0f / frametime);
 
-        ShowDebugLevelSaveWindow(level);
+        ShowDebugLevelSaveWindow(Game::GameLevelManager->GetActiveLevel());
 
 
 		ImGui::Render();

@@ -17,6 +17,11 @@ GameplayHUD::GameplayHUD()
         [this] (float value) { SetAngle(value); },
         0.05f))
 {
+    Reset();
+}
+
+void GameplayHUD::Reset()
+{
     if (auto controller = dynamic_cast<CatapultController*>(Game::GameController.get()))
     {
         angleSlider->SetMinValue(controller->GetMaxAngleLowerBound());

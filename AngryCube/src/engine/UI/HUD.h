@@ -6,6 +6,7 @@ class HUD
 public:
     virtual ~HUD() = 0;
 
+    virtual void Reset() = 0;
     virtual void Render() const = 0;
 };
 

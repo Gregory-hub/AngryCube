@@ -2,6 +2,7 @@
 #include "Fortification.h"
 
 #include "Brick.h"
+#include "engine/core/Game.h"
 #include "engine/utility/jsonSerialization.h"
 #include "engine/world/Scene.h"
 
@@ -189,4 +190,7 @@ void Fortification::DestroyObjectsInQueue()
             scene->Remove(object);
         }
     }
+
+    if (GetBrickCount() <= 0)
+        Game::OnLevelWin();
 }

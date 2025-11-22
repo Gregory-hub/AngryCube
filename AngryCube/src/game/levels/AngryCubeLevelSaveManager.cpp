@@ -62,11 +62,11 @@ int AngryCubeLevelSaveManager::GetLevelIndex(const std::string& levelName) const
     using nlohmann::json;
 
     json levels = ParseLevelArray();
-    int result = levels.find(levelName) - levels.begin();
-    if (result >= levels.size())
+    auto it = std::find(levels.begin(), levels.end(), levelName);
+    if (it == levels.end())
         return -1;
 
-    return result;
+    return std::distance(levels.begin(), it);
 }
 
 std::string AngryCubeLevelSaveManager::GetPath(const std::string& levelName) const

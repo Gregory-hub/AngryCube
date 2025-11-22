@@ -11,6 +11,7 @@ private:
 	int currentLevelIndex = -1;
 
 	std::shared_ptr<Level> activeLevel;
+    std::shared_ptr<Level> levelToLoad;
 
 public:
 	LevelManager(std::unique_ptr<LevelSaveManager> saveManager);
@@ -22,6 +23,8 @@ public:
 	std::shared_ptr<Level> Load(int index);
 	std::shared_ptr<Level> Load(const std::string& levelName);
 	std::shared_ptr<Level> LoadNext();
+	
+    void Update();
 
 	void Save(const std::shared_ptr<Level>& level, int index = -1) const;
 	void SaveAsLast(const std::shared_ptr<Level>& level) const;
@@ -30,4 +33,5 @@ public:
 
 private:
 	void SetActiveLevel(const std::shared_ptr<Level>& level);
+	void LoadNextFrame(std::shared_ptr<Level> level);
 };

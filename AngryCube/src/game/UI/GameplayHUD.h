@@ -18,6 +18,8 @@ private:
  
 public:
     GameplayHUD();
+
+    void Reset() override;
     void Render() const override;
 
 private:

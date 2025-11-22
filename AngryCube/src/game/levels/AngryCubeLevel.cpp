@@ -1,6 +1,7 @@
 #include "pch.h"
 #include "AngryCubeLevel.h"
 
+#include "engine/core/Game.h"
 #include "game/objects/catapult/Catapult.h"
 
 
@@ -18,6 +19,9 @@ void AngryCubeLevel::SetCatapult(std::shared_ptr<Catapult> newCatapult)
 {
     catapult = newCatapult;
     scene.Add(catapult);
+    Game::GameController = std::make_unique<CatapultController>(GetCatapult());
+    if (Game::GameHUD)
+        Game::GameHUD->Reset();
 }
 
 void AngryCubeLevel::SetFortification(std::shared_ptr<Fortification> newFortification)
