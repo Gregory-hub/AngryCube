@@ -1,13 +1,13 @@
 #include "pch.h"
 #include "DefaultMeshes.h"
 
-#include "engine/core/ShaderManager.h"
+#include "engine/core/ShaderPool.h"
 
 
 CubeMesh::CubeMesh(float w, float h)
 	: width(w), height(h)
 {
-    shader = ShaderManager::GetShaderFor<CubeMesh>();
+    shader = ShaderPool::GetShaderFor<CubeMesh>();
     triangles = {
         { 0, 1, 3 },
         { 1, 2, 3 }

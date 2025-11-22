@@ -15,7 +15,7 @@
 #include "Settings.h"
 #include "engine/core/Game.h"
 #include "engine/core/LevelManager.h"
-#include "engine/core/ShaderManager.h"
+#include "engine/core/ShaderPool.h"
 #include "engine/utility/Logger.h"
 #include "engine/utility/debugCallback.h"
 #include "engine/utility/Clock.h"
@@ -153,7 +153,7 @@ void ShowDebugTimeValues(float deltaTime, float framerate)
 	ImGui::End();
 }
 
-void ShowDebugLevelSaveWindow(std::shared_ptr<AngryCubeLevel> level, std::shared_ptr<LevelManager> levelManager)
+void ShowDebugLevelSaveWindow(std::shared_ptr<AngryCubeLevel> level)
 {
     if (!Settings::DebugUIEnabled)
         return;
@@ -174,7 +174,7 @@ void ShowDebugLevelSaveWindow(std::shared_ptr<AngryCubeLevel> level, std::shared
         {
             auto levelCopy = std::make_shared<AngryCubeLevel>(*level);
             levelCopy->SetName(levelName);
-            levelManager->SaveAsLast(levelCopy);
+            Game::GameLevelManager->SaveAsLast(levelCopy);
             levelName.clear();
         }
     }
@@ -186,21 +186,20 @@ int main()
 {
     GLFWwindow* window = runSetup();
 
-    Clock clock;
-    Timer timer;
-
-    Renderer renderer(window, Settings::NoFullscreenWindowResolution);
-
     auto cubeShader = std::make_shared<Shader>("cube");
-	ShaderManager::RegisterShaderFor<CubeMesh>(std::move(cubeShader));
+	ShaderPool::RegisterShaderFor<CubeMesh>(std::move(cubeShader));
 
-    auto levelManager = std::make_shared<LevelManager>(std::make_shared<AngryCubeLevelSaveManager>());
-    levelManager->LoadFirstLevel();
-    auto level = std::dynamic_pointer_cast<AngryCubeLevel>(levelManager->GetActiveLevel());
+    Game::GameClock = std::make_unique<Clock>();
+    Game::GameTimer = std::make_unique<Timer>();
 
-    auto controller = std::make_shared<CatapultController>(level->GetCatapult());
+    Game::GameRenderer = std::make_unique<Renderer>(window, Settings::NoFullscreenWindowResolution);
 
-    GameplayHUD hud(controller);
+    Game::GameLevelManager = std::make_unique<LevelManager>(std::make_unique<AngryCubeLevelSaveManager>());
+    Game::GameLevelManager->LoadFirstLevel();
+    auto level = std::dynamic_pointer_cast<AngryCubeLevel>(Game::GameLevelManager->GetActiveLevel());
+
+    Game::GameController = std::make_unique<CatapultController>(level->GetCatapult());
+    Game::GameHUD = std::make_unique<GameplayHUD>();
 
 	glm::vec3 skyColor = glm::vec3(0.568f, 0.78f, 0.98f) * 0.9f;
     glClearColor(skyColor.r, skyColor.g, skyColor.b, 1.0f);
@@ -213,17 +212,17 @@ int main()
 		ImGui::NewFrame();
 
 
-        timer.Start();
-        float deltaTime = clock.Tick();
+        Game::GameTimer->Start();
+        float deltaTime = Game::GameClock->Tick();
 
-        levelManager->GetActiveLevel()->Update(deltaTime);
-        renderer.Render(levelManager->GetActiveLevel()->GetScene());
-        hud.Render();
+        Game::GameLevelManager->GetActiveLevel()->Update(deltaTime);
+        Game::GameRenderer->Render(Game::GameLevelManager->GetActiveLevel()->GetScene());
+        Game::GameHUD->Render();
 
-        float frametime = timer.End();
+        float frametime = Game::GameTimer->End();
         ShowDebugTimeValues(deltaTime, 1.0f / frametime);
 
-        ShowDebugLevelSaveWindow(level, levelManager);
+        ShowDebugLevelSaveWindow(level);
 
 
 		ImGui::Render();

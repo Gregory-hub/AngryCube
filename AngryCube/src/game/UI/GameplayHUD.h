@@ -9,7 +9,6 @@
 class GameplayHUD : public HUD
 {
 private:
-    std::shared_ptr<CatapultController> controller;
     std::unique_ptr<Button> releaseOrCockButton;
     std::unique_ptr<Slider<float>> tensionSlider;
     std::unique_ptr<Slider<float>> angleSlider;
@@ -18,7 +17,7 @@ private:
     glm::ivec2 controlsPositionShift = { 70, -40 };
  
 public:
-    GameplayHUD(std::shared_ptr<CatapultController> catapultController);
+    GameplayHUD();
     void Render() const override;
 
 private:

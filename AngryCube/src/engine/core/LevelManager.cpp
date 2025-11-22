@@ -6,7 +6,7 @@
 #include "engine/utility/Logger.h"
 
 
-LevelManager::LevelManager(std::shared_ptr<LevelSaveManager> saveManager)
+LevelManager::LevelManager(std::unique_ptr<LevelSaveManager> saveManager)
     : levelSaveManager(std::move(saveManager))
 {
     if (levelSaveManager == nullptr)

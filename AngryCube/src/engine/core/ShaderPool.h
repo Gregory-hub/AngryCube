@@ -6,7 +6,7 @@
 #include "engine/render/Shader.h"
 
 
-class ShaderManager
+class ShaderPool
 {
 private:
     inline static std::unordered_map<std::type_index, std::shared_ptr<Shader>> shaders;

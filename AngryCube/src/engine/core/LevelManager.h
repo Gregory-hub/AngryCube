@@ -7,13 +7,13 @@
 class LevelManager
 {
 private:
-	std::shared_ptr<LevelSaveManager> levelSaveManager;
+	std::unique_ptr<LevelSaveManager> levelSaveManager;
 	int currentLevelIndex = -1;
 
 	std::shared_ptr<Level> activeLevel;
 
 public:
-	LevelManager(std::shared_ptr<LevelSaveManager> saveManager);
+	LevelManager(std::unique_ptr<LevelSaveManager> saveManager);
 
 	int GetCurrentLevelIndex() const;
 	int GetLevelCount() const;
