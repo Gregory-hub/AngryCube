@@ -25,6 +25,8 @@ void GameplayHUD::Render() const
 {
     catapultControls->Render();
     levelWinWidget->Render();
+    levelLooseWidget->Render();
+    gameWinWidget->Render();
 }
 
 void GameplayHUD::ShowLevelWinWidget()

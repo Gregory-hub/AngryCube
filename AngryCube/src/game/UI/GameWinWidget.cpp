@@ -39,6 +39,9 @@ void GameWinWidget::Render() const
 
         if (ImGui::Button("Quit"))
             OnButtonQuitPressed();
+        ImGui::SameLine();
+        if (ImGui::Button("Play Again"))
+            OnButtonRestartPressed();
 
         ImGui::End();
     }
@@ -53,4 +56,9 @@ void GameWinWidget::Reset()
 void GameWinWidget::OnButtonQuitPressed() const
 {
     Game::Quit();
+}
+
+void GameWinWidget::OnButtonRestartPressed() const
+{
+    Game::GameLevelManager->LoadFirstLevel();
 }

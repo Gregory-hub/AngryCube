@@ -19,4 +19,5 @@ public:
 
 private:
     void OnButtonQuitPressed() const;
+    void OnButtonRestartPressed() const;
 };
