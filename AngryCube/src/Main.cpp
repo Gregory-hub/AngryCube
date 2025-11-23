@@ -172,10 +172,14 @@ void ShowDebugLevelSaveWindow(std::shared_ptr<Level> level)
     {
         if (!levelName.empty())
         {
-            // auto levelCopy = std::make_shared<AngryCubeLevel>(*std::dynamic_pointer_cast<AngryCubeLevel>(level));
-            // levelCopy->SetName(levelName);
-            Game::GameLevelManager->SaveAsLast(level);
+            auto levelCopy = std::make_shared<AngryCubeLevel>(*std::dynamic_pointer_cast<AngryCubeLevel>(level));
+            levelCopy->SetName(levelName);
+            Game::GameLevelManager->Save(levelCopy);
             levelName.clear();
+        }
+        else
+        {
+            Game::GameLevelManager->Save(level);
         }
     }
 	ImGui::End();

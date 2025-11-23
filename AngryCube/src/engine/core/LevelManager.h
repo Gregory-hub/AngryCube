@@ -27,8 +27,7 @@ public:
     void Update();
 
 	void Save(const std::shared_ptr<Level>& level, int index = -1) const;
-	void SaveAsLast(const std::shared_ptr<Level>& level) const;
-	
+
 	const std::shared_ptr<Level>& GetActiveLevel();
 
 private:

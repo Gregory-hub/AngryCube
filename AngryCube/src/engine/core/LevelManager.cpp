@@ -81,11 +81,6 @@ void LevelManager::Save(const std::shared_ptr<Level>& level, int index) const
     levelSaveManager->SaveLevel(level, index);
 }
 
-void LevelManager::SaveAsLast(const std::shared_ptr<Level>& level) const
-{
-    Save(level);
-}
-
 const std::shared_ptr<Level>& LevelManager::GetActiveLevel()
 {
     return activeLevel;
