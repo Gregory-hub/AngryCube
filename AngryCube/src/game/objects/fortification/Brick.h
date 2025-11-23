@@ -13,7 +13,7 @@ private:
 	static int id;
 
 public:
-	Brick(Scene* parentScene, float mass = 1.0f);
+	Brick(Scene* parentScene, float mass = 50.0f);
 
     std::shared_ptr<GameObject> Clone() const override;
     std::shared_ptr<GameObject> MoveClone() override;

@@ -3,7 +3,7 @@
 
 #include "Brick.h"
 #include "engine/core/Game.h"
-#include "engine/utility/jsonSerialization.h"
+#include "engine/utility/jsonParsers.h"
 #include "engine/world/Scene.h"
 
 
@@ -120,21 +120,30 @@ void Fortification::Deserialize(const nlohmann::json& jsonFortification)
 {
     using nlohmann::json;
 
-    if (!jsonFortification.is_null() && !jsonFortification["pos"].is_null())
-     {
-         glm::vec2 pos = jsonVec2ToVec2(jsonFortification["pos"]);
-         GetTransform().SetTranslation(pos);
+    bool ok = true;
+    if (auto value = parseFromJson<glm::vec2>(jsonFortification, "pos"))
+    {
+        glm::vec2 pos = *value;
+        GetTransform().SetTranslation(pos);
 
-         json jsonFortBricks = jsonFortification["bricks"];
-         for (const auto& jsonBrick : jsonFortBricks)
-         {
-             auto brick = std::make_shared<Brick>(scene);
-             brick->Deserialize(jsonBrick);
-             AttachChild(brick, false);
-         }
-     }
-     else
-         throw std::invalid_argument("Fortification deserialization failed");
+        json jsonFortBricks = jsonFortification["bricks"];
+        for (const auto& jsonBrick : jsonFortBricks)
+        {
+            auto brick = std::make_shared<Brick>(scene);
+            brick->Deserialize(jsonBrick);
+            AttachChild(brick, false);
+        }
+    }
+    else
+    {
+        ok = false;
+    }
+
+    if (!ok)
+    {
+		// State of object is not broken so log and do nothing
+		Logger::Log(LogLevel::Warning, "Failed to deserialize fortification");
+    }
 }
 
 void Fortification::ToggleBricksPhysics()
@@ -202,5 +211,5 @@ void Fortification::DestroyObjectsInQueue()
     }
 
     if (GetBrickCount() <= 0 && winGameEnabled)
-        Game::OnLevelWin();
+        Game::GameLevelManager->LoadNext();
 }

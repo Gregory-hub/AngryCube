@@ -13,7 +13,7 @@
 #include "game/objects/Cube.h"
 #include <game/objects/projectiles/ProjectileCube.h>
 
-#include "engine/utility/jsonSerialization.h"
+#include "engine/utility/jsonParsers.h"
 #include "game/levels/AngryCubeLevelSaveManager.h"
 
 
@@ -209,13 +209,22 @@ nlohmann::json Catapult::Serialize()
 
 void Catapult::Deserialize(const nlohmann::json& jsonCatapult)
 {
-    if (!jsonCatapult.is_null() && !jsonCatapult["pos"].is_null())
-    {
-        glm::vec2 pos = jsonVec2ToVec2(jsonCatapult["pos"]);
-        GetTransform().SetTranslation(pos);
-    }
-    else
-        throw std::invalid_argument("Catapult deserialization failed");
+	bool ok = true;
+	if (auto value = parseFromJson<glm::vec2>(jsonCatapult, "pos"))
+	{
+		glm::vec2 pos = *value;
+		GetTransform().SetTranslation(pos);
+	}
+	else
+	{
+		ok = false;
+	}
+
+	if (!ok)
+	{
+		// State of object is not broken so log and do nothing
+		Logger::Log(LogLevel::Warning, "Failed to deserialize catapult");
+	}
 }
 
 void Catapult::SetMaterial(const std::shared_ptr<Material>& material)

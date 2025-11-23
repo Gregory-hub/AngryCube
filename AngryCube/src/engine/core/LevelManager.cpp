@@ -32,7 +32,7 @@ std::shared_ptr<Level> LevelManager::Load(int index)
     }
     else
     {
-        Logger::Log(LogLevel::Warning, "Level manager load failed");
+        Logger::Log(LogLevel::Error, "Level manager load invalid index");
         currentLevelIndex = -1;
         return nullptr;
     }

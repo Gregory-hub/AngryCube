@@ -185,7 +185,7 @@
     <ClInclude Include="dependencies\compiled\imgui\imgui.h" />
     <ClInclude Include="dependencies\compiled\imgui\misc\cpp\imgui_stdlib.h" />
     <ClInclude Include="src\engine\render\Renderer.h" />
-    <ClInclude Include="src\engine\utility\jsonSerialization.h" />
+    <ClInclude Include="src\engine\utility\jsonParsers.h" />
     <ClInclude Include="src\engine\utility\Logger.h" />
     <ClInclude Include="src\engine\render\Shader.h" />
     <ClInclude Include="src\engine\utility\Timer.h" />
@@ -204,6 +204,7 @@
     <ClInclude Include="src\game\objects\fortification\Brick.h" />
     <ClInclude Include="src\game\objects\fortification\Fortification.h" />
     <ClInclude Include="src\game\objects\projectiles\ProjectileCube.h" />
+    <ClInclude Include="src\game\UI\CatapultControlsWidget.h" />
     <ClInclude Include="src\game\UI\GameplayHUD.h" />
     <ClInclude Include="src\pch.h" />
     <ClInclude Include="src\Settings.h" />
@@ -855,6 +856,7 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\game\UI\CatapultControlsWidget.cpp" />
     <ClCompile Include="src\game\UI\GameplayHUD.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>

@@ -2,7 +2,7 @@
 #include "AngryCubeLevelSaveManager.h"
 
 #include "AngryCubeLevel.h"
-#include "engine/utility/jsonSerialization.h"
+#include "engine/utility/jsonParsers.h"
 #include "engine/utility/Logger.h"
 
 
@@ -134,6 +134,11 @@ std::shared_ptr<Level> AngryCubeLevelSaveManager::LoadLevel(const std::string& l
     }
 
     std::ifstream inFile(GetPath(levelName));
+    if (!inFile.is_open())
+    {
+        Logger::Log(LogLevel::Error, "Cannot open " + GetPath(levelName));
+        return nullptr;
+    }
     json jsonInput = json::parse(inFile);
 
     if (jsonInput.is_null())

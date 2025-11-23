@@ -2,7 +2,8 @@
 #include "Brick.h"
 
 #include "Fortification.h"
-#include "engine/utility/jsonSerialization.h"
+#include "engine/utility/ImGuiDragFloatWithSetter.h"
+#include "engine/utility/jsonParsers.h"
 #include "game/interfaces/IProjectile.h"
 
 
@@ -39,22 +40,48 @@ nlohmann::json Brick::Serialize()
 	json jsonBrick;
 	glm::vec2 pos = GetTransform().GetTranslation();
 	glm::vec2 scale = GetTransform().GetScale();
+	float mass = GetPhysics().GetMass();
 	jsonBrick["pos"] = { pos.x, pos.y };
 	jsonBrick["scale"] = { scale.x, scale.y };
+	jsonBrick["mass"] = mass;
 	return jsonBrick;
 }
 
 void Brick::Deserialize(const nlohmann::json& jsonBrick)
 {
-    if (!jsonBrick.is_null() && !jsonBrick["pos"].is_null())
-    {
-	    glm::vec2 brickPos = jsonVec2ToVec2(jsonBrick["pos"]);
-    	glm::vec2 brickScale = jsonVec2ToVec2(jsonBrick["scale"]);
-    	GetTransform().SetTranslation(brickPos);
-    	GetTransform().SetScale(brickScale);
-    }
+	bool ok = true;
+	if (auto value = parseFromJson<glm::vec2>(jsonBrick, "pos"))
+	{
+		glm::vec2 pos = *value;
+		GetTransform().SetTranslation(pos);
+	}
 	else
-		throw std::invalid_argument("Brick deserialization failed");
+	{
+		ok = false;
+	}
+	if (auto value = parseFromJson<glm::vec2>(jsonBrick, "scale"))
+	{
+		glm::vec2 scale = *value;
+		GetTransform().SetScale(scale);
+	}
+	else
+	{
+		ok = false;
+	}
+	if (auto value = parseFromJson<float>(jsonBrick, "mass"))
+	{
+		float mass = *value;
+		GetPhysics().SetMass(mass);
+	}
+	else
+	{
+		ok = false;
+	}
+	if (!ok)
+	{
+		// State of object is not broken so log and do nothing
+		Logger::Log(LogLevel::Warning, "Failed to deserialize brick");
+	}
 }
 
 void Brick::OnCollisionStart(const std::shared_ptr<GameObject>& other)
@@ -68,6 +95,12 @@ void Brick::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 void Brick::ShowDebugControls()
 {
 	Cube::ShowDebugControls();
+	
+	ImGui::DragFloatWithSetter("Mass",
+		[this]() { return GetPhysics().GetMass(); },
+		[this](float value) { GetPhysics().SetMass(value); },
+		1.0f, 0.0f, 500.0f);
+	
 	if (ImGui::Button("Destroy"))
 	{
         if (auto fort = dynamic_cast<Fortification*>(GetParent()))

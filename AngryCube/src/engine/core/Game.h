@@ -16,6 +16,4 @@ public:
     inline static std::unique_ptr<LevelManager> GameLevelManager = nullptr;
     inline static std::unique_ptr<PlayerController> GameController = nullptr;
     inline static std::unique_ptr<GameplayHUD> GameHUD = nullptr;
-
-    static void OnLevelWin();
 };
