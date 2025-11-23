@@ -12,6 +12,7 @@ public:
 
     int GetId() const;
     virtual void Render() const = 0;
+    virtual void Reset() { };
 };
 
 inline Widget::~Widget() = default;

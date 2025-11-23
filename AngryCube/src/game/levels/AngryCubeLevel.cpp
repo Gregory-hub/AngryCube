@@ -2,6 +2,7 @@
 #include "AngryCubeLevel.h"
 
 #include "engine/core/Game.h"
+#include "game/CatapultController.h"
 #include "game/objects/catapult/Catapult.h"
 
 
