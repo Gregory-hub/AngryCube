@@ -113,6 +113,9 @@ void Scene::DestroyObjectsInQueue()
 		destructionQueue.pop();
 
         if (auto object = std::dynamic_pointer_cast<GameObject>(destroyed))
+        {
+            destroyed->OnDestructon();
             Remove(object);
+        }
     }
 }

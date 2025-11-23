@@ -7,7 +7,7 @@
 GameplayHUD::GameplayHUD()
     : catapultControls(std::make_unique<CatapultControlsWidget>()),
     levelWinWidget(std::make_unique<LevelWinWidget>()),
-    levelLooseWidget(std::make_unique<LevelLooseWidget>()),
+    levelLooseWidget(std::make_unique<LevelLoseWidget>()),
     gameWinWidget(std::make_unique<GameWinWidget>())
 {
     Reset();

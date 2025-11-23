@@ -1,14 +1,14 @@
 #pragma once
 #include "engine/UI/Widget.h"
 
-class LevelLooseWidget : public Widget
+class LevelLoseWidget : public Widget
 {
 private:
     bool isActive = false;
     glm::vec2 position;
 
 public:
-    LevelLooseWidget();
+    LevelLoseWidget();
 
     bool IsActive() const;
     void Activate();

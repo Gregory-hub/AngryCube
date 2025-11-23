@@ -1,29 +1,29 @@
 #include "pch.h"
-#include "LevelLooseWidget.h"
+#include "LevelLoseWidget.h"
 #include "Settings.h"
 #include "engine/core/Game.h"
 
-LevelLooseWidget::LevelLooseWidget()
+LevelLoseWidget::LevelLoseWidget()
     : position(Settings::GetWindowResolution() / 2)
 {
 }
 
-bool LevelLooseWidget::IsActive() const
+bool LevelLoseWidget::IsActive() const
 {
     return isActive;
 }
 
-void LevelLooseWidget::Activate()
+void LevelLoseWidget::Activate()
 {
     isActive = true;
 }
 
-void LevelLooseWidget::Deactivate()
+void LevelLoseWidget::Deactivate()
 {
     isActive = false;
 }
 
-void LevelLooseWidget::Render() const
+void LevelLoseWidget::Render() const
 {
     if (isActive)
     {
@@ -47,18 +47,18 @@ void LevelLooseWidget::Render() const
     }
 }
 
-void LevelLooseWidget::Reset()
+void LevelLoseWidget::Reset()
 {
     Widget::Reset();
     isActive = false;
 }
 
-void LevelLooseWidget::OnButtonQuitPressed() const
+void LevelLoseWidget::OnButtonQuitPressed() const
 {
     Game::Quit();
 }
 
-void LevelLooseWidget::OnButtonRestartPressed() const
+void LevelLoseWidget::OnButtonRestartPressed() const
 {
     Game::GameLevelManager->Load(Game::GameLevelManager->GetCurrentLevelIndex());
 }

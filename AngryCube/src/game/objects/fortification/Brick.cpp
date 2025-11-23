@@ -34,6 +34,10 @@ void Brick::Destroy()
 		parentFortification->AddToDestructionQueue(shared_from_this());
 }
 
+void Brick::OnDestructon()
+{
+}
+
 nlohmann::json Brick::Serialize()
 {
 	using nlohmann::json;

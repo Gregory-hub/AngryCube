@@ -18,8 +18,9 @@ public:
     std::shared_ptr<GameObject> Clone() const override;
     std::shared_ptr<GameObject> MoveClone() override;
 
-	void Destroy();
-	
+	void Destroy() override;
+	void OnDestructon() override;
+
 	nlohmann::json Serialize() override;
 	void Deserialize(const nlohmann::json& json) override;
 

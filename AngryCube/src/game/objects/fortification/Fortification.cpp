@@ -5,7 +5,7 @@
 #include "engine/core/Game.h"
 #include "engine/utility/jsonParsers.h"
 #include "engine/world/Scene.h"
-#include "game/WinLooseManager.h"
+#include "game/WinLoseManager.h"
 
 
 int Fortification::id = 0;
@@ -206,11 +206,12 @@ void Fortification::DestroyObjectsInQueue()
 
         if (auto object = std::dynamic_pointer_cast<GameObject>(destroyed))
         {
+            destroyed->OnDestructon();
             RemoveChild(object);
             scene->Remove(object);
         }
     }
 
     if (GetBrickCount() <= 0 && winGameEnabled)
-        WinLooseManager::OnLevelWin();
+        WinLoseManager::OnLevelWin();
 }

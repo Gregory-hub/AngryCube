@@ -197,8 +197,8 @@
     <ClInclude Include="src\game\CatapultController.h" />
     <ClInclude Include="src\game\constants.h" />
     <ClInclude Include="src\game\UI\GameWinWidget.h" />
-    <ClInclude Include="src\game\UI\LevelLooseWidget.h" />
-    <ClInclude Include="src\game\WinLooseManager.h" />
+    <ClInclude Include="src\game\UI\LevelLoseWidget.h" />
+    <ClInclude Include="src\game\WinLoseManager.h" />
     <ClInclude Include="src\game\interfaces\IProjectile.h" />
     <ClInclude Include="src\game\levels\AngryCubeLevel.h" />
     <ClInclude Include="src\game\levels\AngryCubeLevelSaveManager.h" />
@@ -849,8 +849,8 @@
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
     <ClCompile Include="src\game\UI\GameWinWidget.cpp" />
-    <ClCompile Include="src\game\UI\LevelLooseWidget.cpp" />
-    <ClCompile Include="src\game\WinLooseManager.cpp" />
+    <ClCompile Include="src\game\UI\LevelLoseWidget.cpp" />
+    <ClCompile Include="src\game\WinLoseManager.cpp" />
     <ClCompile Include="src\game\interfaces\IProjectile.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">pch.h</PrecompiledHeaderFile>

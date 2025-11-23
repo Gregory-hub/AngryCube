@@ -1,6 +1,6 @@
 #pragma once
 
-class WinLooseManager
+class WinLoseManager
 {
 public:
    static void OnLevelWin();

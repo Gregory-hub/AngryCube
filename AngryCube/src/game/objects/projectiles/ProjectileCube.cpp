@@ -2,11 +2,14 @@
 #include "ProjectileCube.h"
 
 #include "engine/components/mesh/DefaultMeshes.h"
+#include "engine/core/Game.h"
 #include "engine/materials/SolidColor.h"
 #include "engine/world/Scene.h"
+#include "game/CatapultController.h"
 #include "game/objects/fortification/Brick.h"
 
 #include "game/constants.h"
+#include "game/WinLoseManager.h"
 #include "game/objects/fortification/Fortification.h"
 
 
@@ -58,9 +61,29 @@ bool ProjectileCube::IsReleased() const
     return !GetParent();
 }
 
+void ProjectileCube::MarkAsLast()
+{
+    lastOne = true;
+}
+
 void ProjectileCube::Destroy()
 {
     scene->AddToDestructionQueue(shared_from_this());
+}
+
+void ProjectileCube::OnDestructon()
+{
+    if (lastOne)
+    {
+        if (auto controller = dynamic_cast<CatapultController*>(Game::GameController.get()))
+        {
+            if (std::shared_ptr<Catapult> catapult = controller->GetCatapult().lock())
+            {
+                if (catapult->GetCurrentAmmo() == 0)
+                    WinLoseManager::OnLevelLoose();
+            }
+        }
+    }
 }
 
 void ProjectileCube::OnCollisionStart(const std::shared_ptr<GameObject>& other)

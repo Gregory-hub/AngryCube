@@ -139,7 +139,7 @@ void Catapult::SetMaxAngle(float newAngle) const
 
 bool Catapult::Load(std::shared_ptr<IProjectile> projectile)
 {
-	if (currentAmmo <= 0)
+	if (currentAmmo < 1)
 		return false;
 
 	if (!projectile && projectileTemplate)
@@ -152,6 +152,8 @@ bool Catapult::Load(std::shared_ptr<IProjectile> projectile)
 	{
 		currentAmmo--;
 		arm->LoadProjectile(projectile);
+		if (currentAmmo == 0)
+			projectile->MarkAsLast();
 		return true;
 	}
 	return false;

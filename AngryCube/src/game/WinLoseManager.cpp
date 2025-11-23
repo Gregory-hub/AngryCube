@@ -1,9 +1,9 @@
 #include "pch.h"
-#include "WinLooseManager.h"
+#include "WinLoseManager.h"
 
 #include "engine/core/Game.h"
 
-void WinLooseManager::OnLevelWin()
+void WinLoseManager::OnLevelWin()
 {
     if (Game::GameLevelManager->GetCurrentLevelIndex() == Game::GameLevelManager->GetLevelCount() - 1)
         OnGameWin();
@@ -11,12 +11,12 @@ void WinLooseManager::OnLevelWin()
         Game::GameHUD->ShowLevelWinWidget();
 }
 
-void WinLooseManager::OnLevelLoose()
+void WinLoseManager::OnLevelLoose()
 {
     Game::GameHUD->ShowLevelLooseWidget();
 }
 
-void WinLooseManager::OnGameWin()
+void WinLoseManager::OnGameWin()
 {
     Game::GameHUD->ShowGameWinWidget();
 }

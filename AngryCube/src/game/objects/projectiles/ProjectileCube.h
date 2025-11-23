@@ -19,6 +19,8 @@ private:
     float selfDestructDelay = 0.5f;
     float selfDestructTimer = 0.0f;
 
+    bool lastOne = false;
+
 public:
     ProjectileCube(Scene* parentScene, float mass = 1.0f);
     ~ProjectileCube() override = default;
@@ -34,7 +36,10 @@ public:
 
     bool IsReleased() const;
 
+    void MarkAsLast() override;
+
     void Destroy() override;
+    void OnDestructon() override;
 
     void OnCollisionStart(const std::shared_ptr<GameObject>& other) override;
 
