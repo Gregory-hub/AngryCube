@@ -137,8 +137,11 @@ void Catapult::SetMaxAngle(float newAngle) const
 	arm->SetMaxAngle(glm::clamp(newAngle, maxAngleLowerBound, maxAngleUpperBound));
 }
 
-void Catapult::Load(std::shared_ptr<IProjectile> projectile)
+bool Catapult::Load(std::shared_ptr<IProjectile> projectile)
 {
+	if (currentAmmo <= 0)
+		return false;
+
 	if (!projectile && projectileTemplate)
 	{
 		if (std::shared_ptr<GameObject> tmp = std::dynamic_pointer_cast<GameObject>(projectileTemplate))
@@ -146,8 +149,12 @@ void Catapult::Load(std::shared_ptr<IProjectile> projectile)
 	}
 
 	if (projectile)
+	{
+		currentAmmo--;
 		arm->LoadProjectile(projectile);
-
+		return true;
+	}
+	return false;
 }
 
 void Catapult::Release()
@@ -189,6 +196,11 @@ void Catapult::ShowDebugControls()
     	[this]() { return arm->GetK(); },
     	[this](float value) { arm->SetK(value); },
 		1.0f, 0.0f, 10000.0f);
+
+	ImGui::DragFloatWithSetter("Max ammo",
+		[this]() { return GetMaxAmmo(); },
+		[this](float value) { SetMaxAmmo(static_cast<int>(value)); },
+		1.0f, 1.0f, 100.0f);
 	
     if (ImGui::Button("Release"))
         Release();
@@ -204,27 +216,44 @@ nlohmann::json Catapult::Serialize()
     json jsonCatapult;
     glm::vec2 posCat = GetTransform().GetTranslation();
     jsonCatapult["pos"] = { posCat.x, posCat.y };
+    jsonCatapult["maxAmmo"] = maxAmmo;
 	return jsonCatapult;
 }
 
 void Catapult::Deserialize(const nlohmann::json& jsonCatapult)
 {
 	bool ok = true;
-	if (auto value = parseFromJson<glm::vec2>(jsonCatapult, "pos"))
-	{
-		glm::vec2 pos = *value;
-		GetTransform().SetTranslation(pos);
-	}
+	if (auto pos = parseFromJson<glm::vec2>(jsonCatapult, "pos"))
+		GetTransform().SetTranslation(*pos);
 	else
-	{
 		ok = false;
-	}
+
+	if (auto ammo = parseFromJson<int>(jsonCatapult, "maxAmmo"))
+		SetMaxAmmo(*ammo);
+	else
+		ok = false;
 
 	if (!ok)
 	{
 		// State of object is not broken so log and do nothing
 		Logger::Log(LogLevel::Warning, "Failed to deserialize catapult");
 	}
+}
+
+int Catapult::GetCurrentAmmo() const
+{
+	return currentAmmo;
+}
+
+int Catapult::GetMaxAmmo() const
+{
+	return maxAmmo;
+}
+
+void Catapult::SetMaxAmmo(int newMaxAmmo)
+{
+	currentAmmo = glm::clamp(currentAmmo - maxAmmo + newMaxAmmo, 0, newMaxAmmo);
+	maxAmmo = newMaxAmmo;
 }
 
 void Catapult::SetMaterial(const std::shared_ptr<Material>& material)

@@ -13,8 +13,10 @@ void WinLooseManager::OnLevelWin()
 
 void WinLooseManager::OnLevelLoose()
 {
+    Game::GameHUD->ShowLevelLooseWidget();
 }
 
 void WinLooseManager::OnGameWin()
 {
+    Game::GameHUD->ShowGameWinWidget();
 }

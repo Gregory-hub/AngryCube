@@ -193,6 +193,8 @@
     <ClInclude Include="src\engine\world\GameObject.h" />
     <ClInclude Include="src\engine\world\Scene.h" />
     <ClInclude Include="src\game\CatapultController.h" />
+    <ClInclude Include="src\game\UI\GameWinWidget.h" />
+    <ClInclude Include="src\game\UI\LevelLooseWidget.h" />
     <ClInclude Include="src\game\WinLooseManager.h" />
     <ClInclude Include="src\game\interfaces\IDestructable.h" />
     <ClInclude Include="src\game\interfaces\IDestructableContainer.h" />
@@ -691,6 +693,8 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
       <PrecompiledHeaderFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">pch.h</PrecompiledHeaderFile>
     </ClCompile>
+    <ClCompile Include="src\game\UI\GameWinWidget.cpp" />
+    <ClCompile Include="src\game\UI\LevelLooseWidget.cpp" />
     <ClCompile Include="src\game\WinLooseManager.cpp" />
     <ClCompile Include="src\game\interfaces\IDestructable.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

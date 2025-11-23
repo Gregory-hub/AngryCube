@@ -30,8 +30,13 @@ void LevelWinWidget::Render() const
     if (isActive)
     {
         ImGuiIO& io = ImGui::GetIO();
-        ImGui::SetNextWindowPos(ImVec2(io.DisplaySize.x / 2, io.DisplaySize.y / 2), ImGuiCond_Once, ImVec2(0.5f, 2.0f));
-        ImGui::Begin("You win", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
+        ImGui::SetNextWindowPos(
+            ImVec2(io.DisplaySize.x / 2, io.DisplaySize.y / 2),
+            ImGuiCond_Once,
+            ImVec2(0.5f, 2.0f));
+
+        auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
+        ImGui::Begin("You win", nullptr, flags);
 
         if (ImGui::Button("Quit"))
             OnButtonQuitPressed();

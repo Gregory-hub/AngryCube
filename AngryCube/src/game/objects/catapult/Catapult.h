@@ -16,6 +16,9 @@ private:
 	float maxAngleUpperBound = 80.0f;
 	float maxAngleLowerBound = 30.0f;
 
+	int maxAmmo = 1;
+	int currentAmmo = 1;
+
 public:
 	Catapult(Scene* parentScene);
 	~Catapult() override = default;
@@ -40,7 +43,7 @@ public:
 	float GetMaxAngleUpperBound() const;
 	float GetMaxAngleLowerBound() const;
 
-	void Load(std::shared_ptr<IProjectile> projectile = nullptr);
+    bool Load(std::shared_ptr<IProjectile> projectile = nullptr);
 	void Release();
 	void Cock();
 	bool ReadyToRelease() const;
@@ -51,6 +54,10 @@ public:
 
     nlohmann::json Serialize() override;
     void Deserialize(const nlohmann::json& json) override;
+
+    int GetCurrentAmmo() const;
+    int GetMaxAmmo() const;
+    void SetMaxAmmo(int maxAmmo);
 
 private:
 	void SetMaterial(const std::shared_ptr<Material>& material);

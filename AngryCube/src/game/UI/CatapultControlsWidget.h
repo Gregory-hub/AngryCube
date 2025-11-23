@@ -1,6 +1,7 @@
 #pragma once
 #include "engine/UI/Slider.h"
 #include "engine/UI/Widget.h"
+#include "game/objects/catapult/Catapult.h"
 
 
 class CatapultControlsWidget : public Widget
@@ -8,6 +9,8 @@ class CatapultControlsWidget : public Widget
 private:
     std::unique_ptr<Slider<float>> tensionSlider;
     std::unique_ptr<Slider<float>> angleSlider;
+
+    std::weak_ptr<Catapult> catapultPtr;
 
     float positionX = 300.0f;
 

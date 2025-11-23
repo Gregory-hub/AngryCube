@@ -2,13 +2,13 @@
 #include "GameplayHUD.h"
 
 #include "engine/core/Game.h"
-#include "game/CatapultController.h"
-#include "game/objects/catapult/Catapult.h"
 
 
 GameplayHUD::GameplayHUD()
     : catapultControls(std::make_unique<CatapultControlsWidget>()),
-    levelWinWidget(std::make_unique<LevelWinWidget>())
+    levelWinWidget(std::make_unique<LevelWinWidget>()),
+    levelLooseWidget(std::make_unique<LevelLooseWidget>()),
+    gameWinWidget(std::make_unique<GameWinWidget>())
 {
     Reset();
 }
@@ -17,6 +17,8 @@ void GameplayHUD::Reset()
 {
     catapultControls->Reset();
     levelWinWidget->Reset();
+    levelLooseWidget->Reset();
+    gameWinWidget->Reset();
 }
 
 void GameplayHUD::Render() const
@@ -32,8 +34,10 @@ void GameplayHUD::ShowLevelWinWidget()
 
 void GameplayHUD::ShowLevelLooseWidget()
 {
+    levelLooseWidget->Activate();
 }
 
 void GameplayHUD::ShowGameWinWidget()
 {
+    gameWinWidget->Activate();
 }

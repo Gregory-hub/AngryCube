@@ -1,7 +1,6 @@
 #include "pch.h"
 #include "CatapultControlsWidget.h"
 
-#include "Settings.h"
 #include "engine/core/Game.h"
 #include "game/CatapultController.h"
 
@@ -23,14 +22,23 @@ CatapultControlsWidget::CatapultControlsWidget()
 void CatapultControlsWidget::Render() const
 {
     std::string title = "Level " + Game::GameLevelManager->GetActiveLevel()->GetName();
+    int ammo = 0;
+    if (auto catapult = catapultPtr.lock())
+        ammo = catapult->GetCurrentAmmo();
 
     ImGuiIO& io = ImGui::GetIO();
     ImGui::SetNextWindowPos(ImVec2(positionX, io.DisplaySize.y / 2), ImGuiCond_Once, ImVec2(0.5f, 0.5f));
-    ImGui::Begin(title.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
+
+    auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
+    ImGui::Begin(title.c_str(), nullptr, flags);
+
     tensionSlider->Render();
     angleSlider->Render();
     if (ImGui::Button("Release|Cock"))
         OnButtonReleaseCockPressed();
+    ImGui::SameLine();
+    ImGui::Text("Ammo left: %d", ammo);
+
     ImGui::End();
 }
 
@@ -41,6 +49,7 @@ void CatapultControlsWidget::Reset()
     {
         angleSlider->SetMinValue(controller->GetMaxAngleLowerBound());
         angleSlider->SetMaxValue(controller->GetMaxAngleUpperBound());
+        catapultPtr = controller->GetCatapult();
     }
 }
 
