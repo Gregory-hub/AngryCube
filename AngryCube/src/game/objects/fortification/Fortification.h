@@ -17,6 +17,7 @@ private:
     bool physicsEnabled = true;
 
     int brickCount = 0;
+    bool winGameEnabled = false;
 
 protected:
     std::queue<std::shared_ptr<IDestructable>> destructionQueue;
@@ -51,6 +52,8 @@ public:
     void ToggleBricksPhysics();
 
     int GetBrickCount() const;
+    bool GetWinGameEnabled() const;
+    void SetWinGameEnabled(bool newWinGameEnabled);
 
 private:
     void DestroyObjectsInQueue() override;

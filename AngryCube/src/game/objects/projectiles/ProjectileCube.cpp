@@ -6,6 +6,8 @@
 #include "game/objects/fortification/Brick.h"
 #include <game/interfaces/IDestructableContainer.h>
 
+#include "game/objects/fortification/Fortification.h"
+
 
 int ProjectileCube::id = 0;
 
@@ -52,10 +54,16 @@ std::shared_ptr<GameObject> ProjectileCube::MoveClone()
 
 void ProjectileCube::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 {
-    if (std::dynamic_pointer_cast<Brick>(other))
+    if (auto brick = std::dynamic_pointer_cast<Brick>(other))
+    {
+        if (auto fort = dynamic_cast<Fortification*>(other->GetParent()))
+            fort->SetWinGameEnabled(true);
         OnTargetHit(other);
+    }
     else
+    {
         GetCollision().ResolveCollision(other);
+    }
 }
 
 void ProjectileCube::Update(float deltaTime)
@@ -64,10 +72,8 @@ void ProjectileCube::Update(float deltaTime)
 
 void ProjectileCube::OnTargetHit(std::shared_ptr<GameObject> target)
 {
-	Logger::Log(LogLevel::Info, "Hit brick");
     glm::vec2 v0 = GetPhysics().GetVelocity();
     float m0 = GetPhysics().GetMass();
     float m1 = target->GetPhysics().GetMass();
     GetPhysics().SetVelocity(v0 * glm::clamp(m0 / m1, 0.5f, 0.75f));
 }
-

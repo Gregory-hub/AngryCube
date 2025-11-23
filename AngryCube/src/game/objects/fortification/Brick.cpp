@@ -64,3 +64,14 @@ void Brick::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 	else
 		GetCollision().ResolveCollision(other);
 }
+
+void Brick::ShowDebugControls()
+{
+	Cube::ShowDebugControls();
+	if (ImGui::Button("Destroy"))
+	{
+        if (auto fort = dynamic_cast<Fortification*>(GetParent()))
+            fort->SetWinGameEnabled(false);
+		Destroy();
+	}
+}

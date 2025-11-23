@@ -177,6 +177,16 @@ int Fortification::GetBrickCount() const
     return brickCount;
 }
 
+bool Fortification::GetWinGameEnabled() const
+{
+    return winGameEnabled;
+}
+
+void Fortification::SetWinGameEnabled(bool newWinGameEnabled)
+{
+    winGameEnabled = newWinGameEnabled;
+}
+
 void Fortification::DestroyObjectsInQueue()
 {
     while (!destructionQueue.empty())
@@ -191,6 +201,6 @@ void Fortification::DestroyObjectsInQueue()
         }
     }
 
-    if (GetBrickCount() <= 0)
+    if (GetBrickCount() <= 0 && winGameEnabled)
         Game::OnLevelWin();
 }

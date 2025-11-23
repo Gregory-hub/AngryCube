@@ -24,5 +24,7 @@ public:
 	void Deserialize(const nlohmann::json& json) override;
 
 	void OnCollisionStart(const std::shared_ptr<GameObject>& other) override;
+	
+	void ShowDebugControls() override;
 };
 
