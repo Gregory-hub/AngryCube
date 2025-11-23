@@ -7,8 +7,7 @@
 
 
 CatapultControlsWidget::CatapultControlsWidget()
-    : releaseOrCockButton(std::make_unique<Button>("Release|Cock",
-        [this] { OnButtonReleaseCockPressed(); })),
+    :
     tensionSlider(std::make_unique<Slider<float>>("Tension",
         [this] { return GetTension(); },
         [this] (float value) { SetTension(value); },
@@ -23,11 +22,15 @@ CatapultControlsWidget::CatapultControlsWidget()
 
 void CatapultControlsWidget::Render() const
 {
-    ImGui::SetNextWindowPos(ImVec2(controlsPosition.x + controlsPositionShift.x, controlsPosition.y + controlsPositionShift.y), ImGuiCond_Once);
-    ImGui::Begin("Catapult", nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
+    std::string title = "Level " + Game::GameLevelManager->GetActiveLevel()->GetName();
+
+    ImGuiIO& io = ImGui::GetIO();
+    ImGui::SetNextWindowPos(ImVec2(positionX, io.DisplaySize.y / 2), ImGuiCond_Once, ImVec2(0.5f, 0.5f));
+    ImGui::Begin(title.c_str(), nullptr, ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoCollapse);
     tensionSlider->Render();
     angleSlider->Render();
-    releaseOrCockButton->Render();
+    if (ImGui::Button("Release|Cock"))
+        OnButtonReleaseCockPressed();
     ImGui::End();
 }
 
@@ -39,8 +42,11 @@ void CatapultControlsWidget::Reset()
         angleSlider->SetMinValue(controller->GetMaxAngleLowerBound());
         angleSlider->SetMaxValue(controller->GetMaxAngleUpperBound());
     }
+}
 
-    controlsPosition = glm::ivec2(0, Settings::GetWindowResolution().y / 2);
+void CatapultControlsWidget::SetPositionX(float newX)
+{
+    positionX = newX;
 }
 
 void CatapultControlsWidget::OnButtonReleaseCockPressed() const

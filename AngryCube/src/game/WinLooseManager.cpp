@@ -1,20 +1,20 @@
 #include "pch.h"
-#include "GameStateManager.h"
+#include "WinLooseManager.h"
 
 #include "engine/core/Game.h"
 
-void GameStateManager::OnLevelWin()
+void WinLooseManager::OnLevelWin()
 {
     if (Game::GameLevelManager->GetCurrentLevelIndex() == Game::GameLevelManager->GetLevelCount() - 1)
         OnGameWin();
     else
-        Game::GameLevelManager->LoadNext();
+        Game::GameHUD->ShowLevelWinWidget();
 }
 
-void GameStateManager::OnLevelLoose()
+void WinLooseManager::OnLevelLoose()
 {
 }
 
-void GameStateManager::OnGameWin()
+void WinLooseManager::OnGameWin()
 {
 }

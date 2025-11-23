@@ -56,3 +56,8 @@ float CatapultController::GetMaxAngleUpperBound() const
         return catapult->GetMaxAngleUpperBound();
     return 0.0f;
 }
+
+std::weak_ptr<Catapult> CatapultController::GetCatapult() const
+{
+    return catapultPtr;
+}

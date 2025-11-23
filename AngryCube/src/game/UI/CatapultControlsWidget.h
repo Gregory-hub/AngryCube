@@ -1,24 +1,23 @@
 #pragma once
 #include "engine/UI/Slider.h"
 #include "engine/UI/Widget.h"
-#include "engine/UI/Button.h"
 
 
 class CatapultControlsWidget : public Widget
 {
 private:
-    std::unique_ptr<Button> releaseOrCockButton;
     std::unique_ptr<Slider<float>> tensionSlider;
     std::unique_ptr<Slider<float>> angleSlider;
 
-    glm::ivec2 controlsPosition;
-    glm::ivec2 controlsPositionShift = { 70, -40 };
+    float positionX = 300.0f;
 
 public:
     CatapultControlsWidget();
 
     void Render() const override;
     void Reset() override;
+
+    void SetPositionX(float newX);
 
 private:
     void OnButtonReleaseCockPressed() const;

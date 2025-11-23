@@ -5,6 +5,7 @@
 #include "engine/core/Game.h"
 #include "engine/utility/jsonParsers.h"
 #include "engine/world/Scene.h"
+#include "game/WinLooseManager.h"
 
 
 int Fortification::id = 0;
@@ -211,5 +212,5 @@ void Fortification::DestroyObjectsInQueue()
     }
 
     if (GetBrickCount() <= 0 && winGameEnabled)
-        Game::GameLevelManager->LoadNext();
+        WinLooseManager::OnLevelWin();
 }

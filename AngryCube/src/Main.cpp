@@ -202,7 +202,7 @@ int main()
 
 	glm::vec3 skyColor = glm::vec3(0.568f, 0.78f, 0.98f) * 0.9f;
     glClearColor(skyColor.r, skyColor.g, skyColor.b, 1.0f);
-    while (!glfwWindowShouldClose(window))
+    while (!glfwWindowShouldClose(window) && Game::IsRunning())
     {
 		glClear(GL_COLOR_BUFFER_BIT);
 

@@ -21,4 +21,6 @@ public:
 
     float GetMaxAngleLowerBound() const;
     float GetMaxAngleUpperBound() const;
+
+    std::weak_ptr<Catapult> GetCatapult() const;
 };

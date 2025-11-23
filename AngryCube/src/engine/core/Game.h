@@ -16,4 +16,17 @@ public:
     inline static std::unique_ptr<LevelManager> GameLevelManager = nullptr;
     inline static std::unique_ptr<PlayerController> GameController = nullptr;
     inline static std::unique_ptr<GameplayHUD> GameHUD = nullptr;
+
+    inline static bool IsRunning()
+    {
+        return isRunning;
+    }
+
+    inline static void Quit()
+    {
+        isRunning = false;
+    }
+
+private:
+    inline static bool isRunning = true;
 };

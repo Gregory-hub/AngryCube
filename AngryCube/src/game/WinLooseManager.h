@@ -1,6 +1,6 @@
 #pragma once
 
-class GameStateManager
+class WinLooseManager
 {
 public:
    static void OnLevelWin();
