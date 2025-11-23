@@ -102,9 +102,15 @@ void AngryCubeLevelSaveManager::RegisterLevel(const std::string& levelName, int 
     for (auto it = levelNames.begin(); it != levelNames.end();)
     {
         if (*it == levelName)
+        {
+            if (index == -1)
+                index = std::distance(levelNames.begin(), it);
             it = levelNames.erase(it);
+        }
         else
+        {
             it++;
+        }
     }
 
     if (index >= levelNames.size() || index < 0)
