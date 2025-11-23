@@ -3,9 +3,8 @@
 #include <queue>
 
 #include "engine/world/GameObject.h"
-#include <game/interfaces/IDestructable.h>
-#include <game/interfaces/IDestructableContainer.h>
 
+#include "engine/destruction/IDestructableContainer.h"
 #include "engine/saving/ISerializable.h"
 
 

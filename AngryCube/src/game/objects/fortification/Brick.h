@@ -1,8 +1,8 @@
 #pragma once
 #include <memory>
 
+#include "engine/destruction/IDestructable.h"
 #include "engine/saving/ISerializable.h"
-#include "game/interfaces/IDestructable.h"
 
 #include "game/objects/Cube.h"
 
@@ -26,5 +26,8 @@ public:
 	void OnCollisionStart(const std::shared_ptr<GameObject>& other) override;
 	
 	void ShowDebugControls() override;
+
+private:
+	void OnProjectileHit(const std::shared_ptr<GameObject>& projectile);
 };
 

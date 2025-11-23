@@ -4,6 +4,7 @@
 #include "Fortification.h"
 #include "engine/utility/ImGuiDragFloatWithSetter.h"
 #include "engine/utility/jsonParsers.h"
+#include "game/constants.h"
 #include "game/interfaces/IProjectile.h"
 
 
@@ -86,8 +87,8 @@ void Brick::Deserialize(const nlohmann::json& jsonBrick)
 
 void Brick::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 {
-	if (auto projectile = std::dynamic_pointer_cast<IProjectile>(other))
-		Destroy();
+	if (std::dynamic_pointer_cast<IProjectile>(other))
+		OnProjectileHit(other);
 	else
 		GetCollision().ResolveCollision(other);
 }
@@ -107,4 +108,12 @@ void Brick::ShowDebugControls()
             fort->SetWinGameEnabled(false);
 		Destroy();
 	}
+}
+
+void Brick::OnProjectileHit(const std::shared_ptr<GameObject>& projectile)
+{
+	if (glm::length(projectile->GetPhysics().GetVelocity()) >= VELOCITY_BREAK_BRICK_THRESHOLD)
+		Destroy();
+	else
+		GetCollision().ResolveCollision(projectile);
 }

@@ -2,14 +2,22 @@
 
 #include <memory>
 
+#include "engine/destruction/IDestructable.h"
 #include "engine/world/GameObject.h"
 #include "game/interfaces/IProjectile.h"
 
 
-class ProjectileCube : public GameObject, public IProjectile
+class ProjectileCube :
+    public GameObject,
+    public IProjectile,
+    public IDestructable,
+    public std::enable_shared_from_this<ProjectileCube>
 {
 private:
     static int id;
+
+    float selfDestructDelay = 0.5f;
+    float selfDestructTimer = 0.0f;
 
 public:
     ProjectileCube(Scene* parentScene, float mass = 1.0f);
@@ -23,6 +31,10 @@ public:
 
     std::shared_ptr<GameObject> Clone() const override;
     std::shared_ptr<GameObject> MoveClone() override;
+
+    bool IsReleased() const;
+
+    void Destroy() override;
 
     void OnCollisionStart(const std::shared_ptr<GameObject>& other) override;
 

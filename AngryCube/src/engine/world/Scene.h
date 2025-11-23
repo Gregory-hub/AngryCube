@@ -5,17 +5,20 @@
 
 #include "FlatGround.h"
 #include "GameObject.h"
+#include "engine/destruction/IDestructableContainer.h"
 
 
-class Scene
+class Scene : public IDestructableContainer
 {
 private:
 	std::unordered_set<std::shared_ptr<GameObject>> objects;
 	std::shared_ptr<FlatGround> ground;
+	
+    std::queue<std::shared_ptr<IDestructable>> destructionQueue;
 
 public:
 	Scene();
-	~Scene() = default;
+	virtual ~Scene() = default;
 
 	Scene(const Scene& other);
 	Scene& operator= (const Scene& other);
@@ -32,5 +35,10 @@ public:
 	const std::shared_ptr<FlatGround>& GetGround() const;
 	void SetGroundHeight(float height);
 
-	void Update(float deltaTime) const;
+	void Update(float deltaTime);
+	
+	void AddToDestructionQueue(std::shared_ptr<IDestructable> destroyed) override;
+	
+private:
+	void DestroyObjectsInQueue() override;
 };

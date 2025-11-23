@@ -18,7 +18,7 @@ protected:
 	std::string name;
 	
 	Scene* scene;
-	GameObject* parent = nullptr;
+	GameObject* parent = nullptr;	// should be weak_ptr because parent can be destroyed
 	std::unordered_set<std::shared_ptr<GameObject>> children;
 
 	// components

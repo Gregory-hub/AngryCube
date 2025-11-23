@@ -3,9 +3,10 @@
 
 #include "engine/components/mesh/DefaultMeshes.h"
 #include "engine/materials/SolidColor.h"
+#include "engine/world/Scene.h"
 #include "game/objects/fortification/Brick.h"
-#include <game/interfaces/IDestructableContainer.h>
 
+#include "game/constants.h"
 #include "game/objects/fortification/Fortification.h"
 
 
@@ -52,6 +53,16 @@ std::shared_ptr<GameObject> ProjectileCube::MoveClone()
     return std::make_shared<ProjectileCube>(std::move(*this));
 }
 
+bool ProjectileCube::IsReleased() const
+{
+    return !GetParent();
+}
+
+void ProjectileCube::Destroy()
+{
+    scene->AddToDestructionQueue(shared_from_this());
+}
+
 void ProjectileCube::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 {
     if (auto brick = std::dynamic_pointer_cast<Brick>(other))
@@ -68,12 +79,31 @@ void ProjectileCube::OnCollisionStart(const std::shared_ptr<GameObject>& other)
 
 void ProjectileCube::Update(float deltaTime)
 {
+    if (IsReleased() && glm::length(GetPhysics().GetVelocity()) <= VELOCITY_SELF_DESTRUCTION_THRESHOLD)
+    {
+        selfDestructTimer += deltaTime;
+        if (selfDestructTimer >= selfDestructDelay)
+            Destroy();
+    }
+    else
+    {
+        selfDestructTimer = 0.0f;
+    }
 }
 
 void ProjectileCube::OnTargetHit(std::shared_ptr<GameObject> target)
 {
     glm::vec2 v0 = GetPhysics().GetVelocity();
-    float m0 = GetPhysics().GetMass();
-    float m1 = target->GetPhysics().GetMass();
-    GetPhysics().SetVelocity(v0 * glm::clamp(m0 / m1, 0.5f, 0.75f));
+    if (glm::length(v0) >= VELOCITY_BREAK_BRICK_THRESHOLD)
+    {
+        float m0 = GetPhysics().GetMass();
+        float m1 = target->GetPhysics().GetMass();
+
+        glm::vec2 v = v0 * glm::clamp(m0 / m1, 0.5f, 0.75f);
+        GetPhysics().SetVelocity(v);
+    }
+    else
+    {
+        GetCollision().ResolveCollision(target);
+    }
 }

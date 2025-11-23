@@ -81,8 +81,10 @@ void Scene::SetGroundHeight(float height)
     ground->GetTransform().Disable();
 }
 
-void Scene::Update(float deltaTime) const
+void Scene::Update(float deltaTime)
 {
+    DestroyObjectsInQueue();
+
     for (const std::shared_ptr<GameObject>& object : GetObjects())
     {
         object->Update(deltaTime);
@@ -95,5 +97,22 @@ void Scene::Update(float deltaTime) const
 		}
 
         object->GetPhysics().PostUpdate(deltaTime);
+    }
+}
+
+void Scene::AddToDestructionQueue(std::shared_ptr<IDestructable> destroyed)
+{
+    destructionQueue.push(destroyed);
+}
+
+void Scene::DestroyObjectsInQueue()
+{
+    while (!destructionQueue.empty())
+    {
+        std::shared_ptr<IDestructable> destroyed = destructionQueue.front();
+		destructionQueue.pop();
+
+        if (auto object = std::dynamic_pointer_cast<GameObject>(destroyed))
+            Remove(object);
     }
 }
