@@ -138,7 +138,7 @@ std::shared_ptr<Level> AngryCubeLevelSaveManager::LoadLevel(const std::string& l
 
     if (!jsonInput.contains(catapultJsonName) || !jsonInput.contains(fortificationJsonName))
     {
-        Logger::Log(LogLevel::Error, "Invalid level");
+        Logger::Log(LogLevel::Error, "Invalid level file");
         return nullptr;
     }
 
