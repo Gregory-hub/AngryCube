@@ -12,7 +12,7 @@ private:
 
     std::weak_ptr<Catapult> catapultPtr;
 
-    float positionX = 300.0f;
+    float positionX = 275.0f;
 
 public:
     CatapultControlsWidget();

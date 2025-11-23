@@ -27,7 +27,7 @@ void CatapultControlsWidget::Render() const
         ammo = catapult->GetCurrentAmmo();
 
     ImGuiIO& io = ImGui::GetIO();
-    ImGui::SetNextWindowPos(ImVec2(positionX, io.DisplaySize.y / 2), ImGuiCond_Once, ImVec2(0.5f, 0.5f));
+    ImGui::SetNextWindowPos(ImVec2(positionX, io.DisplaySize.y / 2), ImGuiCond_Once, ImVec2(0.5f, 1.0f));
 
     auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
     ImGui::Begin(title.c_str(), nullptr, flags);
