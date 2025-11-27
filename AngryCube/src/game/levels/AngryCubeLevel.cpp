@@ -3,12 +3,14 @@
 
 #include "engine/core/Game.h"
 #include "game/CatapultController.h"
+#include "game/WinLoseManager.h"
 #include "game/objects/catapult/Catapult.h"
 
 
 AngryCubeLevel::AngryCubeLevel(std::string levelName)
     : Level(std::move(levelName))
 {
+    WinLoseManager::Reset();
 }
 
 std::shared_ptr<Catapult> AngryCubeLevel::GetCatapult() const
