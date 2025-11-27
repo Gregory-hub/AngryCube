@@ -6,4 +6,3 @@ struct PhysicsMaterial
 
 	PhysicsMaterial(float frictionCoef, float stictionThreshold);
 };
-

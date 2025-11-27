@@ -14,6 +14,7 @@ Brick::Brick(Scene* parentScene, float mass)
 	: Cube(parentScene, mass)
 {
 	name = "Brick " + std::to_string(id++);
+    GetPhysics().SetPhysicsMaterial(std::make_shared<PhysicsMaterial>(BRICK_FRICTION_COEFFICIENT, BRICK_STICTION_THRESHOLD));
     GetPhysics().Enable();
     GetCollision().Enable();
 }

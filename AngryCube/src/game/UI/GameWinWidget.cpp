@@ -37,11 +37,11 @@ void GameWinWidget::Render() const
         auto flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoCollapse;
         ImGui::Begin("Game Completed!", nullptr, flags);
 
-        if (ImGui::Button("Quit"))
-            OnButtonQuitPressed();
-        ImGui::SameLine();
         if (ImGui::Button("Play Again"))
             OnButtonRestartPressed();
+        ImGui::SameLine();
+        if (ImGui::Button("Quit"))
+            OnButtonQuitPressed();
 
         ImGui::End();
     }

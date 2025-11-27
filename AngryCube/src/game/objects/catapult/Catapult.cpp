@@ -73,13 +73,6 @@ Catapult::Catapult(Scene* parentScene)
 	arm->SetArmScale(glm::vec2(1.0f, woodWidth));
 	arm->SetProgress(0.0f);
 
-	std::shared_ptr<Cube> stopper = std::make_shared<Cube>(scene);
-	stopper->GetTransform().SetScale(glm::vec2(woodWidth * 2.0f, woodWidth));
-	stopper->GetTransform().SetRotation(-frameLeft->GetTransform().GetRotation() - arm->GetMaxAngle());
-	stopper->GetTransform().SetTranslation(glm::vec2(0.0f, -5.0f));
-
-	frameLeft->AttachChild(stopper);
-
 	AttachChild(platform);
 	AttachChild(frameUp);
 	AttachChild(frameLeft);

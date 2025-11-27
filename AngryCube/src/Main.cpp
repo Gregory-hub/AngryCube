@@ -48,12 +48,12 @@
 // (done) make Collision abstract
 // (done) use CubeCollision subclass
 // (done kinda) separate world space from screen coordinates
-// game logic
-// catapult release angle controls
-// UI
-// saves
-// levels
-// textures
+// (done) game logic
+// (done) catapult controls
+// (done) UI
+// (done) saves
+// (done) levels
+// (skipped) textures
 
 
 static GLFWwindow* runSetup()
@@ -145,7 +145,7 @@ void ShowDebugTimeValues(float deltaTime, float framerate)
     static float time = 0.0f;
     time += deltaTime;
 
-    ImGui::SetNextWindowPos(ImVec2(Settings::NoFullscreenWindowResolution.x - 220.0f, 20.0f));
+    ImGui::SetNextWindowPos(ImVec2(Settings::GetWindowResolution().x - 220.0f, 20.0f));
     ImGui::Begin("Time", nullptr, ImGuiWindowFlags_AlwaysAutoResize);
 	ImGui::Text(("time from start: " + std::to_string(time)).c_str());
 	ImGui::Text(("deltaTime: " + std::to_string(deltaTime)).c_str());
