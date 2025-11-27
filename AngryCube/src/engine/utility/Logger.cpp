@@ -19,5 +19,5 @@ void Logger::Log(LogLevel logLevel, std::string message)
 		break;
 	}
 
-	std::cout << message << '\n';
+	std::cout << message << '\n' << std::flush;
 }
